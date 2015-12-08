@@ -4,11 +4,25 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 
+use View;
+use Datatables;
+use App\Customer;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
 class CustomerController extends Controller
 {
+    public function __construct()
+    {
+        View::share('breadcrumb_level', 3);
+    }
+
+    public function listjson()
+    {
+        $customers = Customer::select('*');
+
+        return Datatables::of($customers)->make();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +30,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        return view('backend.customer.list');
     }
 
     /**
@@ -26,7 +40,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.customer.create');
     }
 
     /**

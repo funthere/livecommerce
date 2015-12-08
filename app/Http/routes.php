@@ -15,12 +15,14 @@ Route::get('/', function () {
     return view('frontend.home');
 });
 
-Route::group(['prefix' => '/admin', 'namespace' => 'Backend'], function() {
+Route::group(['prefix' => 'admin', 'namespace' => 'Backend'], function() {
 
 	Route::get('/', function() {
 		return view('backend.home');
 	});
 	Route::resource('brand', 'BrandController');
+
+	Route::get('customer/list.json', 'CustomerController@listjson');
 	Route::resource('customer', 'CustomerController');
 	Route::resource('kategori', 'KategoriController');
 	Route::resource('produk', 'ProdukController');
