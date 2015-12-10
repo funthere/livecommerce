@@ -2,27 +2,32 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Illuminate\Http\Request;
-
 use View;
+use Form;
 use Datatables;
-use App\Customer;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+use App\Customer as Model;
+use Illuminate\Http\Request as Request;
+use App\Http\Controllers\BackendController;
 
-class CustomerController extends Controller
+class CustomerController extends BackendController
 {
-    public function __construct()
+    public function __construct(Model $model, $base = 'customer')
     {
-        View::share('breadcrumb_level', 3);
+        parent::__construct($model, $base);
+
+		View::share('judul', 'Customer');
+		View::share('deskripsi', 'Daftar Customer');
+
+		View::share('breadcrumb1', 'Home Admin');
+		View::share('breadcrumb1Icon', 'home' );
+		View::share('breadcrumb1Url', url('admin') );
+
+		View::share('breadcrumb2', 'Customer');
+		View::share('breadcrumb2Icon', 'male' );
+		View::share('breadcrumb2Url', url('admin/customer') );
+
     }
 
-    public function listjson()
-    {
-        $customers = Customer::select('*');
-
-        return Datatables::of($customers)->make();
-    }
     /**
      * Display a listing of the resource.
      *
@@ -30,7 +35,9 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        return view('backend.customer.list');
+		View::share('breadcrumb3', 'List' );
+    	
+        return parent::index();
     }
 
     /**
@@ -40,29 +47,11 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        return view('backend.customer.create');
-    }
+		View::share('judul', 'Tambah Customer');
+		View::share('deskripsi', 'Untuk menambahkan data customer');
+		View::share('breadcrumb3', 'Tambah' );
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return parent::create();
     }
 
     /**
@@ -73,29 +62,11 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+     	View::share('judul', 'Edit Customer');
+		View::share('deskripsi', 'Edit data customer');
+		View::share('breadcrumb3', 'Edit' );   
+
+		return parent::edit($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -21,6 +21,8 @@ class BuatTabelCustomer extends Migration
             $table->integer('propinsi_id')->unsigned();
             $table->string('kodepos', 5);
             $table->timestamps();
+
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

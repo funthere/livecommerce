@@ -2,9 +2,18 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Kategori extends Model
+class Kategori extends BaseModel
 {
-    //
+    protected $fillable = [
+    	'kategori', 
+    ];
+
+    public function rules()
+    {
+    	return [
+    		'kategori' => 'required|unique:kategoris,kategori'.(($this->id != null) ? ','.$this->id : ''),
+    	];
+    }
 }

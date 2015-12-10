@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>@yield('judul', 'Judul') | @yield('nama.app', 'LiveCommerce')</title>
+  <title>{{ $judul or 'Judul'}} | {{ $namaApp or 'LiveCommerce' }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.5 -->
@@ -62,9 +62,9 @@ desired effect
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">@yield('nama.app.mini', '<b>L</b>CM')</span>
+      <span class="logo-mini">{!! $namaAppMini or '<b>L</b>CM' !!}</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">@yield('nama.app.full', '<b>Live</b>Commerce')</span>
+      <span class="logo-lg">{!! $namaAppFull or '<b>Live</b>Commerce' !!}</span>
     </a>
 
     <!-- Header Navbar -->
@@ -193,13 +193,13 @@ desired effect
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        @yield('judul', 'Page Header')
-        <small>@yield('deskripsi', 'Optional description')</small>
+        {{ $judul or 'Page Header' }}
+        <small>{{ $deskripsi or 'Optional description' }}</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="@yield('breadcrumb1.url', '#')"><i class="fa fa-@yield('breadcrumb1.icon', 'dashboard')"></i> @yield('breadcrumb1')</a></li>
-        @if($breadcrumb_level >= 2)<li class="@yield('breadcrumb2.class', 'active')"><a href="@yield('breadcrumb2.url', 'javascript:;')" >@yield('breadcrumb2', 'Here')</a></li>@endif
-        @if($breadcrumb_level >= 3)<li class="@yield('breadcrumb3.class', 'active')"><a href="@yield('breadcrumb3.url', 'javascript:;')" >@yield('breadcrumb3', 'Here')</a></li>@endif
+        <li><a href="{{ $breadcrumb1Url or '#' }}"><i class="fa {{ $breadcrumb1Icon or 'fa-dashboard' }}"></i> {{ $breadcrumb1 or 'Home Admin' }}</a></li>
+        @if($breadcrumbLevel >= 2)<li class="{{ $breadcrumb2Class or 'active' }}"><a href="{{ $breadcrumb2Url or 'javascript:;' }}" >{{ $breadcrumb2 or 'Here' }}</a></li>@endif
+        @if($breadcrumbLevel >= 3)<li class="{{ $breadcrumb3Class or 'active' }}"><a href="{{ $breadcrumb3Url or 'javascript:;' }}" >{{ $breadcrumb3 or 'Here' }}</a></li>@endif
       </ol>
     </section>
 
@@ -236,8 +236,6 @@ desired effect
 <script src="{{ asset('backend/plugins/jQuery/jQuery-2.1.4.min.js') }}"></script>
 <!-- Bootstrap 3.3.5 -->
 <script src="{{ asset('backend/bootstrap/js/bootstrap.min.js') }}"></script>
-<!-- AdminLTE App -->
-<script src="{{ asset('backend/dist/js/app.min.js') }}"></script>
 <!-- date-range-picker -->
 <script src="{{ asset('backend/plugins/datepicker/bootstrap-datepicker.js') }}"></script>
 <script src="{{ asset('backend/plugins/datepicker/locales/bootstrap-datepicker.id.js') }}" charset="UTF-8"></script>

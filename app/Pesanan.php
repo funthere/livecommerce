@@ -2,9 +2,21 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Pesanan extends Model
+class Pesanan extends BaseModel
 {
-    //
+    protected $fillable = [
+		'customer_id',
+    	'penerima',
+    	'alamat',
+    	'kota_id',
+    	'propinsi_id',
+    	'kodepos',
+    	'jumlah',
+    	'diskon',
+    	'ongkir',
+    	'total',
+    	'kode_pesanan',
+    ];
 }

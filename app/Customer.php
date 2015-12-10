@@ -2,9 +2,21 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Customer extends Model
+class Customer extends BaseModel
 {
-    //
+    protected $fillable = [
+    	'nama', 
+    	'alamat', 
+    	// 'kota_id', 
+    	// 'propinsi_id', 
+    	// 'kodepos', 
+
+    ];
+
+    protected $rules = [
+    	'nama' => 'required|min:3',
+    	'alamat' => 'required',
+    ];
 }

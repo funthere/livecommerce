@@ -2,13 +2,32 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Illuminate\Http\Request;
+use View;
+use Form;
+use Datatables;
+use App\Brand as Model;
+use Illuminate\Http\Request as Request;
+use App\Http\Controllers\BackendController;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-class BrandController extends Controller
+class BrandController extends BackendController
 {
+    public function __construct(Model $model, $base = 'brand')
+    {
+        parent::__construct($model, $base);
+
+		View::share('judul', 'Brand');
+		View::share('deskripsi', 'Daftar Brand');
+
+		View::share('breadcrumb1', 'Home Admin');
+		View::share('breadcrumb1Icon', 'home' );
+		View::share('breadcrumb1Url', url('admin') );
+
+		View::share('breadcrumb2', 'Brand');
+		View::share('breadcrumb2Icon', 'male' );
+		View::share('breadcrumb2Url', url('admin/brand') );
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +35,9 @@ class BrandController extends Controller
      */
     public function index()
     {
-        //
+		View::share('breadcrumb3', 'List' );
+    	
+        return parent::index();
     }
 
     /**
@@ -26,29 +47,11 @@ class BrandController extends Controller
      */
     public function create()
     {
-        //
-    }
+		View::share('judul', 'Tambah Brand');
+		View::share('deskripsi', 'Untuk menambahkan data brand');
+		View::share('breadcrumb3', 'Tambah' );
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return parent::create();
     }
 
     /**
@@ -59,29 +62,11 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        //
+     	View::share('judul', 'Edit Brand');
+		View::share('deskripsi', 'Edit data brand');
+		View::share('breadcrumb3', 'Edit' );   
+
+		return parent::edit($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

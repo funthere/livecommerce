@@ -2,13 +2,32 @@
 
 namespace App\Http\Controllers\Backend;
 
-use Illuminate\Http\Request;
+use View;
+use Form;
+use Datatables;
+use App\Kategori as Model;
+use Illuminate\Http\Request as Request;
+use App\Http\Controllers\BackendController;
 
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
-
-class KategoriController extends Controller
+class KategoriController extends BackendController
 {
+    public function __construct(Model $model, $base = 'kategori')
+    {
+        parent::__construct($model, $base);
+
+		View::share('judul', 'Kategori');
+		View::share('deskripsi', 'Daftar Kategori');
+
+		View::share('breadcrumb1', 'Home Admin');
+		View::share('breadcrumb1Icon', 'home' );
+		View::share('breadcrumb1Url', url('admin') );
+
+		View::share('breadcrumb2', 'Kategori');
+		View::share('breadcrumb2Icon', 'male' );
+		View::share('breadcrumb2Url', url('admin/kategori') );
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +35,9 @@ class KategoriController extends Controller
      */
     public function index()
     {
-        //
+		View::share('breadcrumb3', 'List' );
+    	
+        return parent::index();
     }
 
     /**
@@ -26,29 +47,11 @@ class KategoriController extends Controller
      */
     public function create()
     {
-        //
-    }
+		View::share('judul', 'Tambah Kategori');
+		View::share('deskripsi', 'Untuk menambahkan data kategori');
+		View::share('breadcrumb3', 'Tambah' );
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return parent::create();
     }
 
     /**
@@ -59,29 +62,11 @@ class KategoriController extends Controller
      */
     public function edit($id)
     {
-        //
+     	View::share('judul', 'Edit Kategori');
+		View::share('deskripsi', 'Edit data kategori');
+		View::share('breadcrumb3', 'Edit' );   
+
+		return parent::edit($id);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

@@ -2,9 +2,18 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
 
-class Brand extends Model
+class Brand extends BaseModel
 {
-    //
+    protected $fillable = [
+    	'brand', 
+    ];
+
+    public function rules()
+    {
+    	return [
+    		'brand' => 'required|unique:brands,brand'.(($this->id != null) ? ','.$this->id : ''),
+    	];
+    }
 }
