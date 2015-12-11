@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Backend;
 use View;
 use Form;
 use Datatables;
+use App\Brand;
+use App\Kategori;
 use App\Produk as Model;
 use Illuminate\Http\Request as Request;
 use App\Http\Controllers\BackendController;
@@ -15,58 +17,38 @@ class ProdukController extends BackendController
     {
         parent::__construct($model, $base);
 
-		View::share('judul', 'Produk');
-		View::share('deskripsi', 'Daftar Produk');
+        View::share('breadcrumb2Icon', 'fa-dropbox' );
 
-		View::share('breadcrumb1', 'Home Admin');
-		View::share('breadcrumb1Icon', 'home' );
-		View::share('breadcrumb1Url', url('admin') );
-
-		View::share('breadcrumb2', 'Produk');
-		View::share('breadcrumb2Icon', 'male' );
-		View::share('breadcrumb2Url', url('admin/produk') );
-
+        View::share('kategoris', Kategori::lists('kategori', 'id')->toArray());
+        View::share('brands', Brand::lists('brand', 'id')->toArray());
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+    protected function processDatatables($datatables)
     {
-		View::share('breadcrumb3', 'List' );
-    	
-        return parent::index();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-		View::share('judul', 'Tambah Produk');
-		View::share('deskripsi', 'Untuk menambahkan data produk');
-		View::share('breadcrumb3', 'Tambah' );
-
-        return parent::create();
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-     	View::share('judul', 'Edit Produk');
-		View::share('deskripsi', 'Edit data produk');
-		View::share('breadcrumb3', 'Edit' );   
-
-		return parent::edit($id);
+        return $datatables
+                ->editColumn('foto', function($data) {
+                    return ($data->foto) ? '<img src="'.asset(Model::FOTO_PATH.$data->foto).'" title="'.$data->produk.'" style="width: 100px;">' : '';
+                })
+                ->editColumn('kategori_id', function($data) {
+                    return $data->kategori->kategori;
+                })
+                ->editColumn('brand_id', function($data) {
+                    return $data->brand->brand;
+                })
+                ->editColumn('harga', function($data) {
+                    return 'Rp'. number_format($data->harga , 0, ',' , '.');
+                })
+                ->editColumn('harga_diskon', function($data) {
+                    return 'Rp'. number_format($data->harga_diskon , 0, ',' , '.');
+                })
+                ->editColumn('netto', function($data) {
+                    return number_format($data->netto , 0, ',' , '.');
+                })
+                ->editColumn('stock', function($data) {
+                    return number_format($data->harga , 0, ',' , '.');
+                })
+                ->removeColumn('kategori')
+                ->removeColumn('brand');
     }
 
 }

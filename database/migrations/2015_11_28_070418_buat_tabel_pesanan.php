@@ -16,6 +16,7 @@ class BuatTabelPesanan extends Migration
             $table->increments('id');
             $table->integer('customer_id')->unsigned();
             $table->string('penerima');
+            $table->string('email');
             $table->text('alamat');
             $table->integer('kota_id')->unsigned();
             $table->integer('propinsi_id')->unsigned();

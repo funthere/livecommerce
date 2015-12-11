@@ -24,7 +24,7 @@
         $('.datatables').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ url('admin/'.$base.'/list.json') }}'
+            ajax: '{{ url('admin/'.$base.'/data.json') }}'
         });
     });
 

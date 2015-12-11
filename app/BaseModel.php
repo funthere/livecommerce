@@ -10,6 +10,8 @@ class BaseModel extends Model
 
     protected $rules = [];
 
+    protected $dependencies = [];
+
     public function getFillable()
     {
     	return $this->fillable;
@@ -27,5 +29,10 @@ class BaseModel extends Model
     public function rules()
     {
     	return $this->rules;
+    }
+
+    public function dependencies()
+    {
+        return $this->dependencies;
     }
 }

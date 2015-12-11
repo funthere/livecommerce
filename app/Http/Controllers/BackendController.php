@@ -24,12 +24,36 @@ class BackendController extends Controller
         View::share('fields', $model->getTitleOfFields());
         View::share('model', Model::class);
         View::share('baseClass', $this->baseClass);
+
+
+        View::share('judul', ucwords($base));
+        View::share('deskripsi', 'Daftar '.ucwords($base));
+
+        View::share('breadcrumb1', 'Home Admin');
+        View::share('breadcrumb1Icon', 'fa-home' );
+        View::share('breadcrumb1Url', url('admin') );
+
+        View::share('breadcrumb2', ucwords($base));
+        View::share('breadcrumb2Icon', 'fa-home' );
+        View::share('breadcrumb2Url', url('admin/'.$base) );
+
+        View::share('breadcrumb3', 'List' );
     }
-    public function listjson()
+
+    protected function processDatatables($datatables)
+    {
+        return $datatables;
+    }
+    
+    public function datajson()
     {
         $datas = $this->model->select([null => 'id']+$this->model->getFillable());
 
-        return Datatables::of($datas)
+        if ($dependencies = $this->model->dependencies()) $datas = $datas->with($dependencies);
+
+        $datatables = Datatables::of($datas);
+        $datatables = $this->processDatatables($datatables);
+        return $datatables
             ->addColumn('menu', function($data) {
                 return 
                 '<a href="'.action($this->baseClass.'@edit', ['id' => $data->id]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
@@ -44,7 +68,7 @@ class BackendController extends Controller
      */
     public function index()
     {
-        return view("backend.{$this->base}.list");
+        return view("backend.{$this->base}.index");
     }
 
     /**
@@ -54,6 +78,11 @@ class BackendController extends Controller
      */
     public function create()
     {
+        View::share('judul', 'Tambah '.ucwords($this->base));
+        View::share('deskripsi', 'Untuk menambahkan data '.$this->base);
+        View::share('breadcrumb3', 'Tambah' );
+
+
         $model = $this->model;
         ${$this->base} = $model;
         return view("backend.{$this->base}.create", compact($this->base));
@@ -96,6 +125,11 @@ class BackendController extends Controller
      */
     public function edit($id)
     {
+        View::share('judul', 'Edit '.ucwords($this->base));
+        View::share('deskripsi', 'Edit data '.$this->base);
+        View::share('breadcrumb3', 'Edit' );  
+
+
         $model = $this->model->findOrFail($id);
 
         ${$this->base} = $model;

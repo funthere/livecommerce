@@ -18,12 +18,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="{{ asset('backend/plugins/ionicons/2.0.1/css/ionicons.min.css') }}">
   <!-- datatables -->
   <link rel="stylesheet" href="{{ asset('backend/plugins/datatables/dataTables.bootstrap.css') }}">
+  <!-- select2 -->
+  <link rel="stylesheet" href="{{ asset('backend/plugins/select2/select2.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('backend/dist/css/AdminLTE.min.css') }}">
   <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect.
   -->
+
+  <style>
+    figure img {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+  </style>
   <link rel="stylesheet" href="{{ asset('backend/dist/css/skins/skin-blue.min.css') }}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -198,7 +207,7 @@ desired effect
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ $breadcrumb1Url or '#' }}"><i class="fa {{ $breadcrumb1Icon or 'fa-dashboard' }}"></i> {{ $breadcrumb1 or 'Home Admin' }}</a></li>
-        @if($breadcrumbLevel >= 2)<li class="{{ $breadcrumb2Class or 'active' }}"><a href="{{ $breadcrumb2Url or 'javascript:;' }}" >{{ $breadcrumb2 or 'Here' }}</a></li>@endif
+        @if($breadcrumbLevel >= 2)<li class="{{ $breadcrumb2Class or 'active' }}"><a href="{{ $breadcrumb2Url or 'javascript:;' }}" ><i class="fa {{ $breadcrumb2Icon or 'fa-dashboard' }}"></i> {{ $breadcrumb2 or 'Here' }}</a></li>@endif
         @if($breadcrumbLevel >= 3)<li class="{{ $breadcrumb3Class or 'active' }}"><a href="{{ $breadcrumb3Url or 'javascript:;' }}" >{{ $breadcrumb3 or 'Here' }}</a></li>@endif
       </ol>
     </section>
@@ -271,13 +280,15 @@ desired effect
 
     $.fn.modal.Constructor.DEFAULTS.backdrop = 'static';
 
-    $.fn.liveposCurrency = {aSep: '.', aDec: ',', aSign: 'Rp. ', lZero: 'deny'};
-    $.fn.liveposNumeric = {aSep: '.', aDec: ',', aSign: '', lZero: 'deny'};
+    $.fn.liveCommerceCurrency = {aSep: '.', aDec: ',', aSign: 'Rp. ', lZero: 'deny', mDec: 0};
+    $.fn.liveCommerceNumeric = {aSep: '.', aDec: ',', aSign: '', lZero: 'deny', mDec: 0};
+    $.fn.liveCommerceDecimal = {aSep: '.', aDec: ',', aSign: '', lZero: 'deny'};
 
     $('select').select2({width: '100%'});              
     
-    $('.input-mask-currency').autoNumeric('init', $.fn.liveposCurrency);
-    $('.input-mask-numeric').autoNumeric('init', $.fn.liveposNumeric);
+    $('.input-mask-currency').autoNumeric('init', $.fn.liveCommerceCurrency);
+    $('.input-mask-numeric').autoNumeric('init', $.fn.liveCommerceNumeric);
+    $('.input-mask-decimal').autoNumeric('init', $.fn.liveCommerceDecimal);
 
 
       var slideToTop = $("<div />");

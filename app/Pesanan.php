@@ -9,6 +9,7 @@ class Pesanan extends BaseModel
     protected $fillable = [
 		'customer_id',
     	'penerima',
+        'email',
     	'alamat',
     	'kota_id',
     	'propinsi_id',

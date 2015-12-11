@@ -22,19 +22,19 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend'], function() {
 	Route::get('/', function() {
 		return view('backend.home');
 	});
-	Route::get('brand/list.json', 'BrandController@listjson');
+	Route::get('brand/data.json', 'BrandController@datajson');
 	Route::resource('brand', 'BrandController');
 
-	Route::get('customer/list.json', 'CustomerController@listjson');
+	Route::get('customer/data.json', 'CustomerController@datajson');
 	Route::resource('customer', 'CustomerController');
 
-	Route::get('kategori/list.json', 'KategoriController@listjson');
+	Route::get('kategori/data.json', 'KategoriController@datajson');
 	Route::resource('kategori', 'KategoriController');
 	
-	Route::get('produk/list.json', 'ProdukController@listjson');
+	Route::get('produk/data.json', 'ProdukController@datajson');
 	Route::resource('produk', 'ProdukController');
 	
-	Route::get('pesanan/list.json', 'PesananController@listjson');
+	Route::get('pesanan/data.json', 'PesananController@datajson');
 	Route::resource('pesanan', 'PesananController');
 
 });
