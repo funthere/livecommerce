@@ -5,19 +5,16 @@ namespace App\Http\Controllers\Backend;
 use View;
 use Form;
 use Datatables;
-use App\Customer as Model;
+use App\Param as Model;
 use Illuminate\Http\Request;
 use App\Http\Controllers\BackendController;
 
-class CustomerController extends BackendController
+class ParamController extends BackendController
 {
-    public function __construct(Model $model, $base = 'customer')
+    public function __construct(Model $model, $base = 'setting')
     {
         parent::__construct($model, $base);
-
-		View::share('breadcrumb2Icon', 'fa-male' );
-
+ 
+        View::share('breadcrumb2Icon', 'fa-cog' );
     }
-
-
 }

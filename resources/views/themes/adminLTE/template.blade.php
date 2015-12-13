@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{ $judul or 'Judul'}} | {{ $namaApp or 'LiveCommerce' }}</title>
+  <title>{{ $judul or 'Judul'}} | {{ $global_params['nama_toko'] or 'nama_toko' }}</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.5 -->
@@ -188,6 +188,13 @@ desired effect
           <ul class="treeview-menu">
             <li class="@if(request()->is('admin/pesanan'))active @endif"><a href="{{ asset('admin/pesanan') }}"><i class="fa fa-list"></i>List</a></li>
             <li class="@if(request()->is('admin/pesanan/create'))active @endif"><a href="{{ asset('admin/pesanan/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
+          </ul>
+        </li>
+        <li class="@if(request()->is('admin/setting*'))active @endif treeview">
+          <a href="{{ asset('admin/setting') }}"><i class="fa fa-cog"></i> <span>Setting</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li class="@if(request()->is('admin/setting'))active @endif"><a href="{{ asset('admin/setting') }}"><i class="fa fa-list"></i>List</a></li>
+            <li class="@if(request()->is('admin/setting/create'))active @endif"><a href="{{ asset('admin/setting/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
           </ul>
         </li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>

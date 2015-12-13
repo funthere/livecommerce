@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use App\BaseModel;
 use App\Brand;
 use App\Kategori;
@@ -32,12 +33,7 @@ class Produk extends BaseModel
     {
         parent::boot();
 
-        static::creating(function ($model)
-        {
-            $model->process();
-        });
-
-        static::updating(function ($model)
+        static::saving(function ($model)
         {
             $model->process();
         });
@@ -45,25 +41,25 @@ class Produk extends BaseModel
 
     protected function process()
     {
-        if ($this->attributes['kategori']) $this->attributes['kategori_id'] = $this->attributes['kategori'];
-        if ($this->attributes['brand']) $this->attributes['brand_id'] = $this->attributes['brand'];
-        unset($this->attributes['kategori']);
-        unset($this->attributes['brand']);
+        if ($this->kategori) $this->kategori_id = $this->kategori;
+        if ($this->brand) $this->brand_id = $this->brand;
+        unset($this->kategori);
+        unset($this->brand);
 
         if (request()->hasFile('foto'))
         {
-            if ($this->foto && $this->id && file_exists($exist_file = public_path(static::FOTO_PATH).$this->find($this->id)->foto)) unlink($exist_file);
+            if ($this->foto && $this->id && is_file($exist_file = public_path(static::FOTO_PATH).$this->find($this->id)->foto)) unlink($exist_file);
 
             $destinationPath = public_path(static::FOTO_PATH);
-            $fileName = str_slug($this->attributes['produk'].' '.date('YmdHis')). request()->file('foto')->getClientOriginalExtension();
+            $fileName = str_slug($this->produk.' '.date('YmdHis')). request()->file('foto')->getClientOriginalExtension();
             $result = request()->file('foto')->move($destinationPath, $fileName);
             if ($result) {
-                $this->attributes['foto'] = $fileName;
+                $this->foto = $fileName;
             }
         }   
         else 
         {
-            if ($this->foto) $this->attributes['foto'] = $this->foto;
+            if ($this->foto) $this->foto = $this->foto;
         }
     }
 
@@ -78,6 +74,26 @@ class Produk extends BaseModel
         $theKeys = array_flip($this->fillable);
         $titles = array_except($this->fillable, [$theKeys['kategori_id'], $theKeys['brand_id']]);
         return parent::getTitleOfFields($titles);
+    }
+
+    public function getHargaRupiahAttribute()
+    {
+        return number_format($this->harga , 0, ',' , '.');
+    }
+
+    public function getHargaDiskonRupiahAttribute()
+    {
+        return number_format($this->harga_diskon , 0, ',' , '.');
+    }
+
+    public function getIsSaleAttribute()
+    {
+        return $this->harga_diskon > 0 && $this->harga_diskon < $this->harga;
+    }
+
+    public function getIsNewAttribute()
+    {
+        return $this->created_at->diffInDays(Carbon::now()) < (isset($this->global_params['lama_hari_produk_baru']) ? $this->global_params['lama_hari_produk_baru'] : 7);
     }
 
     public function rules()

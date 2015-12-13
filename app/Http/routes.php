@@ -11,17 +11,19 @@
 |
 */
 
-Route::get('/', function () {
-    return view('frontend.home');
+Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
+
+	Route::get('/', 'PageController@home');
+
+});
+
+Route::get('tes', function(App\Http\Controllers\BaseController $base) {
+	return $base->global_params['nama_toko'];
 });
 
 Route::group(['prefix' => 'admin', 'namespace' => 'Backend'], function() {
     
-    View::share('breadcrumbLevel', 3);
-
-	Route::get('/', function() {
-		return view('backend.home');
-	});
+	Route::get('/', 'PageController@home');
 	Route::get('brand/data.json', 'BrandController@datajson');
 	Route::resource('brand', 'BrandController');
 
@@ -36,5 +38,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend'], function() {
 	
 	Route::get('pesanan/data.json', 'PesananController@datajson');
 	Route::resource('pesanan', 'PesananController');
+
+	Route::get('setting/data.json', 'ParamController@datajson');
+	Route::resource('setting', 'ParamController');
 
 });

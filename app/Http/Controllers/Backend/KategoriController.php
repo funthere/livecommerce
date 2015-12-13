@@ -6,7 +6,7 @@ use View;
 use Form;
 use Datatables;
 use App\Kategori as Model;
-use Illuminate\Http\Request as Request;
+use Illuminate\Http\Request;
 use App\Http\Controllers\BackendController;
 
 class KategoriController extends BackendController

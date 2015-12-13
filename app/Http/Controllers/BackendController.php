@@ -6,16 +6,17 @@ use View;
 use Form;
 use Datatables;
 use Illuminate\Http\Request as Request;
-use App\Http\Controllers\Controller;
 use App\BaseModel as Model;
 
-class BackendController extends Controller
+class BackendController extends BaseController
 {
     protected $model;
     protected $base;
 
     public function __construct(Model $model, $base = '')
     {
+        parent::__construct();
+        
         $this->model = $model;    
         $this->base = $base;   
         $this->baseClass = '\\'.static::class;
@@ -25,6 +26,7 @@ class BackendController extends Controller
         View::share('model', Model::class);
         View::share('baseClass', $this->baseClass);
 
+        View::share('breadcrumbLevel', 3);
 
         View::share('judul', ucwords($base));
         View::share('deskripsi', 'Daftar '.ucwords($base));

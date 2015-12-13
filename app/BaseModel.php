@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Cache;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
@@ -11,6 +12,15 @@ class BaseModel extends Model
     protected $rules = [];
 
     protected $dependencies = [];
+
+    public $global_params;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->global_params = Cache::get('global_params');
+    }
 
     public function getFillable()
     {
@@ -34,5 +44,10 @@ class BaseModel extends Model
     public function dependencies()
     {
         return $this->dependencies;
+    }
+
+    public function scopeLatest($query)
+    {
+        return $query->orderBy('created_at', 'DESC');
     }
 }

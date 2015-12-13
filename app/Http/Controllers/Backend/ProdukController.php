@@ -8,7 +8,7 @@ use Datatables;
 use App\Brand;
 use App\Kategori;
 use App\Produk as Model;
-use Illuminate\Http\Request as Request;
+use Illuminate\Http\Request;
 use App\Http\Controllers\BackendController;
 
 class ProdukController extends BackendController
@@ -36,10 +36,10 @@ class ProdukController extends BackendController
                     return $data->brand->brand;
                 })
                 ->editColumn('harga', function($data) {
-                    return 'Rp'. number_format($data->harga , 0, ',' , '.');
+                    return 'Rp'. $data->harga_rupiah;
                 })
                 ->editColumn('harga_diskon', function($data) {
-                    return 'Rp'. number_format($data->harga_diskon , 0, ',' , '.');
+                    return 'Rp'. $data->harga_diskon_rupiah;
                 })
                 ->editColumn('netto', function($data) {
                     return number_format($data->netto , 0, ',' , '.');

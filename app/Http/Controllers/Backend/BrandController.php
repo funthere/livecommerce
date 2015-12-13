@@ -6,7 +6,7 @@ use View;
 use Form;
 use Datatables;
 use App\Brand as Model;
-use Illuminate\Http\Request as Request;
+use Illuminate\Http\Request;
 use App\Http\Controllers\BackendController;
 
 class BrandController extends BackendController
