@@ -121,4 +121,9 @@ class Produk extends BaseModel
         return $this->belongsTo(Brand::class);
     }
 
+    public function pesanans()
+    {
+        return $this->belongsToMany(Pesanan::class, 'pesanan_details')->withPivot('pesanan_id', 'produk_id', 'quantity')->withTimestamps();
+    }
+
 }

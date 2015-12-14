@@ -13,6 +13,7 @@
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/main.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
+	<link href="{{ asset('plugins/sweetalert/dist/sweetalert.css') }}" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -307,7 +308,7 @@
 										<h2>Rp. {{ $produk->harga_rupiah }}</h2>
 										@endif
 										<p class="product-name">{{ $produk->produk }}</p>
-										<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+										<a href="{{ url('beli/'.$produk->slug) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 									</div>
 									<div class="product-overlay">
 										<div class="overlay-content">
@@ -318,7 +319,7 @@
 											<h2>Rp. {{ $produk->harga_rupiah }}</h2>
 											@endif
 											<p class="product-name">{{ $produk->produk }}</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<a href="{{ url('beli/'.$produk->slug) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
 									</div>
 									@if($produk->isSale)
@@ -630,11 +631,15 @@
 	
 
   
-    <script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
-	<script src="js/jquery.scrollUp.min.js"></script>
-	<script src="js/price-range.js"></script>
-    <script src="js/jquery.prettyPhoto.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{{ asset('js/jquery.js') }}"></script>
+	<script src="{{ asset('js/bootstrap.min') }}.js"></script>
+	<script src="{{ asset('js/jquery.scrollUp') }}.min.js"></script>
+	<script src="{{ asset('js/price-range') }}.js"></script>
+    <script src="{{ asset('js/jquery.prettyPhoto') }}.js"></script>
+    <script src="{{ asset('plugins/sweetalert/dist/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+
+    <!-- Include this after the sweet alert js file -->
+    @include('sweet::alert')
 </body>
 </html>

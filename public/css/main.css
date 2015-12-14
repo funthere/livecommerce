@@ -2541,3 +2541,7 @@ img.new {
     transform: rotate(-90deg);
     left: 0;
 }
+
+.single-products del {
+    color: #696763!important;
+}

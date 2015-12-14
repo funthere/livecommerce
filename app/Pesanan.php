@@ -20,4 +20,9 @@ class Pesanan extends BaseModel
     	'total',
     	'kode_pesanan',
     ];
+
+    public function produks()
+    {
+        return $this->belongsToMany(Produk::class, 'pesanan_details')->withPivot('pesanan_id', 'produk_id', 'quantity')->withTimestamps();
+    }
 }
