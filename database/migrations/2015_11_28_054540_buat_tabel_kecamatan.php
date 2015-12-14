@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class BuatTabelBrand extends Migration
+class BuatTabelKecamatan extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,13 @@ class BuatTabelBrand extends Migration
      */
     public function up()
     {
-        Schema::create('brands', function (Blueprint $table) {
+        Schema::create('kecamatans', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('brand');
+            $table->string('kecamatan');
+            $table->integer('kota_id')->unsigned();
             $table->timestamps();
+           
+            $table->foreign('kota_id')->references('id')->on('kotas')->onDelete('cascade');
         });
     }
 
@@ -26,6 +29,6 @@ class BuatTabelBrand extends Migration
      */
     public function down()
     {
-        Schema::drop('brands');
+        Schema::drop('kecamatans');
     }
 }

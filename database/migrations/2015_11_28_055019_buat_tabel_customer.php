@@ -17,12 +17,13 @@ class BuatTabelCustomer extends Migration
             $table->integer('user_id')->unsigned()->nullable();
             $table->string('nama');
             $table->text('alamat');
-            $table->integer('kota_id')->unsigned();
             $table->integer('propinsi_id')->unsigned();
+            $table->integer('kota_id')->unsigned();
+            $table->integer('kecamatan_id')->unsigned();
             $table->string('kodepos', 5);
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
         });
     }
 

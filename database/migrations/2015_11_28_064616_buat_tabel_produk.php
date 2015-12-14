@@ -15,15 +15,19 @@ class BuatTabelProduk extends Migration
         Schema::create('produks', function (Blueprint $table) {
             $table->increments('id');
             $table->string('produk');
-            $table->integer('kategori_id')->unsigned();
+            $table->string('slug')->unique();
+            $table->integer('kategori_id')->unsigned()->nullable();
             $table->integer('harga')->unsigned();
             $table->integer('harga_diskon')->unsigned();
             $table->text('deskripsi');
             $table->integer('netto');
             $table->string('foto');
-            $table->integer('brand_id')->unsigned();
+            $table->integer('brand_id')->unsigned()->nullable();
             $table->integer('stock')->unsigned();
             $table->timestamps();
+
+            $table->foreign('kategori_id')->references('id')->on('kategoris')->onDelete('set null');
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('set null');
         });
     }
 

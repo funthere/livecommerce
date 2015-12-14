@@ -1073,23 +1073,23 @@
         },
         {
             "name": "maatwebsite/excel",
-            "version": "v2.0.10",
+            "version": "v2.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Maatwebsite/Laravel-Excel.git",
-                "reference": "be63dcef4394a4bbeaf524e7fe89340b7dab6b7a"
+                "reference": "e0a5afcf86aa4511b291584fae9f00c04e76e60c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/be63dcef4394a4bbeaf524e7fe89340b7dab6b7a",
-                "reference": "be63dcef4394a4bbeaf524e7fe89340b7dab6b7a",
+                "url": "https://api.github.com/repos/Maatwebsite/Laravel-Excel/zipball/e0a5afcf86aa4511b291584fae9f00c04e76e60c",
+                "reference": "e0a5afcf86aa4511b291584fae9f00c04e76e60c",
                 "shasum": ""
             },
             "require": {
-                "illuminate/cache": "5.0.*|5.1.*",
-                "illuminate/config": "5.0.*|5.1.*",
-                "illuminate/filesystem": "5.0.*|5.1.*",
-                "illuminate/support": "5.0.*|5.1.*",
+                "illuminate/cache": "5.0.*|5.1.*|5.2.*",
+                "illuminate/config": "5.0.*|5.1.*|5.2.*",
+                "illuminate/filesystem": "5.0.*|5.1.*|5.2.*",
+                "illuminate/support": "5.0.*|5.1.*|5.2.*",
                 "nesbot/carbon": "~1.0",
                 "php": ">=5.4",
                 "phpoffice/phpexcel": "1.8.*",
@@ -1097,14 +1097,15 @@
             },
             "require-dev": {
                 "mockery/mockery": "~0.9",
-                "orchestra/testbench": "3.0.*",
+                "orchestra/testbench": "3.1.*",
                 "phpseclib/phpseclib": "~1.0",
                 "phpunit/phpunit": "~4.0"
             },
             "suggest": {
-                "illuminate/http": "5.0.*|5.1.*",
-                "illuminate/routing": "5.0.*|5.1.*",
-                "illuminate/view": "5.0.*|5.1.*"
+                "illuminate/http": "5.0.*|5.1.*|5.2.*",
+                "illuminate/queue": "5.0.*|5.1.*|5.2.*",
+                "illuminate/routing": "5.0.*|5.1.*|5.2.*",
+                "illuminate/view": "5.0.*|5.1.*|5.2.*"
             },
             "type": "library",
             "autoload": {
@@ -1136,7 +1137,7 @@
                 "import",
                 "laravel"
             ],
-            "time": "2015-10-26 11:52:19"
+            "time": "2015-12-10 18:31:14"
         },
         {
             "name": "monolog/monolog",
@@ -1359,16 +1360,16 @@
         },
         {
             "name": "paragonie/random_compat",
-            "version": "1.1.1",
+            "version": "1.1.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "a208865a5aeffc2dbbef2a5b3409887272d93f32"
+                "reference": "d762ee5b099a29044603cd4649851e81aa66cb47"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/a208865a5aeffc2dbbef2a5b3409887272d93f32",
-                "reference": "a208865a5aeffc2dbbef2a5b3409887272d93f32",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/d762ee5b099a29044603cd4649851e81aa66cb47",
+                "reference": "d762ee5b099a29044603cd4649851e81aa66cb47",
                 "shasum": ""
             },
             "require": {
@@ -1403,7 +1404,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2015-12-01 02:52:15"
+            "time": "2015-12-10 14:48:13"
         },
         {
             "name": "phpoffice/phpexcel",
@@ -3325,16 +3326,16 @@
         },
         {
             "name": "phpunit/phpunit",
-            "version": "4.8.19",
+            "version": "4.8.21",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/phpunit.git",
-                "reference": "b2caaf8947aba5e002d42126723e9d69795f32b4"
+                "reference": "ea76b17bced0500a28098626b84eda12dbcf119c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/b2caaf8947aba5e002d42126723e9d69795f32b4",
-                "reference": "b2caaf8947aba5e002d42126723e9d69795f32b4",
+                "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/ea76b17bced0500a28098626b84eda12dbcf119c",
+                "reference": "ea76b17bced0500a28098626b84eda12dbcf119c",
                 "shasum": ""
             },
             "require": {
@@ -3393,7 +3394,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2015-11-30 08:18:59"
+            "time": "2015-12-12 07:45:58"
         },
         {
             "name": "phpunit/phpunit-mock-objects",

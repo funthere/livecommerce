@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class BuatTabelKategori extends Migration
+class BuatTabelBrand extends Migration
 {
     /**
      * Run the migrations.
@@ -12,9 +12,10 @@ class BuatTabelKategori extends Migration
      */
     public function up()
     {
-        Schema::create('kategoris', function (Blueprint $table) {
+        Schema::create('brands', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('kategori')->unique();
+            $table->string('brand');
+            $table->string('slug')->unique();
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ class BuatTabelKategori extends Migration
      */
     public function down()
     {
-        Schema::drop('kategoris');
+        Schema::drop('brands');
     }
 }

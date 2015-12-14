@@ -46,6 +46,7 @@
 								@if(isset($global_params['linkedin']))<li><a href="{{ $global_params['linkedin'] }}"><i class="fa fa-linkedin"></i></a></li>@endif
 								@if(isset($global_params['dribbble']))<li><a href="{{ $global_params['dribbble'] }}"><i class="fa fa-dribbble"></i></a></li>@endif
 								@if(isset($global_params['google-plus']))<li><a href="{{ $global_params['google-plus'] }}"><i class="fa fa-google-plus"></i></a></li>@endif
+								<li><a href="#"><i class="fa fa-user"></i> Login / Sign Up</a></li>
 							</ul>
 						</div>
 					</div>
@@ -87,11 +88,11 @@
 					<div class="col-sm-8">
 						<div class="shop-menu pull-right">
 							<ul class="nav navbar-nav">
-								<li><a href="#"><i class="fa fa-user"></i> Account</a></li>
 								<!-- <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li> -->
+								<li><a href="login.html"><i class="fa fa-map-marker"></i> Lacak</a></li>
+								<li><a href="login.html"><i class="fa fa-credit-card"></i> Konfirmasi Bayar</a></li>
 								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="cart.html"><i class="fa fa-shopping-cart"></i> Cart</a></li>
-								<li><a href="login.html"><i class="fa fa-lock"></i> Login</a></li>
 							</ul>
 						</div>
 					</div>
@@ -114,23 +115,25 @@
 						<div class="mainmenu pull-left">
 							<ul class="nav navbar-nav collapse navbar-collapse">
 								<li><a href="/" class="active">Home</a></li>
-								<li class="dropdown"><a href="#">Shop<i class="fa fa-angle-down"></i></a>
+								<li class="dropdown"><a href="#">Semua Kategori<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="shop.html">Products</a></li>
-										<li><a href="product-details.html">Product Details</a></li> 
-										<li><a href="checkout.html">Checkout</a></li> 
-										<li><a href="cart.html">Cart</a></li> 
-										<li><a href="login.html">Login</a></li> 
+                                    @if(isset($kategoris))
+                                    @foreach($kategoris as $kategori)
+                                        <li><a href="{{ $kategori->kategori }}">{{ $kategori->kategori }}</a></li>
+                                    @endforeach
+                                    @endif
                                     </ul>
                                 </li> 
-								<li class="dropdown"><a href="#">Blog<i class="fa fa-angle-down"></i></a>
+								<li class="dropdown"><a href="#">Semua Merk<i class="fa fa-angle-down"></i></a>
                                     <ul role="menu" class="sub-menu">
-                                        <li><a href="blog.html">Blog List</a></li>
-										<li><a href="blog-single.html">Blog Single</a></li>
+                                    @if(isset($brands))
+                                    @foreach($brands as $brand)
+                                        <li><a href="{{ $brand->brand }}">{{ $brand->brand }}</a></li>
+                                    @endforeach
+                                    @endif
                                     </ul>
                                 </li> 
-								<li><a href="404.html">404</a></li>
-								<li><a href="contact-us.html">Contact</a></li>
+								<li><a href="contact-us.html">Hubungi Kami</a></li>
 							</ul>
 						</div>
 					</div>
@@ -219,6 +222,7 @@
 							<div class="panel-group category-products" id="accordian"><!--category-productsr-->
 							@if(isset($kategoris))
 							@foreach($kategoris as $kategori)
+								@if(count($kategori->produks))
 								<div class="panel panel-default">
 									<div class="panel-heading">
 										<h4 class="panel-title">
@@ -248,6 +252,7 @@
 									<div class="panel-heading">
 									</div>
 								</div>
+								@endif
 							@endforeach
 							@endif
 							</div><!--/category-products-->
@@ -260,7 +265,7 @@
 								@if(isset($brands))
 								@foreach($brands as $brand)
 									@if(count($brand->produks))
-									<li><a href="{{ $brand->brand }}"> <span class="pull-right">({{ count($brand->produks) }})</span>{{ $brand->brand }}</a></li>
+									<li><a href="{{ $brand->brand }}"> {{ $brand->brand }} <span class="pull-right">({{ count($brand->produks) }})</span></a></li>
 									@endif
 								@endforeach
 								@endif
@@ -484,82 +489,69 @@
 				<div class="row">
 					<div class="col-sm-2">
 						<div class="companyinfo">
-							<h2><span>e</span>-shopper</h2>
-							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit,sed do eiusmod tempor</p>
+							<h2>{{ $global_params['nama_toko'] or 'nama_toko'}}</h2>
+							<p>{{ $global_params['deskripsi_toko'] or 'deskripsi_toko'}}</p>
 						</div>
 					</div>
 					<div class="col-sm-7">
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe1.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
+									<div class="icon">
+										<i class="fa fa-shield fa-3x"></i>
+										<p>Jaminan 100% Aman</p>
+										<!-- <h2>24 DEC 2014</h2> -->
 									</div>
 								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe2.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
+									<div class="icon">
+										<i class="fa fa-credit-card fa-3x"></i>
+										<p>Kemudahan Pembayaran</p>
+										<!-- <h2>24 DEC 2014</h2> -->
 									</div>
 								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe3.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
+									<div class="icon">
+										<i class="fa fa-thumbs-o-up fa-3x"></i>
+										<p>Layanan Pelanggan yang Responsif</p>
+										<!-- <h2>24 DEC 2014</h2> -->
 									</div>
 								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
-						
 						<div class="col-sm-3">
 							<div class="video-gallery text-center">
 								<a href="#">
-									<div class="iframe-img">
-										<img src="images/home/iframe4.png" alt="" />
-									</div>
-									<div class="overlay-icon">
-										<i class="fa fa-play-circle-o"></i>
+									<div class="icon">
+										<i class="fa fa-truck fa-3x"></i>
+										<p>Berbagai Jasa Pengiriman</p>
+										<!-- <h2>24 DEC 2014</h2> -->
 									</div>
 								</a>
-								<p>Circle of Hands</p>
-								<h2>24 DEC 2014</h2>
 							</div>
 						</div>
+						
+						
 					</div>
 					<div class="col-sm-3">
 						<div class="address">
 							<img src="images/home/map.png" alt="" />
-							<p>505 S Atlantic Ave Virginia Beach, VA(Virginia)</p>
+							<p>{{ $global_params['alamat_toko'] or 'alamat_toko'}}</p>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		
-		<div class="footer-widget">
+		<!-- <div class="footer-widget">
 			<div class="container">
 				<div class="row">
 					<div class="col-sm-2">
@@ -623,13 +615,13 @@
 					
 				</div>
 			</div>
-		</div>
+		</div> -->
 		
 		<div class="footer-bottom">
 			<div class="container">
 				<div class="row">
-					<p class="pull-left">Copyright © 2013 E-SHOPPER Inc. All rights reserved.</p>
-					<p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p>
+					<p class="pull-left">Copyright © 2015 {{ $global_params['nama_perusahaan'] or 'nama_perusahaan'}}. All rights reserved.</p>
+					<!-- <p class="pull-right">Designed by <span><a target="_blank" href="http://www.themeum.com">Themeum</a></span></p> -->
 				</div>
 			</div>
 		</div>

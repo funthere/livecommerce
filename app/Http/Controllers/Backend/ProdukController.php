@@ -30,10 +30,10 @@ class ProdukController extends BackendController
                     return ($data->foto) ? '<img src="'.asset(Model::FOTO_PATH.$data->foto).'" title="'.$data->produk.'" style="width: 100px;">' : '';
                 })
                 ->editColumn('kategori_id', function($data) {
-                    return $data->kategori->kategori;
+                    return $data->kategori != null ? $data->kategori->kategori : '-';
                 })
                 ->editColumn('brand_id', function($data) {
-                    return $data->brand->brand;
+                    return $data->brand != null ? $data->brand->brand : '-';
                 })
                 ->editColumn('harga', function($data) {
                     return 'Rp'. $data->harga_rupiah;

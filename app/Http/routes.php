@@ -11,9 +11,11 @@
 |
 */
 
+
 Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 
 	Route::get('/', 'PageController@home');
+
 
 });
 
