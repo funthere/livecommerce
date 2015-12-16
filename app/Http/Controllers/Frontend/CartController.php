@@ -69,6 +69,6 @@ class CartController extends FrontendController
 
     public function hapusProduk(Request $request, $slug)
     {
-        return $this->kurang($request, $slug, 'all');
+        return $this->kurangProduk($request, $slug, 'all');
     }
 }
