@@ -16,7 +16,15 @@ Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 
 	Route::get('/', 'PageController@home');
 
-	Route::get('beli/{slug}', 'CartController@tambah');
+	Route::get('beli/{slug}', 'CartController@tambahProduk');
+
+	Route::get('tambahkan/{slug}/{quantity?}', 'CartController@tambahProduk');
+
+	Route::get('gak-jadi-beli/{slug}', 'CartController@hapusProduk');
+
+	Route::get('kurangkan/{slug}/{quantity?}', 'CartController@kurangProduk');
+
+	Route::get('cart', 'CartController@index');
 
 
 });

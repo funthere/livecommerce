@@ -6,6 +6,7 @@ use View;
 use App\Produk;
 use App\Kategori;
 use App\Brand;
+use App\Pesanan;
 use Illuminate\Http\Request as Request;
 use App\BaseModel as Model;
 
@@ -19,9 +20,11 @@ class FrontendController extends BaseController
             $query->latest()->take(4);
         }])->get();
         $brands = Brand::with('produks')->get();
+        $cart = request()->session()->has('pesanan') ? Pesanan::with('produks')->where('id', request()->session()->get('pesanan'))->first() : null;
         View::share('produks', $produks);
         View::share('kategoris', $kategoris);
         View::share('brands', $brands);
+        View::share('cart', $cart);
     }
 
 }
