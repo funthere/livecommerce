@@ -23,18 +23,23 @@ class Pesanan extends BaseModel
 
     public function produks()
     {
-        return $this->belongsToMany(Produk::class, 'pesanan_details')->withPivot('pesanan_id', 'produk_id', 'quantity', 'jumlah')->withTimestamps();
+        return $this->belongsToMany(Produk::class, 'pesanan_details')->withPivot('id', 'pesanan_id', 'produk_id', 'quantity', 'jumlah')->withTimestamps();
     }
 
     public function tambahProduk(Produk $produk, $quantity = 1)
     {
+        $adjusmentQuantity = $quantity;
+
+        // jika stock < request order
+        if ($produk->stock < $adjusmentQuantity) return false;
+
         // masukkan data pesanan detail
         // jika produk yang sama sudah ada ambil quantity nya
         foreach ($this->produks as $produk_pesanan) {
             if ($produk_pesanan->pivot->produk_id == $produk->id) 
             {
                 $quantity += $produk_pesanan->pivot->quantity;
-                $this->produks()->detach($produk->   id);
+                $this->produks()->detach($produk->id);
             }
         }
 
@@ -49,11 +54,20 @@ class Pesanan extends BaseModel
         // masukkan ke pesanan;
         $this->produks()->attach($produk->id, $detail);
 
-        // hitung total
-        $total = $this->produks()->sum('jumlah');
+        // adjustment stock produk
+        $produk->decrement('stock', $adjusmentQuantity);
 
-        // update total pesanan
-        $this->total = $total;
+        // hitung subtotal
+        $jumlah = $this->produks()->sum('jumlah');
+
+        // set adjusment total 
+        $adjusmentTotal = $jumlah - $this->jumlah;
+
+        // update subtotal pesanan
+        $this->jumlah = $jumlah;
+        
+        // update total
+        $this->increment('total', $adjusmentTotal);
         $this->save();
     }
 
@@ -67,10 +81,12 @@ class Pesanan extends BaseModel
             {
                 // jika quantity = 'all' maka quantity = 0 atau quantity * -1
                 if ($quantity == 'all') $quantity = $produk_pesanan->pivot->quantity;
+                // set adjustent stock
+                $adjusmentQuantity = $quantity;
                 // quantity dijadikan (minus)
                 $quantity *= -1; 
-                $quantity += $produk_pesanan->pivot->quantity;
-                $this->produks()->detach($produk->   id);
+                $quantity += $produk_pesanan->pivot->quantity; 
+                $this->produks()->detach($produk->id);
             }
         }
 
@@ -89,11 +105,49 @@ class Pesanan extends BaseModel
             $this->produks()->attach($produk->id, $detail);
         }
 
-        // hitung total
-        $total = $this->produks()->sum('jumlah');
+        // adjustment stock produk
+        $produk->increment('stock', $adjusmentQuantity);
 
-        // update total pesanan
-        $this->total = $total;
+        // hitung subtotal
+        $jumlah = $this->produks()->sum('jumlah');
+
+        // set adjusment total 
+        $adjusmentTotal = $jumlah - $this->jumlah;
+
+        // update subtotal pesanan
+        $this->jumlah = $jumlah;
+        
+        // update total
+        $this->increment('total', $adjusmentTotal);
         $this->save();
     }
-}
+
+    public function updatePesanan($all_produks)
+    {
+        foreach ($this->produks as $produk) 
+        {
+            $adjusmentQuantity = min($produk->stock, $all_produks[$produk->slug] - $produk->pivot->quantity);
+
+            if ($adjusmentQuantity == 0) continue;
+
+            $produk->pivot->increment('quantity', $adjusmentQuantity);
+
+            $produk->decrement('stock', $adjusmentQuantity);
+
+            if ($produk->pivot->quantity <= 0) $this->produks()->detach($produk->id);
+        }
+
+        // hitung subtotal
+        $jumlah = $this->produks()->sum('jumlah');
+
+        // set adjusment total 
+        $adjusmentTotal = $jumlah - $this->jumlah;
+
+        // update subtotal pesanan
+        $this->jumlah = $jumlah;
+        
+        // update total
+        $this->increment('total', $adjusmentTotal);
+        $this->save();
+    }
+}   

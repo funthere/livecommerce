@@ -33,13 +33,20 @@ class CartController extends FrontendController
         // ambil data pesanan dari session atau buat baru
         $pesanan = $this->getCurrentPesanan();
         // tambahkan produk ke dalam pesanan
-        $pesanan->tambahProduk($produk, $quantity);
+        $tambahProduk = $pesanan->tambahProduk($produk, $quantity);
+
+        if ($tambahProduk === false)
+        {
+            alert()->error('Gagal menambahkan '.$quantity.' produk '.$produk->produk.' karena stok kurang. ', 'Update Cart Gagal')->autoClose(3600);
+
+            return back();
+        }
 
     	// update session 
     	$request->session()->put('pesanan', $pesanan->id);
 
     	// beri alert
-    	alert()->success('Berhasil menambahkan '.$quantity.' produk '.$produk->produk.' ke dalam keranjang. ', 'Update Cart Success');
+    	alert()->success('Berhasil menambahkan '.$quantity.' produk '.$produk->produk.' ke dalam keranjang. ', 'Update Cart Success')->autoClose(3600);
 
     	// kembalikan ke halaman sebelumnya	
     	return back();
@@ -61,7 +68,7 @@ class CartController extends FrontendController
         $request->session()->put('pesanan', $pesanan->id);
 
         // beri alert
-        alert()->success('Berhasil mengurangi '.$quantity.' produk '.$produk->produk.' dari keranjang. ', 'Update Cart Success');
+        alert()->success('Berhasil mengurangi '.$quantity.' produk '.$produk->produk.' dari keranjang. ', 'Update Cart Success')->autoClose(3600);
 
         // kembalikan ke halaman sebelumnya 
         return back();
@@ -70,5 +77,19 @@ class CartController extends FrontendController
     public function hapusProduk(Request $request, $slug)
     {
         return $this->kurangProduk($request, $slug, 'all');
+    }
+
+    public function updateCart(Request $request)
+    {
+        $all_produks = $request->except('_token');
+
+        $pesanan = $this->getCurrentPesanan();
+        $pesanan->updatePesanan($all_produks);
+
+        // beri alert
+        alert()->success('Berhasil mengupdate data keranjang. ', 'Update Cart Success')->autoClose(3600);
+
+        // kembalikan ke halaman sebelumnya 
+        return back();
     }
 }

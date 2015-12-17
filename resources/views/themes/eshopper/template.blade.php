@@ -95,7 +95,7 @@
 								<li><a href="checkout.html"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Cart
 									@if($cart)
-										({{ count($cart->produks) }} item | Rp. {{ $cart->total }})
+										({{ count($cart->produks) }} item | Rp. {{ $cart->jumlah }})
 									@endif
 								</a></li>
 							</ul>
@@ -307,8 +307,29 @@
 	<script src="{{ asset('js/price-range') }}.js"></script>
     <script src="{{ asset('js/jquery.prettyPhoto') }}.js"></script>
     <script src="{{ asset('plugins/sweetalert/dist/sweetalert.min.js') }}"></script>
-    <script src="{{ asset('js/main.js') }}"></script>
+	<!-- autonumeric -->
+	<script src="{{ asset('plugins/autoNumeric/autoNumeric-min.js') }}"></script>
+	<!-- Select2 -->
+	<script src="{{ asset('plugins/select2/select2.full.min.js') }}"></script>
+	<script src="{{ asset('js/main.js') }}"></script>
 
+	<script type="text/javascript">
+		$.ajaxSetup({
+	      headers: {
+	          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+	      }
+	    });
+
+	    $.fn.modal.Constructor.DEFAULTS.backdrop = 'static';
+
+	    $.fn.liveposCurrency = {aSep: '.', aDec: ',', aSign: 'Rp. ', lZero: 'deny'};
+	    $.fn.liveposNumeric = {aSep: '.', aDec: ',', aSign: '', lZero: 'deny', mDec: 0};
+
+	    $('select').select2({width: '100%'});              
+	    
+	    $('.input-mask-currency').autoNumeric('init', $.fn.liveposCurrency);
+	    $('.input-mask-numeric').autoNumeric('init', $.fn.liveposNumeric);
+	</script>
     <!-- Include this after the sweet alert js file -->
     @include('sweet::alert')
 </body>

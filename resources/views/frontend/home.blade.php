@@ -224,7 +224,7 @@
 											<h2>Rp. {{ $produk->harga_rupiah }}</h2>
 											@endif
 											<p class="product-name">{{ $produk->produk }}</p>
-											<a href="#" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
+											<a href="{{ url('beli/'.$produk->slug) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
 									</div>
 								</div>

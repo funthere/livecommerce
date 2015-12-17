@@ -26,6 +26,7 @@ Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 
 	Route::get('cart', 'CartController@index');
 
+	Route::post('cart', 'CartController@updateCart');
 
 });
 

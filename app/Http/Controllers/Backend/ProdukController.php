@@ -45,7 +45,7 @@ class ProdukController extends BackendController
                     return number_format($data->netto , 0, ',' , '.');
                 })
                 ->editColumn('stock', function($data) {
-                    return number_format($data->harga , 0, ',' , '.');
+                    return number_format($data->stock , 0, ',' , '.');
                 })
                 ->removeColumn('kategori')
                 ->removeColumn('brand');
