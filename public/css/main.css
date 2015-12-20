@@ -2545,3 +2545,7 @@ img.new {
 .single-products del {
     color: #696763!important;
 }
+
+.no-margin {
+  margin: 2px 0;
+}

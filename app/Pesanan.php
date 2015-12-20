@@ -11,14 +11,19 @@ class Pesanan extends BaseModel
     	'penerima',
         'email',
     	'alamat',
-    	'kota_id',
     	'propinsi_id',
+        'kota_id',
     	'kodepos',
     	'jumlah',
     	'diskon',
     	'ongkir',
     	'total',
-    	'kode_pesanan',
+        'kode_pesanan',
+    	'metode_pengiriman',
+    ];
+
+    protected $casts = [
+        'metode_pengiriman' => 'array',
     ];
 
     public function produks()
@@ -126,6 +131,8 @@ class Pesanan extends BaseModel
     {
         foreach ($this->produks as $produk) 
         {
+            if (!isset($all_produks[$produk->slug])) continue;
+
             $adjusmentQuantity = min($produk->stock, $all_produks[$produk->slug] - $produk->pivot->quantity);
 
             if ($adjusmentQuantity == 0) continue;

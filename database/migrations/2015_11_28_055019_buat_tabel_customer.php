@@ -15,11 +15,12 @@ class BuatTabelCustomer extends Migration
         Schema::create('customers', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id')->unsigned()->nullable();
+            $table->string('no_hp', 12);
             $table->string('nama');
             $table->text('alamat');
-            $table->integer('propinsi_id')->unsigned();
-            $table->integer('kota_id')->unsigned();
-            $table->integer('kecamatan_id')->unsigned();
+            $table->integer('propinsi_id')->unsigned()->nullable();
+            $table->integer('kota_id')->unsigned()->nullable();
+            $table->integer('kecamatan_id')->unsigned()->nullable();
             $table->string('kodepos', 5);
             $table->timestamps();
 

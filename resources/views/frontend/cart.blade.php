@@ -25,10 +25,9 @@
 							</tr>
 						</thead>
 						<tbody>
-						@if(isset($cart))
-						@if(count($cart->produks))
+						@if(isset($cart) && count($cart->produks))
 							@foreach($cart->produks as $cart_produk)
-							<tr>
+							<tr data-slug="{{ $cart_produk->slug }}" data-weight="{{ $cart_produk->netto * $cart_produk->pivot->quantity }}">
 								<td class="cart_product">
 									<a href="{{ url( $cart_produk->slug ) }}"><img width="50px" src="{{ asset( 'asset/produk/'. $cart_produk->foto) }}" alt=""></a>
 								</td>
@@ -78,11 +77,10 @@
 								</td>
 							</tr>
 						@endif
-						@endif
 						</tbody>
 					</table>
 				</div>
-			@if(count($cart->produks))
+			@if(isset($cart) && count($cart->produks))
 				<div class="row">
 					<div class="col-sm-9 heading">
 						<p>Setelah melakukan update quantity secara manual, silakan klik tombol update</p>
@@ -96,6 +94,7 @@
 		</div>
 	</section> <!--/#cart_items-->
 
+@if(isset($cart) && count($cart->produks))
 	<section id="do_action">
 		<div class="container">
 			<div class="heading">
@@ -104,72 +103,281 @@
 			</div>
 			<div class="row">
 				<div class="col-sm-6">
-					<div class="chose_area">
-						<ul class="user_option">
-							<li>
-								<input type="checkbox">
-								<label>Use Coupon Code</label>
-							</li>
-							<li>
-								<input type="checkbox">
-								<label>Use Gift Voucher</label>
-							</li>
-							<li>
-								<input type="checkbox">
-								<label>Estimate Shipping & Taxes</label>
-							</li>
-						</ul>
-						<ul class="user_info">
-							<li class="single_field">
-								<label>Country:</label>
-								<select>
-									<option>United States</option>
-									<option>Bangladesh</option>
-									<option>UK</option>
-									<option>India</option>
-									<option>Pakistan</option>
-									<option>Ucrane</option>
-									<option>Canada</option>
-									<option>Dubai</option>
-								</select>
+					<div class="chose_area row">
+						{!! Form::open(['url' => url('cart'), 'id' => 'form-pesanan']) !!}
+							<div class="user_info no-margin col-xs-12">
+								<label>Nama Penerima</label>
+								<input type="text" name="penerima" value="{{ $cart->penerima }}">
+							</div>
+							<div class="user_info no-margin col-sm-6">
+								<label>Email</label>
+								<input type="text" name="email" value="{{ $cart->email }}">
+							</div>
+							<div class="user_info no-margin col-sm-6">
+								<label>No. Handphone</label>
+								<input type="text" name="no_hp" value="{{ $cart->no_hp }}">
+							</div>
+							<div class="user_info no-margin col-xs-12">
+								<label>Alamat Lengkap</label>
+								<textarea name="alamat"> {{ $cart->alamat }}</textarea>
+							</div>
+							<div class="col-sm-4">
+								<div class="user_info no-margin">
+									<label>Propinsi</label>
+									<select id="propinsi" name="propinsi_id" class="form-control no-margin" data-value="{{ $cart->propinsi_id }}">
+										<option>Pilih </option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="user_info no-margin">
+									<label>Kota / Kabupaten:</label>
+									<select id="kota" name="kota_id" class="form-control no-margin" data-value="{{ $cart->kota_id }}">
+										<option>Pilih </option>
+									</select>
+								</div>
+							</div>
+							<div class="col-sm-4">
+								<div class="user_info no-margin">
+									<label>Kodepos:</label>
+									<input type="text" id="kodepos" name="kodepos" maxlength="5" value="{{ $cart->kodepos }}">
+								</div>
+							</div>
+							<div class="user_info no-margin col-xs-12">
+								<button type="submit" class="btn-lg btn-default update pull-right">Simpan</button>
+							</div>
 								
-							</li>
-							<li class="single_field">
-								<label>Region / State:</label>
-								<select>
-									<option>Select</option>
-									<option>Dhaka</option>
-									<option>London</option>
-									<option>Dillih</option>
-									<option>Lahore</option>
-									<option>Alaska</option>
-									<option>Canada</option>
-									<option>Dubai</option>
-								</select>
-							
-							</li>
-							<li class="single_field zip-field">
-								<label>Zip Code:</label>
-								<input type="text">
-							</li>
-						</ul>
-						<a class="btn btn-default update" href="">Get Quotes</a>
-						<a class="btn btn-default check_out" href="">Continue</a>
+						{!! Form::close() !!}
 					</div>
 				</div>
 				<div class="col-sm-6">
 					<div class="total_area">
 						<ul>
-							<li>Sub Total <span>Rp {{ $cart->jumlah}}</span></li>
-							<li>Diskon <span>{{ $cart->diskon ? 'Rp '.$cart->diskon : '-' }}</span></li>
-							<li>Shipping Cost <span>Free</span></li>
-							<li>Total <span>Rp {{ $cart->total }}</span></li>
+							<li>
+								<label>Cara Pengiriman</label>
+								<div class="row">
+									<select id="pengiriman" class="form-control" style="width: 100%">
+										<option>Pilih Jenis Pengiriman</option>
+									</select>
+								</div>
+							</li>
+							<li>Sub Total <span>Rp {{ number_format($cart->jumlah, 0, ',', '.')}}</span></li>
+							<!-- <li>Diskon <span>{{ $cart->diskon ? 'Rp '.$cart->diskon : '-' }}</span></li> -->
+							<li>Ongkos Kirim <span id="ongkir">{{ $cart->ongkir ? $cart->ongkir : 'Free (Ambil di tempat)' }}</span></li>
+							<li>Total <span>Rp {{ number_format($cart->total, 0, ',', '.') }}</span></li>
 						</ul>
-							<a class="btn btn-default update" href="">Update</a>
-							<a class="btn btn-default check_out" href="">Check Out</a>
+						<div class="text-right">
+							<a class="btn btn-lg btn-default check_out" href="">Check Out</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section><!--/#do_action-->
+@endif
+@stop
+
+@section('script.footer')
+	<script type="text/javascript">
+		var mainURL = '{{ url('ongkir/') }}';
+		function formatKabupaten (kota) {
+			if (kota.loading) return kota.text;
+			return kota.kota;
+		}
+
+		function formatKabupatenSelection (kota) {
+			return kota.kota || kota.text;
+		}
+		
+		$kota = $("#kota").select2({
+			ajax: {
+			    url: mainURL +"/kota",
+			    dataType: 'json',
+			    delay: 250,
+			    data: function (params) {
+			      return {
+			        q: params.term, // search term
+			        prop: $('#propinsi').val(), // search term
+			        // page: params.page
+			      };
+			    },
+			    processResults: function (data, params) {
+			      // parse the results into the format expected by Select2
+			      // since we are using custom formatting functions we do not need to
+			      // alter the remote JSON data, except to indicate that infinite
+			      // scrolling can be used
+			      // params.page = params.page || 1;
+			      return {
+			        results: data,
+			        // pagination: {
+			        //   more: (params.page * 30) < data.total_count
+			        // }
+			      };
+			    },
+			    cache: true
+			  },
+			  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+			  // minimumInputLength: 1,
+			  templateResult: formatKabupaten, // omitted for brevity, see the source of this page
+			  templateSelection: formatKabupatenSelection, // omitted for brevity, see the source of this page
+			  placeholder: 'Pilih Kabupaten'
+		})
+		.on('select2:select', function(e) {
+			$('#kodepos').focus();
+		});
+		
+		var kota_id = $kota.data('value');
+		var $optionKota = $('<option selected>Loading...</option>').val(kota_id);
+		$kota.append($optionKota).trigger('change');
+		$.getJSON('{{ url('ongkir/kota') }}', {id: kota_id}, function(data) {
+			$optionKota.text(data.kota).val(data.id);
+			$optionKota.removeData();
+			$kota.trigger('change');
+		})
+
+
+
+		function formatPropinsi (propinsi) {
+			if (propinsi.loading) return propinsi.text;
+			return propinsi.propinsi;
+		}
+
+		function formatPropinsiSelection (propinsi) {
+			return propinsi.propinsi || propinsi.text;
+		}
+		
+		$propinsi = $("#propinsi").select2({
+			ajax: {
+			    url: mainURL +"/propinsi",
+			    dataType: 'json',
+			    delay: 250,
+			    data: function (params) {
+			      return {
+			        q: params.term, // search term
+			        // page: params.page
+			      };
+			    },
+			    processResults: function (data, params) {
+			      // parse the results into the format expected by Select2
+			      // since we are using custom formatting functions we do not need to
+			      // alter the remote JSON data, except to indicate that infinite
+			      // scrolling can be used
+			      // params.page = params.page || 1;
+			      return {
+			        results: data,
+			        // pagination: {
+			        //   more: (params.page * 30) < data.total_count
+			        // }
+			      };
+			    },
+			    cache: true
+			  },
+			  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+			  // minimumInputLength: 1,
+			  // minimumResultsForSearch: -1,
+			  templateResult: formatPropinsi, // omitted for brevity, see the source of this page
+			  templateSelection: formatPropinsiSelection, // omitted for brevity, see the source of this page
+			  placeholder: 'Pilih Propinsi'
+		}).on('select2:select', function(e) {
+			$('#kota').prop('disabled', false).select2('open');
+		});
+
+		var propinsi_id = $propinsi.data('value');
+		var $optionPropinsi = $('<option selected>Loading...</option>').val(propinsi_id);
+		$propinsi.append($optionPropinsi).trigger('change');
+		$.getJSON('{{ url('ongkir/propinsi') }}', {id: propinsi_id}, function(data) {
+			$optionPropinsi.text(data.propinsi).val(data.id);
+			$optionPropinsi.removeData();
+			$propinsi.trigger('change');
+		});
+
+		function formatOngkir (cek) {
+			if (cek.loading) return cek.text;
+			return cek.text;
+		}
+
+		function formatOngkirSelection (cek) {
+			return cek.text;
+		}
+		
+		$ongkir = $('#ongkir');
+
+		$pengiriman = $("#pengiriman").select2({
+			ajax: {
+			    url: mainURL +"/cek",
+			    dataType: 'json',
+			    delay: 250,
+			    data: function (params) {
+			      var weight = 0;
+			      $('[data-weight]').each(function(index, elm) {
+			      	weight += Number($(this).data('weight'));
+			      });
+			      return {
+			        weight: weight, // search term
+			        kota: $('#kota').val(), // search term
+			        // page: params.page
+			      };
+			    },
+			    processResults: function (data, params) {
+			      // parse the results into the format expected by Select2
+			      // since we are using custom formatting functions we do not need to
+			      // alter the remote JSON data, except to indicate that infinite
+			      // scrolling can be used
+			      // params.page = params.page || 1;
+			      return {
+			        results: data,
+			        // pagination: {
+			        //   more: (params.page * 30) < data.total_count
+			        // }
+			      };
+			    },
+			    cache: true
+			  },
+			  escapeMarkup: function (markup) { return markup; }, // let our custom formatter work
+			  // minimumInputLength: 1,
+			  minimumResultsForSearch: -1,
+			  templateResult: formatOngkir, // omitted for brevity, see the source of this page
+			  templateSelection: formatOngkirSelection, // omitted for brevity, see the source of this page
+			  placeholder: 'Pilih Ongkir'
+		}).on('select2:select', function(name, e) {
+			var ongkir = name.params.data.cost;
+			$ongkir.data('ongkir', ongkir).text('Rp. '+ ongkir);
+
+			$('#form-pesanan').on('submitSuccess', function(evt) {
+				$.post('{{ url('cart/info') }}', {metode_pengiriman: $pengiriman.val(), ongkir: $ongkir.data('ongkir')}, function(data) {
+
+				}, 'json');
+			}).submit();
+				
+			
+		});
+		
+		var pengiriman_code = $pengiriman.data('value');
+		var $optionPengiriman = $('<option selected>Loading...</option>').val(pengiriman_code);
+		$pengiriman.append($optionPengiriman).trigger('change');
+		var weight = 0;
+	    $('[data-weight]').each(function(index, elm) {
+	    	weight += Number($(this).data('weight'));
+	    });
+		$.getJSON('{{ url('ongkir/cek') }}', {code: pengiriman_code, kota: kota_id, weight: weight}, function(data) {
+			console.log(data)
+			$optionPengiriman.text(data.pengiriman).val(data.id);
+			$optionPengiriman.removeData();
+			$pengiriman.trigger('change');
+		});
+
+		$('#form-pesanan').submit(function(e) {
+			e.preventDefault();
+			var form = $(this);
+			form.find('[type=submit]').prop('disabled', true);
+
+			$.post('{{ url('cart/info') }}', form.serialize(), function(data) {
+				if (data.message == 'ok') form.trigger('submitSuccess');
+				form.find('[type=submit]').prop('disabled', false);
+			}, 'json')
+
+			return false;
+		});
+		
+	</script>
 @stop

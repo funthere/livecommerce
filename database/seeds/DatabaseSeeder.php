@@ -16,6 +16,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call(GlobalParamsSeeder::class);
 
+        $this->call(PropinsiSeeder::class);
+        $this->call(KotaSeeder::class);
+
         Model::reguard();
     }
 }

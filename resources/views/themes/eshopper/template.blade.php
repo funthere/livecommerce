@@ -7,12 +7,17 @@
     <meta name="author" content="">
     <title>Home | {{ $global_params['nama_toko'] or 'nama_toko' }}</title>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <!-- CSRF -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/prettyPhoto.css') }}" rel="stylesheet">
     <link href="{{ asset('css/price-range.css') }}" rel="stylesheet">
     <link href="{{ asset('css/animate.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/main.css') }}" rel="stylesheet">
 	<link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
+	<link href="{{ asset('plugins/select2/select2.css') }}" rel="stylesheet">
+	<link href="{{ asset('plugins/select2/select2-bootstrap.css') }}" rel="stylesheet">
 	<link href="{{ asset('plugins/sweetalert/dist/sweetalert.css') }}" rel="stylesheet">
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
@@ -325,12 +330,15 @@
 	    $.fn.liveposCurrency = {aSep: '.', aDec: ',', aSign: 'Rp. ', lZero: 'deny'};
 	    $.fn.liveposNumeric = {aSep: '.', aDec: ',', aSign: '', lZero: 'deny', mDec: 0};
 
-	    $('select').select2({width: '100%'});              
+	    $('select').select2({width: '100%', theme: 'bootstrap'});              
 	    
 	    $('.input-mask-currency').autoNumeric('init', $.fn.liveposCurrency);
 	    $('.input-mask-numeric').autoNumeric('init', $.fn.liveposNumeric);
 	</script>
     <!-- Include this after the sweet alert js file -->
     @include('sweet::alert')
+
+	@yield('script.footer')
+
 </body>
 </html>

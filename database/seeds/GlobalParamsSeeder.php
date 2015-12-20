@@ -23,5 +23,7 @@ class GlobalParamsSeeder extends Seeder
         Param::create(['key' => 'facebook', 'value' => 'https://facebook.com/irin.nuget']);
         Param::create(['key' => 'twitter', 'value' => 'http://twitter.com/irin_nuget']);
         Param::create(['key' => 'lama_hari_produk_baru', 'value' => '7']);
+
+        
     }
 }

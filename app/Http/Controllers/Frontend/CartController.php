@@ -86,6 +86,22 @@ class CartController extends FrontendController
         $pesanan = $this->getCurrentPesanan();
         $pesanan->updatePesanan($all_produks);
 
+        if ($request->wantsJson()) return ['message' => 'ok'];
+        // beri alert
+        alert()->success('Berhasil mengupdate data keranjang. ', 'Update Cart Success')->autoClose(3600);
+
+        // kembalikan ke halaman sebelumnya 
+        return back();
+    }
+
+    public function updateInfo(Request $request)
+    {
+        $pesanan = $this->getCurrentPesanan();
+        // update info pesanan
+        $info = $request->except('_token');
+        $pesanan->update($info);
+
+        if ($request->wantsJson()) return ['message' => 'ok'];
         // beri alert
         alert()->success('Berhasil mengupdate data keranjang. ', 'Update Cart Success')->autoClose(3600);
 

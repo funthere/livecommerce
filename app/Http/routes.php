@@ -28,7 +28,83 @@ Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 
 	Route::post('cart', 'CartController@updateCart');
 
+	Route::post('cart/info', 'CartController@updateInfo');
+
 });
+
+Route::group(['prefix' => 'ongkir'], function() {
+	Route::get('propinsi', function() {
+		$id = request()->get('id', null);
+		if ($id !== null && null != $propinsi = \App\Propinsi::find($id)) return $propinsi;
+		$q = request()->get('q', '');
+		$data = \App\Propinsi::where('propinsi', 'like', '%'.$q.'%')->get();
+		return $data;
+	});
+
+	Route::get('kota', function() {
+		$id = request()->get('id', null);
+		if ($id !== null && null != $kota = \App\Kota::find($id)) return $kota;
+		$q = request()->get('q', '');
+		$propinsi_id = request()->get('prop', '%');
+		$data = \App\Kota::where('propinsi_id', 'like', $propinsi_id)->where('kota', 'like', '%'.$q.'%')->get();
+		return $data;
+	});
+
+	Route::get('cek', function() {
+		$key = '4243a697cd6621c821724dcc78c25a4b';
+		$origin = '348';
+		$courier = request()->get('courier', 'all');
+		$destination = request()->get('kota');
+		$weight = request()->get('weight') * 1000;
+
+		$cekCode = request()->get('code', null);
+		if ($cekCode != null) {
+			$codes = explode('-', $cekCode);
+			$courier = $codes[0];
+			$serviceCode = $codes[1];
+		}
+
+		$client = new GuzzleHttp\Client();
+		$res = $client->request('POST', 'http://api.rajaongkir.com/starter/cost', [
+				    'headers' => ['key' => $key, 'content-type' => 'application/x-www-form-urlencoded'],
+				    'form_params' => compact('origin', 'destination', 'weight', 'courier'),
+				]);
+
+		$html = $res->getBody();
+
+		$result = json_decode($html);
+
+		if (!isset($result->rajaongkir->results) or $result->rajaongkir->results == null) return [];
+
+		$kurirs = $result->rajaongkir->results;
+
+		$data = [];
+
+		foreach ($kurirs as $kurir) 
+		{
+			foreach ($kurir->costs as $layanan) 
+			{
+				if (!isset($layanan->cost) or count($layanan->cost) == 0) continue; 
+
+				$cost = $layanan->cost; 
+
+				$service = [];
+
+				$service['text'] = strtoupper($kurir->code) . ' ' . $layanan->service . ' (' . $layanan->cost[0]->etd . ' hari) - '. $layanan->cost[0]->value;
+
+				$service['id'] = $kurir->code.'-'.$layanan->service;
+
+				$service['cost'] = $layanan->cost[0]->value;
+
+				if ($courier == $kurir->code && $serviceCode == $layanan->service) return $service;
+
+				$data[] = $service;
+			}
+		}
+		return $data;
+	});
+});
+
 
 Route::get('tes', function(App\Http\Controllers\BaseController $base) {
 	return $base->global_params['nama_toko'];
