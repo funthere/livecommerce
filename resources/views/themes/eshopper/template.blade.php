@@ -65,7 +65,7 @@
 				<div class="row">
 					<div class="col-sm-4">
 						<div class="logo pull-left">
-							<a href="/"><img src="images/home/logo.png" alt="" /></a>
+							<a href="/"><h2 class="heading">{{ $global_params['nama_toko'] or 'nama_toko' }}</h2></a>
 						</div>
 						<!-- <div class="btn-group pull-right">
 							<div class="btn-group">
