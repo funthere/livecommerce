@@ -156,14 +156,14 @@
 							<li>
 								<label>Cara Pengiriman</label>
 								<div class="row">
-									<select id="pengiriman" class="form-control" style="width: 100%">
+									<select id="pengiriman" class="form-control" style="width: 100%" data-value="{{ $cart->metode_pengiriman }}">
 										<option>Pilih Jenis Pengiriman</option>
 									</select>
 								</div>
 							</li>
 							<li>Sub Total <span>Rp {{ number_format($cart->jumlah, 0, ',', '.')}}</span></li>
 							<!-- <li>Diskon <span>{{ $cart->diskon ? 'Rp '.$cart->diskon : '-' }}</span></li> -->
-							<li>Ongkos Kirim <span id="ongkir">{{ $cart->ongkir ? $cart->ongkir : 'Free (Ambil di tempat)' }}</span></li>
+							<li>Ongkos Kirim <span id="ongkir">{{ $cart->ongkir ? 'Rp '.number_format($cart->ongkir, 0, ',', '.') : 'Free (Ambil di tempat)' }}</span></li>
 							<li>Total <span>Rp {{ number_format($cart->total, 0, ',', '.') }}</span></li>
 						</ul>
 						<div class="text-right">
@@ -341,6 +341,7 @@
 			  placeholder: 'Pilih Ongkir'
 		}).on('select2:select', function(name, e) {
 			var ongkir = name.params.data.cost;
+			var ongkir_rupiah = name.params.data.cost_rupiah;
 			$ongkir.data('ongkir', ongkir).text('Rp. '+ ongkir);
 
 			$('#form-pesanan').on('submitSuccess', function(evt) {
@@ -361,7 +362,7 @@
 	    });
 		$.getJSON('{{ url('ongkir/cek') }}', {code: pengiriman_code, kota: kota_id, weight: weight}, function(data) {
 			console.log(data)
-			$optionPengiriman.text(data.pengiriman).val(data.id);
+			$optionPengiriman.text(data.text).val(data.id);
 			$optionPengiriman.removeData();
 			$pengiriman.trigger('change');
 		});

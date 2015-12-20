@@ -96,6 +96,8 @@ Route::group(['prefix' => 'ongkir'], function() {
 
 				$service['cost'] = $layanan->cost[0]->value;
 
+				$service['cost_rupiah'] = number_format($layanan->cost[0]->value, 0, ',', '.');
+
 				if ($courier == $kurir->code && $serviceCode == $layanan->service) return $service;
 
 				$data[] = $service;
