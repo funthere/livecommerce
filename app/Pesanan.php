@@ -17,18 +17,43 @@ class Pesanan extends BaseModel
     	'jumlah',
     	'diskon',
     	'ongkir',
-    	'total',
         'kode_pesanan',
-    	'metode_pengiriman',
+        'metode_pengiriman',
+    	'no_hp',
     ];
+
+    protected $appends = ['total', 'total_rupiah'];
+
+    protected $rupiahs = ['ongkir', 'jumlah'];
 
     protected $casts = [
         'metode_pengiriman' => 'array',
     ];
 
+    public function getTotalAttribute()
+    {
+        return $this->jumlah + $this->ongkir;
+    }
+
+    public function getTotalRupiahAttribute()
+    {
+        return 'Rp '.number_format($this->jumlah + $this->ongkir, 0, ',','.');
+    }
+
     public function produks()
     {
-        return $this->belongsToMany(Produk::class, 'pesanan_details')->withPivot('id', 'pesanan_id', 'produk_id', 'quantity', 'jumlah')->withTimestamps();
+        return $this->belongsToMany(Produk::class, 'pesanan_details')->withPivot('id', 'pesanan_id', 'produk_id', 'quantity', 'harga', 'jumlah')->withTimestamps();
+    }
+
+    public function calculateTotal()
+    {
+        // hitung subtotal
+        $jumlah = $this->produks()->sum('jumlah');
+
+        // update subtotal pesanan
+        $this->jumlah = $jumlah;
+        
+        $this->save();
     }
 
     public function tambahProduk(Produk $produk, $quantity = 1)
@@ -62,18 +87,8 @@ class Pesanan extends BaseModel
         // adjustment stock produk
         $produk->decrement('stock', $adjusmentQuantity);
 
-        // hitung subtotal
-        $jumlah = $this->produks()->sum('jumlah');
-
-        // set adjusment total 
-        $adjusmentTotal = $jumlah - $this->jumlah;
-
-        // update subtotal pesanan
-        $this->jumlah = $jumlah;
-        
-        // update total
-        $this->increment('total', $adjusmentTotal);
-        $this->save();
+        // calculate total
+        $this->calculateTotal();
     }
 
     public function kurangProduk(Produk $produk, $quantity = 1)
@@ -113,18 +128,8 @@ class Pesanan extends BaseModel
         // adjustment stock produk
         $produk->increment('stock', $adjusmentQuantity);
 
-        // hitung subtotal
-        $jumlah = $this->produks()->sum('jumlah');
-
-        // set adjusment total 
-        $adjusmentTotal = $jumlah - $this->jumlah;
-
-        // update subtotal pesanan
-        $this->jumlah = $jumlah;
-        
-        // update total
-        $this->increment('total', $adjusmentTotal);
-        $this->save();
+        // calculate total
+        $this->calculateTotal();
     }
 
     public function updatePesanan($all_produks)
@@ -134,27 +139,29 @@ class Pesanan extends BaseModel
             if (!isset($all_produks[$produk->slug])) continue;
 
             $adjusmentQuantity = min($produk->stock, $all_produks[$produk->slug] - $produk->pivot->quantity);
+            // dd($adjusmentQuantity);
 
             if ($adjusmentQuantity == 0) continue;
 
             $produk->pivot->increment('quantity', $adjusmentQuantity);
-
+            
+            $jumlah = $produk->pivot->harga * $produk->pivot->quantity;
+            // masukkan ke pesanan;
+            $this->produks()->updateExistingPivot($produk->id, compact('jumlah'));
+            
             $produk->decrement('stock', $adjusmentQuantity);
 
             if ($produk->pivot->quantity <= 0) $this->produks()->detach($produk->id);
         }
 
-        // hitung subtotal
-        $jumlah = $this->produks()->sum('jumlah');
+        // calculate total
+        $this->calculateTotal();
+    }
 
-        // set adjusment total 
-        $adjusmentTotal = $jumlah - $this->jumlah;
+    public function update(Array $attributes = [])
+    {
+        parent::update($attributes);
 
-        // update subtotal pesanan
-        $this->jumlah = $jumlah;
-        
-        // update total
-        $this->increment('total', $adjusmentTotal);
-        $this->save();
+        $this->calculateTotal();
     }
 }   

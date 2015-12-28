@@ -12,8 +12,13 @@ use App\Http\Controllers\FrontendController;
 class CartController extends FrontendController
 {
 
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->wantsJson()) {
+            $pesanan = $this->getCurrentPesanan();
+            return $pesanan;
+        }
+
         return view('frontend.cart');
     }
 
@@ -86,7 +91,7 @@ class CartController extends FrontendController
         $pesanan = $this->getCurrentPesanan();
         $pesanan->updatePesanan($all_produks);
 
-        if ($request->wantsJson()) return ['message' => 'ok'];
+        if ($request->wantsJson()) return ['message' => 'ok', 'data' => $pesanan];
         // beri alert
         alert()->success('Berhasil mengupdate data keranjang. ', 'Update Cart Success')->autoClose(3600);
 
@@ -98,10 +103,10 @@ class CartController extends FrontendController
     {
         $pesanan = $this->getCurrentPesanan();
         // update info pesanan
-        $info = $request->except('_token');
+        $info = $request->all();
         $pesanan->update($info);
 
-        if ($request->wantsJson()) return ['message' => 'ok'];
+        if ($request->wantsJson()) return ['message' => 'ok', 'data' => $pesanan];
         // beri alert
         alert()->success('Berhasil mengupdate data keranjang. ', 'Update Cart Success')->autoClose(3600);
 

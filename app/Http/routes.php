@@ -26,6 +26,8 @@ Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 
 	Route::get('cart', 'CartController@index');
 
+	Route::get('checkout', 'CheckoutController@index');
+
 	Route::post('cart', 'CartController@updateCart');
 
 	Route::post('cart/info', 'CartController@updateInfo');
@@ -90,13 +92,14 @@ Route::group(['prefix' => 'ongkir'], function() {
 
 				$service = [];
 
-				$service['text'] = strtoupper($kurir->code) . ' ' . $layanan->service . ' (' . $layanan->cost[0]->etd . ' hari) - '. $layanan->cost[0]->value;
+				$service['text'] = strtoupper($kurir->code) . ' ' . $layanan->service . (!empty($etd = $layanan->cost[0]->etd) ? ' ('.$etd.' hari) ' : ''). ' - Rp '.number_format($layanan->cost[0]->value, 0, ',', '.');
 
 				$service['id'] = $kurir->code.'-'.$layanan->service;
 
 				$service['cost'] = $layanan->cost[0]->value;
 
-				$service['cost_rupiah'] = number_format($layanan->cost[0]->value, 0, ',', '.');
+
+				$service['cost_rupiah'] = 'Rp '.number_format($layanan->cost[0]->value, 0, ',', '.');
 
 				if ($courier == $kurir->code && $serviceCode == $layanan->service) return $service;
 

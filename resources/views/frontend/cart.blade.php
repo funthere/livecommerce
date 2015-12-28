@@ -119,7 +119,7 @@
 							</div>
 							<div class="user_info no-margin col-xs-12">
 								<label>Alamat Lengkap</label>
-								<textarea name="alamat"> {{ $cart->alamat }}</textarea>
+								<textarea name="alamat">{{ $cart->alamat }}</textarea>
 							</div>
 							<div class="col-sm-4">
 								<div class="user_info no-margin">
@@ -164,10 +164,10 @@
 							<li>Sub Total <span>Rp {{ number_format($cart->jumlah, 0, ',', '.')}}</span></li>
 							<!-- <li>Diskon <span>{{ $cart->diskon ? 'Rp '.$cart->diskon : '-' }}</span></li> -->
 							<li>Ongkos Kirim <span id="ongkir">{{ $cart->ongkir ? 'Rp '.number_format($cart->ongkir, 0, ',', '.') : 'Free (Ambil di tempat)' }}</span></li>
-							<li>Total <span>Rp {{ number_format($cart->total, 0, ',', '.') }}</span></li>
+							<li>Total <span id="total">{{ 'Rp '.number_format($cart->total, 0, ',', '.') }}</span></li>
 						</ul>
 						<div class="text-right">
-							<a class="btn btn-lg btn-default check_out" href="">Check Out</a>
+							<a class="btn btn-lg btn-default check_out" href="/checkout">Check Out</a>
 						</div>
 					</div>
 				</div>
@@ -338,21 +338,27 @@
 			  minimumResultsForSearch: -1,
 			  templateResult: formatOngkir, // omitted for brevity, see the source of this page
 			  templateSelection: formatOngkirSelection, // omitted for brevity, see the source of this page
-			  placeholder: 'Pilih Ongkir'
-		}).on('select2:select', function(name, e) {
-			var ongkir = name.params.data.cost;
-			var ongkir_rupiah = name.params.data.cost_rupiah;
-			$ongkir.data('ongkir', ongkir).text('Rp. '+ ongkir);
+			  placeholder: 'Pilih Cara Pengiriman'
+		});
+		
+		var changeOngkir = function (ongkir, ongkir_rupiah) {
+			$ongkir.data('ongkir', ongkir).text(ongkir_rupiah);
 
 			$('#form-pesanan').on('submitSuccess', function(evt) {
 				$.post('{{ url('cart/info') }}', {metode_pengiriman: $pengiriman.val(), ongkir: $ongkir.data('ongkir')}, function(data) {
-
+					if (data.message == 'ok') $('#total').data('total', data.data.total_rupiah).text(data.data.total_rupiah);
 				}, 'json');
 			}).submit();
-				
-			
-		});
+		}
 		
+		$pengiriman.on('select2:select', function(name, e) {
+			var ongkir = name.params.data.cost;
+			var ongkir_rupiah = name.params.data.cost_rupiah;
+			$ongkir.data('ongkir', ongkir).text(ongkir_rupiah);
+
+			changeOngkir(ongkir, ongkir_rupiah);
+		});
+
 		var pengiriman_code = $pengiriman.data('value');
 		var $optionPengiriman = $('<option selected>Loading...</option>').val(pengiriman_code);
 		$pengiriman.append($optionPengiriman).trigger('change');
@@ -361,10 +367,11 @@
 	    	weight += Number($(this).data('weight'));
 	    });
 		$.getJSON('{{ url('ongkir/cek') }}', {code: pengiriman_code, kota: kota_id, weight: weight}, function(data) {
-			console.log(data)
 			$optionPengiriman.text(data.text).val(data.id);
 			$optionPengiriman.removeData();
 			$pengiriman.trigger('change');
+
+			changeOngkir(data.cost, data.cost_rupiah);
 		});
 
 		$('#form-pesanan').submit(function(e) {

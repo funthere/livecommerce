@@ -1516,7 +1516,7 @@ img.new, img.sale {
   font-size: 16px;
   height: 50px;
   line-height: 50px;
-  margin-top: 75px;
+  margin: 75px auto;
   text-align: center;
   width: 50px;
 }
