@@ -50,6 +50,11 @@ class Pesanan extends BaseModel
         return $this->belongsToMany(Produk::class, 'pesanan_details')->withPivot('id', 'pesanan_id', 'produk_id', 'quantity', 'harga', 'jumlah')->withTimestamps();
     }
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     public function calculateTotal()
     {
         // hitung subtotal

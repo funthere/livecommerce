@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use Illuminate\Http\Request;
 use App\Produk;
 use App\Pesanan;
+use App\Customer;
 use App\Http\Requests;
 use App\Http\Controllers\FrontendController;
 
@@ -19,13 +20,6 @@ class CheckoutController extends FrontendController
 			return redirect('cart');
     	}
 
-    	if ($this->cart->metode_pengiriman == null)
-    	{
-  		    alert()->error('Maaf, tidak bisa checkout jika data pengiriman masih kosong.', 'Isi lengkap data pengiriman lebih dahulu')->autoClose(3600);
-			
-			return redirect('cart');
-    	}
-
     	$not_completed = $this->cart->penerima == null or $this->cart->email == null or $this->cart->no_hp == null or $this->cart->alamat == null or $this->cart->propinsi_id == null or $this->cart->kota_id == null or $this->cart->kode_pos == null;
 
     	if ($not_completed)
@@ -35,7 +29,7 @@ class CheckoutController extends FrontendController
 			return redirect('cart');
     	}
 
-    	if ($request->session()->get('without_registration', 'no') == 'no' && auth()->user() == null) return view('frontend.checkout_registrasi');
+    	if ($request->session()->get('without_registration', 'no') == 'no' && $this->customer == null) return view('frontend.checkout_registrasi');
     	
     	$request->session()->forget('without_registration');
 
@@ -53,7 +47,16 @@ class CheckoutController extends FrontendController
 
    	public function postCheckout(Request $request)
    	{
-   		dd($request->all());
+   	  // ambil semua data form
+      $data = $request->all();
+
+      // ambil data customer dari user login atau buat customer baru
+      $customer = $this->customer ? $this->customer : Customer::create();
+
+      // update data customer
+      $customer->update($data);
+
+      $customer->pesanan()->save($this->cart);
    	}   
 
 }

@@ -70,24 +70,24 @@
 								</div>
 								<div class="user_info no-margin col-xs-12">
 									<label>Nama Penerima</label>
-									<input type="text" name="penerima" data-xvalue="{{ $cart->penerima }}">
+									<input type="text" name="penerima" value="{{ $customer->penerima }}" data-xvalue="{{ $cart->penerima }}">
 								</div>
 								<div class="user_info no-margin col-sm-6">
 									<label>Email</label>
-									<input type="text" name="email" data-xvalue="{{ $cart->email }}">
+									<input type="text" name="email" value="{{ $customer->email }}" data-xvalue="{{ $cart->email }}">
 								</div>
 								<div class="user_info no-margin col-sm-6">
 									<label>No. Handphone</label>
-									<input type="text" name="no_hp" data-xvalue="{{ $cart->no_hp }}">
+									<input type="text" name="no_hp" value="{{ $customer->no_hp }}" data-xvalue="{{ $cart->no_hp }}">
 								</div>
 								<div class="user_info no-margin col-xs-12">
 									<label>Alamat Lengkap</label>
-									<textarea name="alamat" data-xvalue="{{ $cart->alamat }}"></textarea>
+									<textarea name="alamat" data-xvalue="{{ $cart->alamat }}">{{ $customer->alamat }}</textarea>
 								</div>
 								<div class="col-sm-4">
 									<div class="user_info no-margin">
 										<label>Propinsi</label>
-										<select id="propinsi" name="propinsi_id" class="form-control no-margin" data-xvalue="{{ $cart->propinsi_id }}">
+										<select id="propinsi" name="propinsi_id" class="form-control no-margin" value="{{ $customer->propinsi_id }}" data-xvalue="{{ $cart->propinsi_id }}">
 											<option>Pilih </option>
 										</select>
 									</div>
@@ -95,7 +95,7 @@
 								<div class="col-sm-4">
 									<div class="user_info no-margin">
 										<label>Kota / Kabupaten:</label>
-										<select id="kota" name="kota_id" class="form-control no-margin" data-xvalue="{{ $cart->kota_id }}">
+										<select id="kota" name="kota_id" class="form-control no-margin" value="{{ $customer->kota_id }}" data-xvalue="{{ $cart->kota_id }}">
 											<option>Pilih </option>
 										</select>
 									</div>
@@ -103,7 +103,7 @@
 								<div class="col-sm-4">
 									<div class="user_info no-margin">
 										<label>Kodepos:</label>
-										<input type="text" id="kodepos" name="kodepos" maxlength="5" data-xvalue="{{ $cart->kodepos }}">
+										<input type="text" id="kodepos" name="kodepos" maxlength="5" value="{{ $customer->kodepos }}" data-xvalue="{{ $cart->kodepos }}">
 									</div>
 								</div>
 							</div>

@@ -141,7 +141,7 @@
 										<p class="product-name">{{ $produk->produk }}</p>
 										<a href="{{ url('beli/'.$produk->slug) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 									</div>
-									<div class="product-overlay">
+									<!-- <div class="product-overlay">
 										<div class="overlay-content">
 											@if($produk->isSale)
 											<h2>Rp. {{ $produk->harga_diskon_rupiah }}</h2>
@@ -152,7 +152,7 @@
 											<p class="product-name">{{ $produk->produk }}</p>
 											<a href="{{ url('beli/'.$produk->slug) }}" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</a>
 										</div>
-									</div>
+									</div> -->
 									@if($produk->isSale)
 									<img src="images/home/sale.png" class="sale" alt="Sale" />
 									@endif

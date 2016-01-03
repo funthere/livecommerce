@@ -375,7 +375,7 @@
 		});
 
 		$('#form-pesanan').submit(function(e) {
-			e.preventDefault();
+			// e.preventDefault();
 			var form = $(this);
 			form.find('[type=submit]').prop('disabled', true);
 
@@ -385,6 +385,7 @@
 				form.find('[type=submit]').prop('disabled', false);
 			}, 'json')
 
+			if (e.originalEvent) return true;
 			return false;
 		});
 		

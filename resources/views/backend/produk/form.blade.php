@@ -57,7 +57,7 @@
 
 <div class="row form-group">
 	<div class="col-md-3">
-		{!! Form::label('netto', 'Netto (kg)', ['class' => 'control-label']) !!}
+		{!! Form::label('netto', 'Netto (gram)', ['class' => 'control-label']) !!}
 	</div>
 	<div class="col-md-9">
 		{!! Form::text('netto', $produk->netto, ['class' => 'form-control input-mask input-mask-numeric']) !!}

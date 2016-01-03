@@ -16,7 +16,7 @@ class GlobalParamsSeeder extends Seeder
     	DB::table('params')->truncate();
         Param::create(['key' => 'nama_toko', 'value' => 'Irin Nuget']);
         Param::create(['key' => 'deskripsi_toko', 'value' => 'Irin Nuget adalah distributor nugget terpecaya berlokasi di bilangan kota bekasi']);
-        Param::create(['key' => 'alamat_toko', 'value' => 'Jalan Raya Kota Bekasi, Bekasi, Jawa Barat']);
+        Param::create(['key' => 'alamat_toko', 'value' => 'Pasar Taman Wisma Asri, Teluk Pucung, Bekasi Utara, Kota Bekasi, Jawa Barat']);
         Param::create(['key' => 'nama_perusahaan', 'value' => 'PT. Irin Nuget Sentosa']);
         Param::create(['key' => 'telepon', 'value' => '085710340924']);
         Param::create(['key' => 'email', 'value' => 'irinnuget@gmail.com']);

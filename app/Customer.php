@@ -8,10 +8,12 @@ class Customer extends BaseModel
 {
     protected $fillable = [
     	'nama', 
+        'email',
+        'no_hp',
     	'alamat', 
-    	// 'kota_id', 
-    	// 'propinsi_id', 
-    	// 'kodepos', 
+    	'kota_id', 
+    	'propinsi_id', 
+    	'kodepos', 
 
     ];
 
@@ -19,4 +21,9 @@ class Customer extends BaseModel
     	'nama' => 'required|min:3',
     	'alamat' => 'required',
     ];
+
+    public function pesanan()
+    {
+        return $this->hasOne(Customer::class);
+    }
 }

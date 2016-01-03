@@ -58,10 +58,10 @@ Route::group(['prefix' => 'ongkir'], function() {
 
 	Route::get('cek', function() {
 		$key = '4243a697cd6621c821724dcc78c25a4b';
-		$origin = '348';
+		$origin = '51'; // id kota berdasarkan tabel di database
 		$courier = request()->get('courier', 'all');
 		$destination = request()->get('kota');
-		$weight = request()->get('weight') * 1000;
+		$weight = request()->get('weight');
 
 		$cekCode = request()->get('code', null);
 		if ($cekCode != null) {
