@@ -28,6 +28,10 @@ Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 
 	Route::get('checkout', 'CheckoutController@index');
 
+	Route::get('checkout/without_registration', 'CheckoutController@withoutRegistration');
+
+	Route::post('checkout','CheckoutController@postCheckout');
+
 	Route::post('cart', 'CartController@updateCart');
 
 	Route::post('cart/info', 'CartController@updateInfo');

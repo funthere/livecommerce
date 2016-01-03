@@ -21,7 +21,7 @@
 			<div class="row">
 				<div class="col-sm-12 text-center">
 					<h4>Jika tidak ingin registrasi, silakan klik Lanjut</h4>
-					<a class="btn btn-primary">Lanjut (Tanpa Registrasi)</a>
+					<a class="btn btn-primary" href="{{ url('checkout/without_registration') }}">Lanjut (Tanpa Registrasi)</a>
 					<hr>
 				</div>
 			</div>

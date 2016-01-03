@@ -100,7 +100,7 @@
 								<li><a href="/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Cart
 									@if($cart)
-										({{ count($cart->produks) }} item | Rp. {{ $cart->jumlah }})
+										({{ count($cart->produks) }} item | {{ $cart->jumlah_rupiah }})
 									@endif
 								</a></li>
 							</ul>

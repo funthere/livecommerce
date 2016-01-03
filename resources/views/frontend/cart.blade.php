@@ -381,6 +381,7 @@
 
 			$.post('{{ url('cart/info') }}', form.serialize(), function(data) {
 				if (data.message == 'ok') form.trigger('submitSuccess');
+				if (data.needReload) return true;
 				form.find('[type=submit]').prop('disabled', false);
 			}, 'json')
 

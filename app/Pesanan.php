@@ -22,13 +22,18 @@ class Pesanan extends BaseModel
     	'no_hp',
     ];
 
-    protected $appends = ['total', 'total_rupiah'];
+    protected $appends = ['jumlah_rupiah', 'total', 'total_rupiah'];
 
     protected $rupiahs = ['ongkir', 'jumlah'];
 
     protected $casts = [
         'metode_pengiriman' => 'array',
     ];
+
+    public function getJumlahRupiahAttribute()
+    {
+        return 'Rp '.number_format($this->jumlah, 0, ',','.');
+    }
 
     public function getTotalAttribute()
     {
