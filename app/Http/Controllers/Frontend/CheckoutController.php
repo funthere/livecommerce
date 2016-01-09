@@ -38,11 +38,11 @@ class CheckoutController extends FrontendController
     }
 
  	
- 	public function withoutRegistration(Request $request)
+ 	  public function withoutRegistration(Request $request)
    	{
    		$request->session()->put('without_registration', 'yes');
 
-		return redirect('checkout');   		
+  		return redirect('checkout');   		
    	}
 
    	public function postCheckout(Request $request)
@@ -50,13 +50,19 @@ class CheckoutController extends FrontendController
    	  // ambil semua data form
       $data = $request->all();
 
+      // nama = penerima
+      $data['nama'] = $data['penerima'];
+
       // ambil data customer dari user login atau buat customer baru
-      $customer = $this->customer ? $this->customer : Customer::create();
+      $customer = Customer::create($data);
 
       // update data customer
-      $customer->update($data);
-
       $customer->pesanan()->save($this->cart);
+
+      // buat code pesanan
+      $this->cart->generateOrderCode();
+
+      return view('frontend.checkout_finish');
    	}   
 
 }

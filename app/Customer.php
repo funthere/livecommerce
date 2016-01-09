@@ -26,4 +26,14 @@ class Customer extends BaseModel
     {
         return $this->hasOne(Customer::class);
     }
+    
+    public function kota()
+    {
+        return $this->belongsTo(Kota::class);
+    }
+    
+    public function propinsi()
+    {
+        return $this->belongsTo(Propinsi::class);
+    }
 }

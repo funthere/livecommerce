@@ -25,6 +25,8 @@ class Pesanan extends BaseModel
     protected $appends = ['jumlah_rupiah', 'total', 'total_rupiah'];
 
     protected $rupiahs = ['ongkir', 'jumlah'];
+    
+    protected $dependencies = ['customer', 'produks'];
 
     protected $casts = [
         'metode_pengiriman' => 'array',
@@ -173,5 +175,17 @@ class Pesanan extends BaseModel
         parent::update($attributes);
 
         $this->calculateTotal();
+    }
+
+    private function generateRandomString()
+    {
+        return substr(str_shuffle(str_repeat('abcdefghijklmnopqrstuvwxyz0123456789', 6)),0,6);
+    }
+
+    public function generateOrderCode()
+    {
+        $code = strtoupper($this->generateRandomString());
+        $this->kode_pesanan = $code;
+        $this->save();
     }
 }   

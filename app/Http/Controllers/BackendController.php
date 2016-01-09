@@ -44,7 +44,13 @@ class BackendController extends BaseController
 
     protected function processDatatables($datatables)
     {
-        return $datatables;
+        return  $datatables
+            ->addColumn('menu', function($data) {
+                return 
+                '<a href="'.action($this->baseClass.'@edit', ['id' => $data->id]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
+                Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@show', $data->id]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';
+            })
+            ->make();
     }
     
     public function datajson()
@@ -54,14 +60,7 @@ class BackendController extends BaseController
         if ($dependencies = $this->model->dependencies()) $datas = $datas->with($dependencies);
 
         $datatables = Datatables::of($datas);
-        $datatables = $this->processDatatables($datatables);
-        return $datatables
-            ->addColumn('menu', function($data) {
-                return 
-                '<a href="'.action($this->baseClass.'@edit', ['id' => $data->id]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
-                Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@show', $data->id]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';
-            })
-            ->make();
+        return $this->processDatatables($datatables);
     }
     /**
      * Display a listing of the resource.

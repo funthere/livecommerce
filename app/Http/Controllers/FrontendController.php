@@ -22,18 +22,17 @@ class FrontendController extends BaseController
     public function __construct()
     {
         parent::__construct();
-        $this->produks = $produks = Produk::with('kategori')->latest()->take(3)->get();
-        $this->kategoris = $kategoris = Kategori::with(['produks' => function($query) {
+        $this->produks = Produk::with('kategori')->latest()->take(3)->get();
+        $this->kategoris = Kategori::with(['produks' => function($query) {
             $query->latest()->take(4);
         }])->get();
-        $this->brands = $brands = Brand::with('produks')->get();
-        $this->cart = $cart = request()->session()->has('pesanan') ? Pesanan::with('produks')->where('id', request()->session()->get('pesanan'))->first() : null;
-        // $this->customer = $customer = ($this->cart->customer) ? $this->cart->customer : new Customer();
-        View::share('produks', $produks);
-        View::share('kategoris', $kategoris);
-        View::share('brands', $brands);
-        View::share('cart', $cart);
-        // View::share('customer', $customer);
+        $this->brands = Brand::with('produks')->get();
+        $this->cart = request()->session()->has('pesanan') ? Pesanan::with('produks')->where('id', request()->session()->get('pesanan'))->first() : null;
+        // if ($this->cart && !$this->cart->customer) $this->cart->customer = new Customer();
+        View::share('produks', $this->produks);
+        View::share('kategoris', $this->kategoris);
+        View::share('brands', $this->brands);
+        View::share('cart', $this->cart);
     }
 
 }
