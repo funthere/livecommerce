@@ -54,7 +54,17 @@ class Pesanan extends BaseModel
 
     public function customer()
     {
-        return $this->belongsTo(Customer::class);
+        return $this->belongsTo(Customer::class)->with(['kota', 'propinsi']);
+    }
+
+    public function kota()
+    {
+        return $this->belongsTo(Kota::class);
+    }
+    
+    public function propinsi()
+    {
+        return $this->belongsTo(Propinsi::class);
     }
 
     public function calculateTotal()

@@ -52,10 +52,15 @@ class BackendController extends BaseController
             })
             ->make();
     }
+
+    protected function getJsonField()
+    {
+        return [null => 'id']+$this->model->getFillable();
+    }
     
     public function datajson()
     {
-        $datas = $this->model->select([null => 'id']+$this->model->getFillable());
+        $datas = $this->model->select($this->getJsonField());
 
         if ($dependencies = $this->model->dependencies()) $datas = $datas->with($dependencies);
 

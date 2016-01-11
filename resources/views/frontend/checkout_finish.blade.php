@@ -18,10 +18,72 @@
 			</div>
 		</div>
 		<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<div class="row">
+							<div class="col-xs-4"><h4>No. Pesanan</h4></div>
+							<div class="col-xs-8">
+                                <h4>
+                                    {{ $cart->kode_pesanan }}
+                                    <small>(Silakan dicatat)</small>
+                                </h4>
+                            </div>
+						</div>
+                        <hr> 
+                        <div class="row">
+							<div class="col-xs-4">Pemesan</div>
+							<div class="col-xs-8">
+                                <p class="lead">{{ $cart->customer->nama }}</p>
+                                <p>{{ $cart->customer->alamat }}</p>
+                                <p>{{ $cart->customer->kota->kota }}</p>
+                                <p>{{ $cart->customer->propinsi->propinsi }}</p>
+                                <p>{{ $cart->customer->kodepos }}</p>
+                            </div>
+						</div>
+                        <div class="row">
+							<div class="col-xs-4">Email</div>
+							<div class="col-xs-8"> <p>{{ $cart->customer->email }}</p> </div>
+						</div>
+                        <div class="row">
+							<div class="col-xs-4">No. Handphone	</div>
+							<div class="col-xs-8"> <p>{{ $cart->customer->no_hp }}</p> </div>
+						</div>
+						<div class="row">
+							<hr>
+						</div>
+					</div>
+					<div class="col-sm-6">
+						<div class="row">
+							<div class="col-xs-12"><h4>Dikirim ke (Penerima)</h4></div>
+						</div>
+						<hr>
+                        <div class="row">
+							<div class="col-xs-4">Penerima</div>
+							<div class="col-xs-8">
+                                <p class="lead">{{ $cart->penerima }}</p>
+                                <p>{{ $cart->alamat }}</p>
+                                <p>{{ $cart->kota->kota }}</p>
+                                <p>{{ $cart->propinsi->propinsi }}</p>
+                                <p>{{ $cart->kodepos }}</p>
+                            </div>
+						</div>
+						 <div class="row">
+							<div class="col-xs-4">Email</div>
+							<div class="col-xs-8"> <p>{{ $cart->email }}</p> </div>
+						</div>
+                        <div class="row">
+							<div class="col-xs-4">No. Handphone	</div>
+							<div class="col-xs-8"> <p>{{ $cart->no_hp }}</p> </div>
+						</div>
+						<div class="row">
+							<hr>
+						</div>
+					</div>
+				</div>
 			<div class="shopper-informations">
 					<div class="row">
-						<div class="col-sm-6">
-							<h4>
+						<div class="col-sm-8 col-md-offset-2">
+							<h4 class="text-center">
 								Keranjang Belanja
 							</h4>
 							<div class="cart-info">
@@ -51,44 +113,6 @@
 										</table>
 									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-sm-6">
-							<div class="row">
-								<div class="col-xs-4"><h4>No. Pesanan</h4></div>
-								<div class="col-xs-8">
-                                    <h4>
-                                        {{ $cart->kode_pesanan }}
-                                        <small>(Silakan dicatat)</small>
-                                    </h4>
-                                </div>
-							</div>
-                            <hr> 
-                            <div class="row">
-								<div class="col-xs-4"><h4>Penerima</h4></div>
-								<div class="col-xs-8">
-                                    <p>{{ $cart->customer->nama }}</p>
-                                    <p>{{ $cart->customer->alamat }}</p>
-                                    <p>{{ $cart->customer->kota->kota }}</p>
-                                    <p>{{ $cart->customer->propinsi->propinsi }}</p>
-                                    <p>{{ $cart->customer->kodepos }}</p>
-                                </div>
-							</div>
-                            <div class="row">
-								<div class="col-xs-4"><h4>Email</h4></div>
-								<div class="col-xs-8">
-                                    <h4>
-                                        {{ $cart->customer->email }}
-                                    </h4>
-                                </div>
-							</div>
-                            <div class="row">
-								<div class="col-xs-4"><h4>No. Handphone</h4></div>
-								<div class="col-xs-8">
-                                    <h4>
-                                        {{ $cart->customer->no_hp }}
-                                    </h4>
-                                </div>
 							</div>
 						</div>
 					</div>
