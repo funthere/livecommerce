@@ -30,15 +30,15 @@
             serverSide: true,
             ajax: '{{ url('admin/'.$base.'/data.json') }}',
             columns: [
-          		{ name: 'id' },
-          		{ name: 'customer', data: 17, sortable: false },
-          		{ name: 'penerima_lengkap', data: 20, sortable: false },
-          		{ name: 'produks', data: 18, sortable: false },
-          		{ name: 'jumlah', data: 14 },
-          		{ name: 'ongkir', data: 9 },
-          		{ name: 'total', data: 16 },
-          		{ name: 'status', data: 21 },
-          		{ name: 'menu', data: 22, sortable: false },
+          		{ data: 0 }, //id
+          		{ data: 24, sortable: false }, //customer
+          		{ data: 22, sortable: false }, // penerima
+          		{ data: 23, sortable: false }, // produks
+          		{ data: 17 }, //jumlah
+          		{ data: 18 }, //ongkir
+          		{ data: 20 }, //total
+          		{ data: 21 }, // status
+          		{ data: 25, sortable: false },
             ],
         });
     });

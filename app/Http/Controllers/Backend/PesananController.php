@@ -16,6 +16,11 @@ class PesananController extends BackendController
         parent::__construct($model, $base);
     }
 
+    protected function getJsonField()
+    {
+        return '*';
+    }
+
     protected function processDatatables($datatables)
     {
         return $datatables
@@ -52,7 +57,8 @@ class PesananController extends BackendController
                 return $text;
             })
             ->addColumn('status', function($data) {
-                return 'status';
+                // dd($data);
+                return $data->status;
             })
             ->addColumn('menu', function($data) {
                 return 'menu';

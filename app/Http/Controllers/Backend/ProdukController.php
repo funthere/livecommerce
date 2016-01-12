@@ -25,7 +25,8 @@ class ProdukController extends BackendController
 
     protected function processDatatables($datatables)
     {
-        return $datatables
+        return parent::processDatatables(
+            $datatables
                 ->editColumn('foto', function($data) {
                     return ($data->foto) ? '<img src="'.asset(Model::FOTO_PATH.$data->foto).'" title="'.$data->produk.'" style="width: 100px;">' : '';
                 })
@@ -48,7 +49,8 @@ class ProdukController extends BackendController
                     return number_format($data->stock , 0, ',' , '.');
                 })
                 ->removeColumn('kategori')
-                ->removeColumn('brand');
+                ->removeColumn('brand')
+            );    
     }
 
 }

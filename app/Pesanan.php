@@ -3,6 +3,7 @@
 namespace App;
 
 use App\BaseModel;
+use Carbon\Carbon;
 
 class Pesanan extends BaseModel
 {
@@ -22,7 +23,7 @@ class Pesanan extends BaseModel
     	'no_hp',
     ];
 
-    protected $appends = ['jumlah_rupiah', 'total', 'total_rupiah'];
+    protected $appends = ['jumlah_rupiah', 'ongkir_rupiah', 'total', 'total_rupiah', 'status'];
 
     protected $rupiahs = ['ongkir', 'jumlah'];
     
@@ -37,6 +38,11 @@ class Pesanan extends BaseModel
         return 'Rp '.number_format($this->jumlah, 0, ',','.');
     }
 
+    public function getOngkirRupiahAttribute()
+    {
+        return 'Rp '.number_format($this->ongkir, 0, ',','.');
+    }
+
     public function getTotalAttribute()
     {
         return $this->jumlah + $this->ongkir;
@@ -45,6 +51,14 @@ class Pesanan extends BaseModel
     public function getTotalRupiahAttribute()
     {
         return 'Rp '.number_format($this->jumlah + $this->ongkir, 0, ',','.');
+    }
+
+    public function getStatusAttribute()
+    {
+        // if new then status = new
+        $hours = isset($global_params['lama_jam_pesanan_baru']) ? $global_params['lama_jam_pesanan_baru'] : 24; // 24 hours
+        if ($this->created_at->addHours($hours) >= Carbon::now()) return 'baru'; 
+        return 'batal';
     }
 
     public function produks()

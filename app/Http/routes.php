@@ -140,4 +140,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend'], function() {
 	Route::get('setting/data.json', 'ParamController@datajson');
 	Route::resource('setting', 'ParamController');
 
+	Route::get('metode_pembayaran/data.json', 'MetodePembayaranController@datajson');
+	Route::resource('metode_pembayaran', 'MetodePembayaranController');
+
 });

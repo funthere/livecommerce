@@ -35,7 +35,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         margin-bottom: 10px;
     }
   </style>
-  <link rel="stylesheet" href="{{ asset('backend/dist/css/skins/skin-blue.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('backend/dist/css/skins/skin-yellow.min.css') }}">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -64,7 +64,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-yellow sidebar-mini">
 <div class="wrapper">
 
   <!-- Main Header -->
@@ -157,6 +157,13 @@ desired effect
       <ul class="sidebar-menu">
         <!-- Optionally, you can add icons to the links -->
         <li class="@if(request()->is('admin'))active @endif"><a href="{{ asset('admin') }}"><i class="fa fa-home"></i> <span>Home</span></a></li>
+        <li class="@if(request()->is('admin/metode_pembayaran*'))active @endif treeview">
+          <a href="{{ asset('admin/pesanan') }}"><i class="fa fa-credit-card"></i> <span>Metode Pembayaran</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li class="@if(request()->is('admin/pesanan'))active @endif"><a href="{{ asset('admin/metode_pembayaran') }}"><i class="fa fa-list"></i>List</a></li>
+            <li class="@if(request()->is('admin/metode_pembayaran/create'))active @endif"><a href="{{ asset('admin/metode_pembayaran/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
+          </ul>
+        </li>
         <li class="@if(request()->is('admin/customer*'))active @endif treeview">
           <a href="{{ asset('admin/customer') }}"><i class="fa fa-male"></i> <span>Customer</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
