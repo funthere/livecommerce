@@ -17,8 +17,8 @@ class BackendController extends BaseController
     {
         parent::__construct();
         
-        $this->model = $model;    
-        $this->base = $base;   
+        $this->model = $model;
+        $this->base = $base;
         $this->baseClass = '\\'.static::class;
 
         View::share('base', $base);
@@ -32,21 +32,21 @@ class BackendController extends BaseController
         View::share('deskripsi', 'Daftar '.ucwords($base));
 
         View::share('breadcrumb1', 'Home Admin');
-        View::share('breadcrumb1Icon', 'fa-home' );
-        View::share('breadcrumb1Url', url('admin') );
+        View::share('breadcrumb1Icon', 'fa-home');
+        View::share('breadcrumb1Url', url('admin'));
 
         View::share('breadcrumb2', ucwords($base));
-        View::share('breadcrumb2Icon', 'fa-home' );
-        View::share('breadcrumb2Url', url('admin/'.$base) );
+        View::share('breadcrumb2Icon', 'fa-home');
+        View::share('breadcrumb2Url', url('admin/'.$base));
 
-        View::share('breadcrumb3', 'List' );
+        View::share('breadcrumb3', 'List');
     }
 
     protected function processDatatables($datatables)
     {
         return  $datatables
-            ->addColumn('menu', function($data) {
-                return 
+            ->addColumn('menu', function ($data) {
+                return
                 '<a href="'.action($this->baseClass.'@edit', ['id' => $data->id]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
                 Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@show', $data->id]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';
             })
@@ -62,7 +62,9 @@ class BackendController extends BaseController
     {
         $datas = $this->model->select($this->getJsonField());
 
-        if ($dependencies = $this->model->dependencies()) $datas = $datas->with($dependencies);
+        if ($dependencies = $this->model->dependencies()) {
+            $datas = $datas->with($dependencies);
+        }
 
         $datatables = Datatables::of($datas);
         return $this->processDatatables($datatables);
@@ -86,7 +88,7 @@ class BackendController extends BaseController
     {
         View::share('judul', 'Tambah '.ucwords($this->base));
         View::share('deskripsi', 'Untuk menambahkan data '.$this->base);
-        View::share('breadcrumb3', 'Tambah' );
+        View::share('breadcrumb3', 'Tambah');
 
 
         $model = $this->model;
@@ -106,21 +108,11 @@ class BackendController extends BaseController
 
         $created = $this->model->create($request->all());
 
-        if ($created)
-        {
+        if ($created) {
             return redirect('admin/'.$this->base);
         }
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return back()->withInputs($request->all());
     }
 
     /**
@@ -129,11 +121,11 @@ class BackendController extends BaseController
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id) 
     {
         View::share('judul', 'Edit '.ucwords($this->base));
         View::share('deskripsi', 'Edit data '.$this->base);
-        View::share('breadcrumb3', 'Edit' );  
+        View::share('breadcrumb3', 'Edit');
 
 
         $model = $this->model->findOrFail($id);
@@ -157,10 +149,11 @@ class BackendController extends BaseController
 
         $updated = $model->update($request->all());
 
-        if ($updated)
-        {
+        if ($updated) {
             return redirect('admin/'.$this->base);
         }
+        
+        return back()->withInputs($request->all());
     }
 
     /**
@@ -171,9 +164,8 @@ class BackendController extends BaseController
      */
     public function destroy($id)
     {
-        $model = $this->model->findOrFail($id);
+        $this->model->findOrFail($id)->delete();
 
-        $deleted = $model->delete();
         return redirect('admin/'.$this->base);
     }
 }

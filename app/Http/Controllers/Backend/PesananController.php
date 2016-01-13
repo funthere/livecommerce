@@ -24,7 +24,7 @@ class PesananController extends BackendController
     protected function processDatatables($datatables)
     {
         return $datatables
-            ->addColumn('customer', function($data) {
+            ->addColumn('customer', function ($data) {
                 $customer = $data['customer'];
                 $text = $customer['nama'].'<br>';
                 $text .= $customer['alamat'].'<br>';
@@ -35,7 +35,7 @@ class PesananController extends BackendController
                 $text .= $customer['email'].'<br>';
                 return $text;
             })
-            ->addColumn('penerima_lengkap', function($data) {
+            ->addColumn('penerima_lengkap', function ($data) {
                 $text = $data['penerima'].'<br>';
                 $text .= $data['alamat'].'<br>';
                 $text .= $data['kota']['kota'].'<br>';
@@ -45,26 +45,25 @@ class PesananController extends BackendController
                 $text .= $data['email'].'<br>';
                 return $text;
             })
-            ->addColumn('produks', function($data) {
+            ->addColumn('produks', function ($data) {
                 $produks = $data->produks;
                 // dd($produks);
                 $text = '';
                 foreach ($produks as $produk) {
-                    $text .= $produk->produk.'<br>';                    
-                    $text .= $produk->pivot->quantity.' x ';                    
-                    $text .= $produk->pivot->harga.'<br>';                    
+                    $text .= $produk->produk.'<br>';
+                    $text .= $produk->pivot->quantity.' x ';
+                    $text .= $produk->pivot->harga.'<br>';
                 }
                 return $text;
             })
-            ->addColumn('status', function($data) {
+            ->addColumn('status', function ($data) {
                 // dd($data);
                 return $data->status;
             })
-            ->addColumn('menu', function($data) {
+            ->addColumn('menu', function ($data) {
                 return 'menu';
             })
             
             ->make();
     }
-
 }

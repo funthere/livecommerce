@@ -11,13 +11,13 @@ use App\Http\Controllers\FrontendController;
 
 class CheckoutController extends FrontendController
 {
-    public function index(Request $request)
+    public function index( Request $request )
     {
     	if ($this->cart == null or !count($this->cart->produks)) 
-		{
+		  {
   		    alert()->error('Maaf, tidak bisa checkout jika cart masih kosong.', 'Isi  Cart lebih dahulu')->autoClose(3600);
 			
-			return redirect('cart');
+			    return redirect('cart');
     	}
 
     	$not_completed = $this->cart->penerima == null or $this->cart->email == null or $this->cart->no_hp == null or $this->cart->alamat == null or $this->cart->propinsi_id == null or $this->cart->kota_id == null or $this->cart->kode_pos == null;
@@ -26,7 +26,7 @@ class CheckoutController extends FrontendController
     	{
   		    alert()->error('Maaf, tidak bisa checkout jika data masih kosong.', 'Isi lengkap data Cart lebih dahulu')->autoClose(3600);
 			
-			return redirect('cart');
+			    return redirect('cart');
     	}
 
     	if ($request->session()->get('without_registration', 'no') == 'no' && $this->customer == null) return view('frontend.checkout_registrasi');
@@ -61,6 +61,8 @@ class CheckoutController extends FrontendController
 
       // buat code pesanan
       $this->cart->generateOrderCode();
+
+      $request->session()->forget('pesanan');
 
       return view('frontend.checkout_finish');
    	}   

@@ -31,8 +31,8 @@
             ajax: '{{ url('admin/'.$base.'/data.json') }}',
             columns: [
           		{ data: 0 }, //id
-          		{ data: 24, sortable: false }, //customer
-          		{ data: 22, sortable: false }, // penerima
+          		{ data: 22, sortable: false }, // customer
+              { data: 24, sortable: false }, //penerima
           		{ data: 23, sortable: false }, // produks
           		{ data: 17 }, //jumlah
           		{ data: 18 }, //ongkir
