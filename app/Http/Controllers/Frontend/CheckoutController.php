@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
+use View;
 use App\Produk;
 use App\Pesanan;
 use App\Customer;
@@ -11,39 +12,47 @@ use App\Http\Controllers\FrontendController;
 
 class CheckoutController extends FrontendController
 {
-    public function index( Request $request )
+    public function index(Request $request)
     {
-    	if ($this->cart == null or !count($this->cart->produks)) 
-		  {
-  		    alert()->error('Maaf, tidak bisa checkout jika cart masih kosong.', 'Isi  Cart lebih dahulu')->autoClose(3600);
-			
-			    return redirect('cart');
-    	}
+      if ($this->cart == null or !count($this->cart->produks)) {
+        alert()->error('Maaf, tidak bisa checkout jika cart masih kosong.', 'Isi  Cart lebih dahulu')->autoClose(3600);
 
-    	$not_completed = $this->cart->penerima == null or $this->cart->email == null or $this->cart->no_hp == null or $this->cart->alamat == null or $this->cart->propinsi_id == null or $this->cart->kota_id == null or $this->cart->kode_pos == null;
+        return redirect('cart');
+      }
 
-    	if ($not_completed)
-    	{
-  		    alert()->error('Maaf, tidak bisa checkout jika data masih kosong.', 'Isi lengkap data Cart lebih dahulu')->autoClose(3600);
-			
-			    return redirect('cart');
-    	}
+      $not_completed = $this->cart->penerima == null or $this->cart->email == null or $this->cart->no_hp == null or $this->cart->alamat == null or $this->cart->propinsi_id == null or $this->cart->kota_id == null or $this->cart->kode_pos == null;
 
-    	if ($request->session()->get('without_registration', 'no') == 'no' && $this->customer == null) return view('frontend.checkout_registrasi');
-    	
-    	$request->session()->forget('without_registration');
+      if ($not_completed) {
+          alert()->error('Maaf, tidak bisa checkout jika data masih kosong.', 'Isi lengkap data Cart lebih dahulu')->autoClose(3600);
 
-    	return view('frontend.checkout_konfirmasi');
+          return redirect('cart');
+      }
+
+      if ($request->session()->get('without_registration', 'no') == 'no' && $this->customer == null) {
+        return view('frontend.checkout_registrasi');
+      }
+
+      $request->session()->forget('without_registration');
+
+      return view('frontend.checkout_konfirmasi');
 
     }
 
- 	
- 	  public function withoutRegistration(Request $request)
-   	{
-   		$request->session()->put('without_registration', 'yes');
+    public function withoutRegistration(Request $request)
+    {
+      $request->session()->put('without_registration', 'yes');
 
-  		return redirect('checkout');   		
-   	}
+      return redirect('checkout');   		
+    }
+
+    public function getCheckout(Request $request, $kode_pesanan)
+    {
+      $this->cart = Pesanan::with('produks')->with('propinsi')->with('kota')->where('kode_pesanan', $kode_pesanan)->firstOrFail();
+      
+      View::share('cart', $this->cart);
+      
+      return view('frontend.checkout_finish');
+    }
 
    	public function postCheckout(Request $request)
    	{
@@ -64,7 +73,6 @@ class CheckoutController extends FrontendController
 
       $request->session()->forget('pesanan');
 
-      return view('frontend.checkout_finish');
+      return redirect()->action('Frontend\CheckoutController@getCheckout', ['kode_pesanan' => $this->cart->kode_pesanan]);
    	}   
-
 }

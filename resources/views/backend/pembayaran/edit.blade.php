@@ -6,7 +6,7 @@
 	<div class="col-md-7">
 		<div class="box">
 			<div class="box-body">
-				{!! Form::model($model, ['files' => true, 'url' => action($baseClass.'@store') ]) !!}
+				{!! Form::model($model, ['files' => true, 'method' => 'put', 'url' => action($baseClass.'@update', ['id' => ${$base}->id]), 'id' => 'form_'.$base]) !!}
 				
 				@include('backend.'.$base.'.form')
 

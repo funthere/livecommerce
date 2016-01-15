@@ -61,6 +61,11 @@ class Pesanan extends BaseModel
         return 'batal';
     }
 
+    public function pembayarans()
+    {
+        return $this->hasMany(Pembayaran::class);
+    }
+
     public function produks()
     {
         return $this->belongsToMany(Produk::class, 'pesanan_details')->withPivot('id', 'pesanan_id', 'produk_id', 'quantity', 'harga', 'jumlah')->withTimestamps();

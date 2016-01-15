@@ -199,6 +199,13 @@ desired effect
             <li class="@if(request()->is('admin/pesanan/create'))active @endif"><a href="{{ asset('admin/pesanan/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
           </ul>
         </li>
+        <li class="@if(request()->is('admin/pembayaran*'))active @endif treeview">
+          <a href="{{ asset('admin/pembayaran') }}"><i class="fa fa-money"></i> <span>Pembayaran</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li class="@if(request()->is('admin/pembayaran'))active @endif"><a href="{{ asset('admin/pembayaran') }}"><i class="fa fa-list"></i>List</a></li>
+            <li class="@if(request()->is('admin/pembayaran/create'))active @endif"><a href="{{ asset('admin/pembayaran/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
+          </ul>
+        </li>
         <li class="@if(request()->is('admin/setting*'))active @endif treeview">
           <a href="{{ asset('admin/setting') }}"><i class="fa fa-cog"></i> <span>Setting</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">

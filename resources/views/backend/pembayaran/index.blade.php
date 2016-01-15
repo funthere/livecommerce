@@ -6,13 +6,10 @@
 		<table class="table datatables table-">
 			<thead>
 				<th>ID</th>
-        <th>Kode Pesanan</th>
-				<th>Customer</th>
-				<th>Penerima</th>
-				<th>Produk-produk</th>
+        		<th>Pesanan</th>
+				<th>Metode Pembayaran</th>
 				<th>Jumlah</th>
-				<th>Ongkir</th>
-				<th>Total</th>
+				<th>Bukti Pembayaran</th>
 				<th>Status</th>
 				<th>Menu</th>
 			</thead>
@@ -31,16 +28,10 @@
             serverSide: true,
             ajax: '{{ url('admin/'.$base.'/data.json') }}',
             columns: [
-          		{ data: 0 }, //id
-              { data: 13 }, // kode_pesanan
-          		{ data: 22, sortable: false }, // customer
-              { data: 24, sortable: false }, //penerima
-          		{ data: 23, sortable: false }, // produks
-          		{ data: 17 }, //jumlah
-          		{ data: 18 }, //ongkir
-          		{ data: 20 }, //total
-          		{ data: 21 }, // status
-          		{ data: 25, sortable: false },
+              { data: 0, sortable: false },
+              { data: 1, sortable: false },
+              { data: 2, sortable: false },
+          		{ data: 3, sortable: false },
             ],
         });
     });

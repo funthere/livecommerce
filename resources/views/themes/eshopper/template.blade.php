@@ -100,7 +100,7 @@
 								<li><a href="/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Cart
 									@if($cart)
-										({{ count($cart->produks) }} item | {{ $cart->jumlah_rupiah }})
+										({{ count($cart->produks) }} item | {{ $cart->total_rupiah }})
 									@endif
 								</a></li>
 							</ul>
@@ -219,7 +219,7 @@
 					</div>
 					<div class="col-sm-3">
 						<div class="address">
-							<img src="images/home/map.png" alt="" />
+							<img src="/images/home/map.png" alt="" />
 							<p>{{ $global_params['alamat_toko'] or 'alamat_toko'}}</p>
 						</div>
 					</div>

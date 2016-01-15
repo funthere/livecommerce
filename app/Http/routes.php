@@ -31,6 +31,8 @@ Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 	Route::get('checkout/without_registration', 'CheckoutController@withoutRegistration');
 
 	Route::post('checkout','CheckoutController@postCheckout');
+	
+	Route::get('checkout/{kode_pesanan}', 'CheckoutController@getCheckout');
 
 	Route::post('cart', 'CartController@updateCart');
 
@@ -139,6 +141,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend'], function() {
 
 	Route::get('setting/data.json', 'ParamController@datajson');
 	Route::resource('setting', 'ParamController');
+
+	Route::get('pembayaran/data.json', 'PembayaranController@datajson');
+	Route::resource('pembayaran', 'PembayaranController');
 
 	Route::get('metode_pembayaran/data.json', 'MetodePembayaranController@datajson');
 	Route::resource('metode_pembayaran', 'MetodePembayaranController');
