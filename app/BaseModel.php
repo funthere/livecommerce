@@ -33,9 +33,13 @@ class BaseModel extends Model
     {
     	if ($fields == []) $fields = $this->fillable;
     	
-    	return array_map(function($x) {
-    		return ucwords(implode(' ', explode('_', $x)));
-    	}, $fields);
+        $newFields = [];
+
+        foreach ($fields as $field) {
+            $newFields[$field] = ucwords(implode(' ', explode('_', $field)));
+        }
+
+        return $newFields;
     }
 
     public function toArray()

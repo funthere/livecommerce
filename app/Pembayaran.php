@@ -14,15 +14,17 @@ class Pembayaran extends BaseModel
 		'verified_at',
     ];
 
+    protected $dependencies  = ['pesanan', 'metode_pembayaran'];
+
     protected $dates = ['verified_at'];
 
     public function pesanan()
     {
-    	return $this->hasOne(Pesanan::class);
+    	return $this->belongsTo(Pesanan::class)->with('customer');
     }
 
     public function metode_pembayaran()
     {
-    	return $this->hasOne(MetodePembayaran::class);
+    	return $this->belongsTo(MetodePembayaran::class);
     }
 }

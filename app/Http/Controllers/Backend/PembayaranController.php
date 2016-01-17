@@ -35,4 +35,18 @@ class PembayaranController extends BackendController
         View::share('pesanans', $pesanans);
         View::share('metode_pembayarans', $metode_pembayarans);
     }
+
+    protected function processDatatables($datatables)
+    {
+        return parent::processDatatables(
+            $datatables
+                ->editColumn('pesanan_id', function($data) {
+                    return $data->pesanan ? $data->pesanan->kode_pesanan.' - '.$data->pesanan->customer->nama : '-';
+                })
+                ->editColumn('metode_pembayaran_id', function($data) {
+                    $bayar = $data->metode_pembayaran;
+                    return $bayar ? $bayar->tipe.' '.$bayar->nama_bank. ' a/n '.$bayar->no_rekening.' ('.$bayar->nama_rekening.')' : '-';
+                })
+            );
+    }
 }

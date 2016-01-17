@@ -21,6 +21,7 @@ class ProdukController extends BackendController
 
         View::share('kategoris', Kategori::lists('kategori', 'id')->toArray());
         View::share('brands', Brand::lists('brand', 'id')->toArray());
+        View::share('fields', $model->getTitleOfFields());
     }
 
     protected function processDatatables($datatables)
@@ -29,12 +30,6 @@ class ProdukController extends BackendController
             $datatables
                 ->editColumn('foto', function($data) {
                     return ($data->foto) ? '<img src="'.asset(Model::FOTO_PATH.$data->foto).'" title="'.$data->produk.'" style="width: 100px;">' : '';
-                })
-                ->editColumn('kategori_id', function($data) {
-                    return $data->kategori != null ? $data->kategori->kategori : '-';
-                })
-                ->editColumn('brand_id', function($data) {
-                    return $data->brand != null ? $data->brand->brand : '-';
                 })
                 ->editColumn('harga', function($data) {
                     return 'Rp'. $data->harga_rupiah;
@@ -48,8 +43,6 @@ class ProdukController extends BackendController
                 ->editColumn('stock', function($data) {
                     return number_format($data->stock , 0, ',' , '.');
                 })
-                ->removeColumn('kategori')
-                ->removeColumn('brand')
             );    
     }
 

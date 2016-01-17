@@ -4,13 +4,13 @@
 		<table class="table datatables">
 			<thead>
 				<th>ID</th>
-				@foreach($fields as $field)
-				<th>{{ $field }}</th>
-				@endforeach
-				<th>Menu</th>
-			</thead>
-		</table>  	  	
-  	</div><!-- /.box-body -->
+        @foreach($fields as $field => $title)
+        <th>{{ $title }}</th>
+        @endforeach
+        <th>Menu</th>
+      </thead>
+    </table>        
+    </div><!-- /.box-body -->
 </div><!-- /.box-->
 
 @stop
@@ -18,17 +18,17 @@
 @section('script.footer')
 <script type="text/javascript">
 
-	$(function() {
+  $(function() {
         $('.datatables').DataTable({
             processing: true,
             serverSide: true,
             ajax: '{{ url('admin/'.$base.'/data.json') }}',
             columns: [
-          		{ name: 'id' },
-            	@foreach($fields as $field)
-				{name: '{{ $field }}'},
-				@endforeach
-          		{ name: 'menu', sortable: false },
+              { name: 'id', data: 'id' },
+            @foreach($fields as $field => $title)
+    				  {name: '{{ $field }}', data: '{{ $field }}'},
+    				@endforeach
+          		{ name: 'menu', data: 'menu', sortable: false },
             ],
         });
     });

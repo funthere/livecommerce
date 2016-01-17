@@ -50,7 +50,7 @@ class BackendController extends BaseController
                 '<a href="'.action($this->baseClass.'@edit', ['id' => $data->id]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
                 Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@show', $data->id]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';
             })
-            ->make();
+            ->make(true);
     }
 
     protected function getJsonField()

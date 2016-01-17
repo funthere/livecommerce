@@ -69,12 +69,6 @@ class Produk extends BaseModel
         }
     }
 
-    public function getFillable()
-    {
-        $theKeys = array_flip($this->fillable);
-        return array_except($this->fillable, [$theKeys['kategori'], $theKeys['brand']]);
-    }
-
     public function getTitleOfFields($fields = [])
     {
         $theKeys = array_flip($this->fillable);
