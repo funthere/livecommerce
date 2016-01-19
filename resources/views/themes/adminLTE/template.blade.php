@@ -195,8 +195,11 @@ desired effect
         <li class="@if(request()->is('admin/pesanan*'))active @endif treeview">
           <a href="{{ asset('admin/pesanan') }}"><i class="fa fa-shopping-cart"></i> <span>Pesanan</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-            <li class="@if(request()->is('admin/pesanan'))active @endif"><a href="{{ asset('admin/pesanan') }}"><i class="fa fa-list"></i>List</a></li>
-            <li class="@if(request()->is('admin/pesanan/create'))active @endif"><a href="{{ asset('admin/pesanan/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
+            <li class="@if(request()->is('admin/pesanan'))active @endif"><a href="{{ asset('admin/pesanan') }}"><i class="fa fa-list"></i>Semua</a></li>
+            <li class="@if(request()->is('admin/pesanan/baru'))active @endif"><a href="{{ asset('admin/pesanan/baru') }}"><i class="fa fa-inbox"></i>Baru</a></li>
+            <li class="@if(request()->is('admin/pesanan/dibayar'))active @endif"><a href="{{ asset('admin/pesanan/dibayar') }}"><i class="fa fa-money"></i>Sudah Dibayar</a></li>
+            <li class="@if(request()->is('admin/pesanan/berhasil'))active @endif"><a href="{{ asset('admin/pesanan/berhasil') }}"><i class="fa fa-star"></i>Berhasil</a></li>
+            <li class="@if(request()->is('admin/pesanan/batal'))active @endif"><a href="{{ asset('admin/pesanan/batal') }}"><i class="fa fa-frown-o"></i>Batal</a></li>
           </ul>
         </li>
         <li class="@if(request()->is('admin/pembayaran*'))active @endif treeview">
@@ -356,6 +359,21 @@ desired effect
       });
 
   })
+</script>
+
+<script type="text/javascript">
+  $(function(){
+    $('#form_{{ $base }}').submit(function (e) {
+      // e.preventDefault();
+      var form = $(this);
+      $('.btn-primary').prop('disabled', true); 
+      $('.input-mask').each(function(i, e) {
+        var v = $(this).autoNumeric('get');
+        $(this).val(v);
+      })
+      return true;
+    })
+  });
 </script>
 
 @yield('script.footer')

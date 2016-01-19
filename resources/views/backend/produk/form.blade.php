@@ -98,22 +98,3 @@
 		{!! Form::text('stock', $produk->stock, ['class' => 'form-control input-mask input-mask-numeric']) !!}
 	</div>
 </div>
-
-@section('script.footer')
-
-<script type="text/javascript">
-	$(function(){
-		$('#form_{{ $base }}').submit(function (e) {
-			// e.preventDefault();
-			var form = $(this);
-			$('.btn-primary').prop('disabled', true);	
-			$('.input-mask').each(function(i, e) {
-				var v = $(this).autoNumeric('get');
-				$(this).val(v);
-			})
-			return true;
-		})
-	});
-</script>
-
-@stop

@@ -35,7 +35,7 @@
 		@if($pembayaran->bukti)
 		<figure>
 			<figcaption>Preview :</figcaption>
-			<img src="{{ url('asset/pembayaran/'.$pembayaran->bukti) }}" class="img-responsive" alt="Foto Produk {{ $metode_pembayaran-> bukti }}">
+			<img src="{{ url('asset/bukti_pembayaran/'.$pembayaran->bukti) }}" class="img-responsive" alt="Foto Bukti {{ $pembayaran->bukti }}">
 		</figure>
 			
 		<strong>Pilih Foto jika ingin mengganti :</strong>

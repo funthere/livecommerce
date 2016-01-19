@@ -137,7 +137,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend'], function() {
 	Route::resource('produk', 'ProdukController');
 	
 	Route::get('pesanan/data.json', 'PesananController@datajson');
-	Route::resource('pesanan', 'PesananController');
+	Route::get('pesanan', 'PesananController@index');
+	Route::controller('pesanan', 'PesananController');
 
 	Route::get('setting/data.json', 'ParamController@datajson');
 	Route::resource('setting', 'ParamController');

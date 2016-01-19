@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use View;
 use Form;
+use Carbon\Carbon;
 use Datatables;
 use App\Pesanan as Model;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ class PesananController extends BackendController
     public function __construct(Model $model, $base = 'pesanan')
     {
         parent::__construct($model, $base);
+        View::share('breadcrumb2Icon', 'fa-shopping-cart');
     }
 
     protected function getJsonField()
@@ -66,4 +68,80 @@ class PesananController extends BackendController
             
             ->make();
     }
+
+    public function getBaruJson()
+    {
+        $datas = $this->model->select($this->getJsonField())->orderBy('id', 'DESC');
+
+        $datas->has('pembayarans')->where('created_at', '>=', Carbon::now()->subHours($this->model->getPesananLimitHours()));
+
+        if ($dependencies = $this->model->dependencies()) {
+            $datas = $datas->with($dependencies);
+        }
+
+        $datatables = Datatables::of($datas);
+        return $this->processDatatables($datatables);
+    }
+
+    public function getDibayarJson()
+    {
+        $datas = $this->model->select($this->getJsonField())->orderBy('id', 'DESC');
+
+        $datas->has('pembayarans');
+
+        if ($dependencies = $this->model->dependencies()) {
+            $datas = $datas->with($dependencies);
+        }
+
+        $datatables = Datatables::of($datas);
+        return $this->processDatatables($datatables);
+    }
+
+    public function getBerhasilJson()
+    {
+        $datas = $this->model->select($this->getJsonField())->orderBy('id', 'DESC');
+
+        $datas->has('pembayarans');
+
+        if ($dependencies = $this->model->dependencies()) {
+            $datas = $datas->with($dependencies);
+        }
+
+        $datatables = Datatables::of($datas);
+        return $this->processDatatables($datatables);
+    }
+
+    public function getBaru()
+    {
+        View::share('judul', 'Pesanan Baru');
+        View::share('deskripsi', 'Daftar Pesanan Baru');
+        View::share('breadcrumb3', 'Baru');
+        return view("backend.{$this->base}.baru");
+    }
+
+    public function getDibayar()
+    {
+        View::share('judul', 'Pesanan Sudah Dibayar');
+        View::share('deskripsi', 'Daftar Pesanan yang Sudah Dibayar');
+        View::share('breadcrumb3', 'Sudah Dibayar');
+        return view("backend.{$this->base}.dibayar");
+    }
+
+    public function getBerhasil()
+    {
+        View::share('judul', 'Pesanan Berhasil');
+        View::share('deskripsi', 'Daftar Pesanan yang Berhasil');
+        View::share('breadcrumb3', 'Berhasil');
+        return view("backend.{$this->base}.berhasil");
+    }
+
+    public function getBatal()
+    {
+        View::share('judul', 'Pesanan Batal');
+        View::share('deskripsi', 'Daftar Pesanan yang Batal');
+        View::share('breadcrumb3', 'Batal');
+        return view("backend.{$this->base}.batal");
+    }
+
+
 }

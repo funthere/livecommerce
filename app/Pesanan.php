@@ -53,10 +53,16 @@ class Pesanan extends BaseModel
         return 'Rp '.number_format($this->jumlah + $this->ongkir, 0, ',','.');
     }
 
+    public function getPesananLimitHours()
+    {
+        return isset($global_params['lama_jam_pesanan_baru']) ? $global_params['lama_jam_pesanan_baru'] : 24; // 24 hours
+    }
+
     public function getStatusAttribute()
     {
         // if new then status = new
-        $hours = isset($global_params['lama_jam_pesanan_baru']) ? $global_params['lama_jam_pesanan_baru'] : 24; // 24 hours
+        $hours = $this->getPesananLimitHours();
+        
         if ($this->created_at->addHours($hours) >= Carbon::now()) return 'baru'; 
         return 'batal';
     }

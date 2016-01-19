@@ -60,7 +60,7 @@ class BackendController extends BaseController
     
     public function datajson()
     {
-        $datas = $this->model->select($this->getJsonField());
+        $datas = $this->model->select($this->getJsonField())->orderBy('id', 'DESC');
 
         if ($dependencies = $this->model->dependencies()) {
             $datas = $datas->with($dependencies);

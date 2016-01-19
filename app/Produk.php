@@ -72,7 +72,7 @@ class Produk extends BaseModel
     public function getTitleOfFields($fields = [])
     {
         $theKeys = array_flip($this->fillable);
-        $titles = array_except($this->fillable, [$theKeys['kategori_id'], $theKeys['brand_id']]);
+        $titles = array_except($this->fillable, [$theKeys['kategori'], $theKeys['brand']]);
         return parent::getTitleOfFields($titles);
     }
 

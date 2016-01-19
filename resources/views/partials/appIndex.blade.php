@@ -5,7 +5,11 @@
 			<thead>
 				<th>ID</th>
         @foreach($fields as $field => $title)
+        @if(!is_array($title))
         <th>{{ $title }}</th>
+        @else
+        <th>{{ $title['title'] }}</th>
+        @endif
         @endforeach
         <th>Menu</th>
       </thead>
@@ -26,7 +30,11 @@
             columns: [
               { name: 'id', data: 'id' },
             @foreach($fields as $field => $title)
-    				  {name: '{{ $field }}', data: '{{ $field }}'},
+              @if(!is_array($title))
+              {name: '{{ $field }}', data: '{{ $field }}'},
+              @else
+    				  {name: '{{ $field }}', data: '{{ $field }}', sortable: {{ $title['sortable'] }}, searchable: {{ $title['searchable'] }}},
+              @endif
     				@endforeach
           		{ name: 'menu', data: 'menu', sortable: false },
             ],

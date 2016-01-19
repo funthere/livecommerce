@@ -24,11 +24,6 @@ class BaseModel extends Model
         $this->global_params = Cache::get('global_params');
     }
 
-    public function getFillable()
-    {
-    	return $this->fillable;
-    }
-
     public function getTitleOfFields($fields = [])
     {
     	if ($fields == []) $fields = $this->fillable;
@@ -36,7 +31,7 @@ class BaseModel extends Model
         $newFields = [];
 
         foreach ($fields as $field) {
-            $newFields[$field] = ucwords(implode(' ', explode('_', $field)));
+            $newFields[$field] = ucwords(implode(' ', explode('_', preg_replace('/_id$/', '', $field))));
         }
 
         return $newFields;

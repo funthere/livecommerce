@@ -24,10 +24,23 @@ class ProdukController extends BackendController
         View::share('fields', $model->getTitleOfFields());
     }
 
+    protected function getJsonField()
+    {
+        $fillable = array_flip(parent::getJsonField());
+
+        return array_keys(array_except($fillable, $this->model->dependencies()));
+    }
+
     protected function processDatatables($datatables)
     {
         return parent::processDatatables(
             $datatables
+                ->editColumn('kategori_id', function($data) {
+                    return $data->kategori !== null ? $data->kategori->kategori : '';
+                })
+                ->editColumn('brand_id', function($data) {
+                    return $data->brand != null ? $data->brand->brand : '';
+                })
                 ->editColumn('foto', function($data) {
                     return ($data->foto) ? '<img src="'.asset(Model::FOTO_PATH.$data->foto).'" title="'.$data->produk.'" style="width: 100px;">' : '';
                 })
@@ -43,6 +56,8 @@ class ProdukController extends BackendController
                 ->editColumn('stock', function($data) {
                     return number_format($data->stock , 0, ',' , '.');
                 })
+                ->removeColumn('kategori')
+                ->removeColumn('brand')
             );    
     }
 
