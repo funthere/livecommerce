@@ -23,11 +23,17 @@ class PesananController extends BackendController
         return '*';
     }
 
+    protected function getInitData()
+    {
+        return $this->model->select($this->getJsonField())->where('penerima', '<>', '')->orderBy('id', 'DESC');
+    }
+
     protected function processDatatables($datatables)
     {
         return $datatables
             ->addColumn('customer', function ($data) {
                 $customer = $data['customer'];
+                if (empty($customer)) return '';  
                 $text = $customer['nama'].'<br>';
                 $text .= $customer['alamat'].'<br>';
                 $text .= $customer['kota']['kota'].'<br>';
@@ -38,6 +44,7 @@ class PesananController extends BackendController
                 return $text;
             })
             ->addColumn('penerima_lengkap', function ($data) {
+                if (empty($data['penerima'])) return '';  
                 $text = $data['penerima'].'<br>';
                 $text .= $data['alamat'].'<br>';
                 $text .= $data['kota']['kota'].'<br>';
@@ -66,12 +73,24 @@ class PesananController extends BackendController
                 return 'menu';
             })
             
-            ->make();
+            ->make(true);
+    }
+
+    public function getDataJson()
+    {
+        $datas = $this->getInitData();
+
+        if ($dependencies = $this->model->dependencies()) {
+            $datas = $datas->with($dependencies);
+        }
+
+        $datatables = Datatables::of($datas);
+        return $this->processDatatables($datatables);
     }
 
     public function getBaruJson()
     {
-        $datas = $this->model->select($this->getJsonField())->orderBy('id', 'DESC');
+        $datas = $this->getInitData();
 
         $datas->has('pembayarans')->where('created_at', '>=', Carbon::now()->subHours($this->model->getPesananLimitHours()));
 
@@ -85,7 +104,7 @@ class PesananController extends BackendController
 
     public function getDibayarJson()
     {
-        $datas = $this->model->select($this->getJsonField())->orderBy('id', 'DESC');
+        $datas = $this->getInitData();
 
         $datas->has('pembayarans');
 
@@ -99,7 +118,21 @@ class PesananController extends BackendController
 
     public function getBerhasilJson()
     {
-        $datas = $this->model->select($this->getJsonField())->orderBy('id', 'DESC');
+        $datas = $this->getInitData();
+
+        $datas->has('pembayarans');
+
+        if ($dependencies = $this->model->dependencies()) {
+            $datas = $datas->with($dependencies);
+        }
+
+        $datatables = Datatables::of($datas);
+        return $this->processDatatables($datatables);
+    }
+
+    public function getBatalJson()
+    {
+        $datas = $this->getInitData();
 
         $datas->has('pembayarans');
 
