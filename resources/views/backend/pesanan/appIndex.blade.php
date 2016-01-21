@@ -6,14 +6,12 @@
 		<table class="table datatables table-">
 			<thead>
 				<th>ID</th>
-        		<th>Kode Pesanan</th>
+        <th>Kode Pesanan</th>
 				<th>Customer</th>
 				<th>Penerima</th>
 				<th>Produk-produk</th>
-				<th>Jumlah</th>
-				<th>Ongkir</th>
 				<th>Total</th>
-				<th>Tanggal Kirim</th>
+				<th>Pengiriman</th>
 				<th>Status</th>
 				<th>Menu</th>
 			</thead>
@@ -33,16 +31,14 @@
             ajax: '{{ action('Backend\PesananController@'.$jsonRequest) }}',
             columns: [
           		{ name: 'id', data: 'id' }, //id
-              	{ name: 'kode_pesanan', data: 'kode_pesanan' }, // kode_pesanan
-          		{ name: 'customer', data: 'customer', sortable: false }, // customer
-              	{ name: 'penerima_lengkap', data: 'penerima_lengkap', sortable: false }, //penerima
-          		{ name: 'produks', data: 'produks', sortable: false }, // produks
-          		{ name: 'jumlah', data: 'jumlah_rupiah' }, //jumlah
-          		{ name: 'ongkir', data: 'ongkir_rupiah' }, //ongkir
-          		{ name: 'total', data: 'total_rupiah' }, //total
+              { name: 'kode_pesanan', data: 'kode_pesanan' }, // kode_pesanan
+          		{ name: 'customer', data: 'customer', sortable: false, searchable: false}, // customer
+              { name: 'penerima_lengkap', data: 'penerima_lengkap', sortable: false, searchable: false }, //penerima
+          		{ name: 'produks', data: 'produks', sortable: false, searchable: false }, // produks
+          		{ name: 'total', data: 'total_rupiah', sortable: false, searchable: false }, //total
           		{ name: 'tanggal_pengiriman', data: 'tanggal_pengiriman' }, // status
-          		{ name: 'status', data: 'status' }, // status
-          		{ name: 'menu', data: 'menu', sortable: false },
+          		{ name: 'status', data: 'status', sortable: false, searchable: false }, // status
+          		{ name: 'menu', data: 'menu', sortable: false, searchable: false },
             ],
         });
     });

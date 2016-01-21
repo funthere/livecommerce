@@ -25,7 +25,7 @@ class PembayaranController extends BackendController
         $pesanans = [];
         foreach(Pesanan::whereHas('customer', function($query) {
             $query->whereNotNull('kode_pesanan');
-        })->has('pembayarans', '=', 0)->get() as $pesanan) {
+        })->has('pembayaran', '=', 0)->get() as $pesanan) {
             $pesanans[$pesanan->id] = $pesanan->kode_pesanan.' - '.$pesanan->customer->nama;
         }
 

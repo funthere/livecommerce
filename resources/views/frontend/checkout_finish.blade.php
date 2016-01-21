@@ -158,7 +158,7 @@
 								<a href="/konfirmasi_pembayaran/{{ $cart->kode_pesanan }}" class="btn btn-primary">Konfirmasi Pembayaran</a>
 							</p>
 							<p class="text-center">
-								Kami tunggu pembayaran Anda maksimal {{ $global_params['lama_jam_pesanan_baru'] or '24'}} jam atau pesanan dianggap batal.
+								Kami tunggu pembayaran Anda maksimal {{ $cart->created_at->addHours(isset($global_params['lama_jam_pesanan_baru']) ? $global_params['lama_jam_pesanan_baru'] : '24')->diffInHours() }} jam lagi atau pesanan dianggap batal.
 							</p>
 						</div>
 					</div>

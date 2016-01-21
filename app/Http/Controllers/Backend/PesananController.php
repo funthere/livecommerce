@@ -25,7 +25,7 @@ class PesananController extends BackendController
 
     protected function getInitData()
     {
-        return $this->model->select($this->getJsonField())->where('penerima', '<>', '')->orderBy('id', 'DESC');
+        return $this->model->select($this->getJsonField())->where('kode_pesanan', '<>', '')->orderBy('id', 'DESC');
     }
 
     protected function processDatatables($datatables)
@@ -65,9 +65,18 @@ class PesananController extends BackendController
                 }
                 return $text;
             })
+            ->editColumn('tanggal_pengiriman', function($data) {
+                return ! starts_with($data->tanggal_pengiriman, '0000') ? $data->tanggal_pengiriman : '-';  
+            })
             ->addColumn('status', function ($data) {
-                // dd($data);
-                return $data->status;
+                $status = $data->status;
+
+                if ($status == 'baru') return '<span class="label bg-navy" title="Baru">Baru</span>';
+                if ($status == 'berhasil') return '<span class="label label-info" title="Berhasil">Berhasil</span>';
+                if ($status == 'batal') return '<span class="label label-danger" title="Batal">Batal</span>';
+                if ($status == 'dibayar') {
+                    return (! starts_with($data->pembayaran->verified_at, '0000') && $data->pembayaran->verified_at != null) ? '<span class="label label-success" title="Pembayaran Terverifikasi">Terverifikasi</span>' : '<span class="label label-warning" title="Sudah Dibayar">Dibayar</span>';
+                }
             })
             ->addColumn('menu', function ($data) {
                 return 'menu';
@@ -92,7 +101,7 @@ class PesananController extends BackendController
     {
         $datas = $this->getInitData();
 
-        $datas->has('pembayarans')->where('created_at', '>=', Carbon::now()->subHours($this->model->getPesananLimitHours()));
+        $datas->has('pembayaran', '=', 0)->where('created_at', '>=', Carbon::now()->subHours($this->model->getPesananLimitHours()));
 
         if ($dependencies = $this->model->dependencies()) {
             $datas = $datas->with($dependencies);
@@ -106,7 +115,7 @@ class PesananController extends BackendController
     {
         $datas = $this->getInitData();
 
-        $datas->has('pembayarans');
+        $datas->has('pembayaran');
 
         if ($dependencies = $this->model->dependencies()) {
             $datas = $datas->with($dependencies);
@@ -120,7 +129,7 @@ class PesananController extends BackendController
     {
         $datas = $this->getInitData();
 
-        $datas->has('pembayarans');
+        $datas->has('pembayaran')->whereNotNull('no_resi_pengiriman');
 
         if ($dependencies = $this->model->dependencies()) {
             $datas = $datas->with($dependencies);
@@ -134,7 +143,7 @@ class PesananController extends BackendController
     {
         $datas = $this->getInitData();
 
-        $datas->has('pembayarans');
+        $datas->has('pembayaran', '=', 0)->where('created_at', '<', Carbon::now()->subHours($this->model->getPesananLimitHours()));
 
         if ($dependencies = $this->model->dependencies()) {
             $datas = $datas->with($dependencies);

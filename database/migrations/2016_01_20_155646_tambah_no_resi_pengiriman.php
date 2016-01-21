@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TambahMetodePengiriman extends Migration
+class TambahNoResiPengiriman extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class TambahMetodePengiriman extends Migration
     public function up()
     {
         Schema::table('pesanans', function (Blueprint $table) {
-            $table->date('metode_pengiriman')->nullable();
+            $table->string('no_resi_pengiriman', 50)->nullable();
         });
     }
 
@@ -25,7 +25,7 @@ class TambahMetodePengiriman extends Migration
     public function down()
     {
         Schema::table('pesanans', function (Blueprint $table) {
-            $table->dropColumn('metode_pengiriman');
+            $table->dropColumn('no_resi_pengiriman');
         });
     }
 }

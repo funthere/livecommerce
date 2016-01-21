@@ -20,7 +20,9 @@ class Pesanan extends BaseModel
     	'ongkir',
         'kode_pesanan',
         'metode_pengiriman',
-    	'no_hp',
+        'no_hp',
+        'tanggal_pengiriman',
+    	'no_resi_pengiriman',
     ];
 
     protected $appends = ['jumlah_rupiah', 'ongkir_rupiah', 'total', 'total_rupiah', 'status'];
@@ -64,12 +66,17 @@ class Pesanan extends BaseModel
         $hours = $this->getPesananLimitHours();
         
         if ($this->created_at->addHours($hours) >= Carbon::now()) return 'baru'; 
+
+        if (count($this->pembayaran) && $this->no_resi_pengiriman != null) return 'berhasil';
+
+        if (count($this->pembayaran)) return 'dibayar';
+
         return 'batal';
     }
 
-    public function pembayarans()
+    public function pembayaran()
     {
-        return $this->hasMany(Pembayaran::class);
+        return $this->hasOne(Pembayaran::class);
     }
 
     public function produks()

@@ -99,7 +99,7 @@
 								<li><a href="login.html"><i class="fa fa-credit-card"></i> Konfirmasi Bayar</a></li>
 								<li><a href="/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
 								<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Cart
-									@if($cart)
+									@if($cart && !request()->is('checkout/*'))
 										({{ count($cart->produks) }} item | {{ $cart->total_rupiah }})
 									@endif
 								</a></li>

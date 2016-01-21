@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use View;
+use Carbon\Carbon;
 use App\Produk;
 use App\Pesanan;
 use App\Customer;
@@ -47,7 +48,8 @@ class CheckoutController extends FrontendController
 
     public function getCheckout(Request $request, $kode_pesanan)
     {
-      $this->cart = Pesanan::with('produks')->with('propinsi')->with('kota')->where('kode_pesanan', $kode_pesanan)->firstOrFail();
+      $limitHours = app(Pesanan::class)->getPesananLimitHours();
+      $this->cart = Pesanan::with('produks')->with('propinsi')->with('kota')->where('kode_pesanan', $kode_pesanan)->where('created_at', '>=', Carbon::now()->subHours($limitHours))->firstOrFail();
       
       View::share('cart', $this->cart);
       
