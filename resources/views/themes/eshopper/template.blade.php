@@ -29,6 +29,12 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{{ asset('images/ico/apple-touch-icon-72-precomposed.png') }}">
     <link rel="apple-touch-icon-precomposed" href="{{ asset('images/ico/apple-touch-icon-57-precomposed.png') }}">
 
+	<style type="text/css">
+		.panel-title.active > a {
+		    color: #FE980F!important;
+		}
+	</style>
+
 </head><!--/head-->
 
 <body>
@@ -129,7 +135,7 @@
                                     <ul role="menu" class="sub-menu">
                                     @if(isset($kategoris))
                                     @foreach($kategoris as $kategori)
-                                        <li><a href="{{ $kategori->kategori }}">{{ $kategori->kategori }}</a></li>
+                                        <li><a href="/shop/{{ $kategori->slug }}">{{ $kategori->kategori }}</a></li>
                                     @endforeach
                                     @endif
                                     </ul>
@@ -138,7 +144,7 @@
                                     <ul role="menu" class="sub-menu">
                                     @if(isset($brands))
                                     @foreach($brands as $brand)
-                                        <li><a href="{{ $brand->brand }}">{{ $brand->brand }}</a></li>
+                                        <li><a href="/shop/merk/{{ $brand->slug }}">{{ $brand->brand }}</a></li>
                                     @endforeach
                                     @endif
                                     </ul>
@@ -148,9 +154,11 @@
 						</div>
 					</div>
 					<div class="col-sm-3">
+						<form action="/search">
 						<div class="search_box pull-right">
-							<input type="text" placeholder="Search"/>
+							<input type="text" name="keyword" placeholder="Search" value="{{ $searchKeyword or '' }}" />
 						</div>
+						</form>
 					</div>
 				</div>
 			</div>

@@ -8,11 +8,21 @@ use Carbon\Carbon;
 use App\Produk;
 use App\Pesanan;
 use App\Customer;
+use App\MetodePembayaran;
 use App\Http\Requests;
 use App\Http\Controllers\FrontendController;
 
 class CheckoutController extends FrontendController
 {
+    protected $transferBanks;
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->transferBanks = MetodePembayaran::all();
+        View::share('transferBanks', $this->transferBanks);
+    }
+
     public function index(Request $request)
     {
       if ($this->cart == null or !count($this->cart->produks)) {

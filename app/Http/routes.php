@@ -40,6 +40,20 @@ Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 
 });
 
+Route::group(['prefix' => 'shop', 'namespace' => 'Frontend'], function() {
+
+	Route::get('/', 'PageController@shop');
+
+	Route::get('search/{keyword?}', 'PageController@shopBySearch');
+
+	Route::get('{slug}', 'PageController@shopByKategori');
+
+	Route::get('merk/{slug}', 'PageController@shopByBrand');
+
+});
+
+
+
 Route::group(['prefix' => 'ongkir'], function() {
 	Route::get('propinsi', function() {
 		$id = request()->get('id', null);
@@ -116,6 +130,9 @@ Route::group(['prefix' => 'ongkir'], function() {
 	});
 });
 
+Route::get('search', function () {
+	return redirect('shop/search/'.request()->get('keyword', ''));
+});
 
 Route::get('tes', function(App\Http\Controllers\BaseController $base) {
 	return $base->global_params['nama_toko'];
