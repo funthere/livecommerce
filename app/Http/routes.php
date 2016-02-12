@@ -34,11 +34,31 @@ Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 	
 	Route::get('checkout/{kode_pesanan}', 'CheckoutController@getCheckout');
 
+	Route::get('checkout/{kode_pesanan}', 'CheckoutController@getCheckout');
+
 	Route::post('cart', 'CartController@updateCart');
 
 	Route::post('cart/info', 'CartController@updateInfo');
 
+	Route::get('konfirmasi_pembayaran/{kode_pesanan?}', 'PageController@paymentConfirmation');
+
+
 });
+Route::get('home', function () {
+	if (request()->session()->has('checkout')) {
+		request()->session()->forget('checkout');
+		return redirect('checkout');
+	}
+
+	if (auth()->check() && auth()->user()->is_admin) {
+		return redirect('admin');
+	}
+
+	return redirect('/');
+});
+
+Route::controller('auth', 'Auth\AuthController');
+Route::controller('reset', 'Auth\PasswordController');
 
 Route::group(['prefix' => 'shop', 'namespace' => 'Frontend'], function() {
 

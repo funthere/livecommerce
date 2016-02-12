@@ -39,7 +39,12 @@ class CheckoutController extends FrontendController
           return redirect('cart');
       }
 
-      if ($request->session()->get('without_registration', 'no') == 'no' && $this->customer == null) {
+      if (auth()->check() && $this->cart->customer_id == null) {
+        $this->cart->update(['customer_id' => auth()->user()->id]);
+      }
+
+      if ($request->session()->get('without_registration', 'no') == 'no' && $this->cart->customer_id == null) {
+        $request->session()->put('checkout', true);
         return view('frontend.checkout_registrasi');
       }
 
@@ -53,7 +58,7 @@ class CheckoutController extends FrontendController
     {
       $request->session()->put('without_registration', 'yes');
 
-      return redirect('checkout');   		
+      return redirect('checkout');
     }
 
     public function getCheckout(Request $request, $kode_pesanan)

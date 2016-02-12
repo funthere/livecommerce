@@ -133,7 +133,8 @@
 											<thead>
 												<tr>
 													<th>Pilih Salah Satu</th>
-													<th>Nama Bank</th>
+													<th>Bank / Agen</th>
+													<th>Tipe</th>
 													<th>No. Rekening</th>
 													<th>Nama Rekening</th>
 												</tr>
@@ -143,6 +144,7 @@
 												<tr>
 													<td><img src="{{ asset('/asset/metode_pembayaran/'.$bank->logo) }}" style="width: 100px"></td>
 													<td>{{ $bank->nama_bank }}</td>
+													<td>{{ $bank->tipe }}</td>
 													<td>{{ $bank->no_rekening }}</td>
 													<td>{{ $bank->nama_rekening }}</td>
 												</tr>

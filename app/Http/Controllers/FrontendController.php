@@ -26,7 +26,7 @@ class FrontendController extends BaseController
             $query->latest()->take(4);
         }])->get();
         $this->brands = Brand::with('produks')->get();
-        $this->cart = request()->hasSession() && request()->session()->has('pesanan') ? Pesanan::with('produks')->with('propinsi')->with('kota')->where('id', request()->session()->get('pesanan'))->first() : null;
+        $this->cart = request()->hasSession() && request()->session()->has('pesanan') ? Pesanan::with('produks', 'customer')->with('propinsi')->with('kota')->where('id', request()->session()->get('pesanan'))->first() : null;
 
         View::share('kategoris', $this->kategoris);
         View::share('brands', $this->brands);

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Produk;
 use App\Kategori;
 use App\Brand;
+use App\Pesanan;
 use App\Http\Requests;
 use App\Http\Controllers\FrontendController;
 
@@ -54,6 +55,13 @@ class PageController extends FrontendController
         view()->share('searchKeyword', $keyword);
         $produks = Produk::with('kategori', 'brand')->where('produk', 'like', '%'.$keyword.'%')->latest()->paginate(9);
         return view('frontend.shop', compact('produks'));
+    }
+
+    public function paymentConfirmation($kode_pesanan = null)
+    {
+        $pesanan = ($kode_pesanan == null) ? new Pesanan : Pesanan::where(compact('kode_pesanan'))->firstOrFail();
+
+        return view('frontend.confirmPayment', compact('pesanan'));
     }
 
 }

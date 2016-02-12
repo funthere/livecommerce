@@ -58,7 +58,12 @@
 								@if(isset($global_params['linkedin']))<li><a href="{{ $global_params['linkedin'] }}"><i class="fa fa-linkedin"></i></a></li>@endif
 								@if(isset($global_params['dribbble']))<li><a href="{{ $global_params['dribbble'] }}"><i class="fa fa-dribbble"></i></a></li>@endif
 								@if(isset($global_params['google-plus']))<li><a href="{{ $global_params['google-plus'] }}"><i class="fa fa-google-plus"></i></a></li>@endif
-								<li><a href="#"><i class="fa fa-user"></i> Login / Sign Up</a></li>
+								@if(auth()->check())
+									<li><a href="/me"><i class="fa"></i> Helo, {{ auth()->user()->nama }}</a></li>
+									<li><a href="/auth/logout"><i class="fa"></i> Log Out</a></li>
+								@else
+									<li><a href="/auth/login"><i class="fa fa-user"></i> Login / Sign Up</a></li>
+								@endif
 							</ul>
 						</div>
 					</div>
