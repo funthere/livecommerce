@@ -36,4 +36,19 @@ class User extends Model implements AuthenticatableContract,
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
+
+    public function getInitial()
+    {
+        $nama = strtoupper($this->nama);
+
+        $words = count($namas = explode(' ', $nama));
+
+        $inits = array_map(function($value) {
+            return substr($value, 0, 1);
+        }, $namas);
+
+        $initials = $inits[0]. ($words > 1 ?  last($inits) : '');
+
+        return $initials;
+    }
 }

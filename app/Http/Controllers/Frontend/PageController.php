@@ -8,6 +8,8 @@ use App\Produk;
 use App\Kategori;
 use App\Brand;
 use App\Pesanan;
+use App\Pembayaran;
+use App\MetodePembayaran;
 use App\Http\Requests;
 use App\Http\Controllers\FrontendController;
 
@@ -59,9 +61,83 @@ class PageController extends FrontendController
 
     public function paymentConfirmation($kode_pesanan = null)
     {
-        $pesanan = ($kode_pesanan == null) ? new Pesanan : Pesanan::where(compact('kode_pesanan'))->firstOrFail();
+        if ($kode_pesanan == null) {
+            return view('frontend.confirmPayment');
+        }
 
+        $pesanan = Pesanan::where(compact('kode_pesanan'))->firstOrFail();
+
+        $metode_pembayarans = [];
+        foreach(MetodePembayaran::get() as $pembayaran) {
+            $metode_pembayaran = $pembayaran->tipe.'  '.$pembayaran->nama_bank.' No. Rek. '.$pembayaran->no_rekening.' a.n. '.$pembayaran->nama_rekening;
+            $metode_pembayarans[$pembayaran->id] = $metode_pembayaran;
+        }
+
+        view()->share('metode_pembayarans', $metode_pembayarans);
         return view('frontend.confirmPayment', compact('pesanan'));
     }
 
+    public function checkPaymentConfirmation(Request $request)
+    {
+        $this->validate($request, ['no_pesanan' => 'required']);
+
+        $kodePesanan = $request->no_pesanan;
+
+        $pesanan = Pesanan::where('kode_pesanan', '=', $kodePesanan)->isBaru()->first();
+
+        if ($pesanan == null) {
+            return redirect('konfirmasi_pembayaran')->withErrors(['Pesanan tersebut tidak valid atau sudah kadaluarsa']);
+        }
+
+        return redirect('konfirmasi_pembayaran/'.$kodePesanan);
+    }
+
+    public function postPaymentConfirmation(Request $request, Pembayaran $model, $kode_pesanan)
+    {
+        $pesanan = Pesanan::where('kode_pesanan', $kode_pesanan)->first();
+
+        if ($pesanan == null) {
+            return redirect('konfirmasi_pembayaran')->withErrors(['Pesanan tersebut tidak valid atau sudah kadaluarsa']);
+        }
+
+        $request->merge(['pesanan_id' => $pesanan->id]);
+
+        $rules = ['pesanan_id' => 'required', 'metode_pembayaran' => 'required', 'bukti' => 'required', 'jumlah' => 'required|numeric|min:'.$pesanan->total];
+
+        $this->validate($request, $rules);
+
+        $created = $model->create($request->all());
+
+        if ($created) {
+            alert()->success('Terima kasih. Kami akan melakukan verifikasi terlebih dahulu. ', 'Konfirmasi Pembayaran berhasil.')->autoClose(3600);
+
+            return redirect('konfirmasi_pembayaran');
+        }
+    }
+
+    public function tracking($kode_pesanan = null)
+    {
+        if ($kode_pesanan == null) {
+            return view('frontend.tracking');
+        }
+
+        $pesanan = Pesanan::where(compact('kode_pesanan'))->firstOrFail();
+
+        return view('frontend.tracking', compact('pesanan'));
+    }
+
+    public function checkTracking(Request $request)
+    {
+        $this->validate($request, ['no_pesanan' => 'required']);
+
+        $kodePesanan = $request->no_pesanan;
+
+        $pesanan = Pesanan::where('kode_pesanan', '=', $kodePesanan)->first();
+
+        if ($pesanan == null) {
+            return redirect('lacak')->withErrors(['Pesanan tersebut tidak valid atau sudah kadaluarsa']);
+        }
+
+        return redirect('lacak/'.$kodePesanan);
+    }
 }

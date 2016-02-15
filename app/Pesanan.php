@@ -65,11 +65,11 @@ class Pesanan extends BaseModel
         // if new then status = new
         $hours = $this->getPesananLimitHours();
         
-        if ($this->created_at->addHours($hours) >= Carbon::now()) return 'baru'; 
-
         if (count($this->pembayaran) && $this->no_resi_pengiriman != null) return 'berhasil';
 
         if (count($this->pembayaran)) return 'dibayar';
+
+        if ($this->created_at->addHours($hours) >= Carbon::now()) return 'baru'; 
 
         return 'batal';
     }
@@ -229,5 +229,15 @@ class Pesanan extends BaseModel
         $code = strtoupper($this->generateRandomString());
         $this->kode_pesanan = $code;
         $this->save();
+    }
+
+    public function scopeIsBaru($query)
+    {
+        return $query->has('pembayaran', '=', 0)->where('created_at', '>=', Carbon::now()->subHours($this->getPesananLimitHours()));
+    }
+
+    public function scopeIsBatal($query)
+    {
+        return $query ->has('pembayaran', '=', 0)->where('created_at', '<', Carbon::now()->subHours($this->getPesananLimitHours()));
     }
 }   

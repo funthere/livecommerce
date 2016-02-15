@@ -71,12 +71,12 @@ class PesananController extends BackendController
             ->addColumn('status', function ($data) {
                 $status = $data->status;
 
-                if ($status == 'baru') return '<span class="label bg-navy" title="Baru">Baru</span>';
                 if ($status == 'berhasil') return '<span class="label label-info" title="Berhasil">Berhasil</span>';
                 if ($status == 'batal') return '<span class="label label-danger" title="Batal">Batal</span>';
                 if ($status == 'dibayar') {
                     return (! starts_with($data->pembayaran->verified_at, '0000') && $data->pembayaran->verified_at != null) ? '<span class="label label-success" title="Pembayaran Terverifikasi">Terverifikasi</span>' : '<span class="label label-warning" title="Sudah Dibayar">Dibayar</span>';
                 }
+                if ($status == 'baru') return '<span class="label bg-navy" title="Baru">Baru</span>';
             })
             ->addColumn('menu', function ($data) {
                 return 'menu';
@@ -101,7 +101,7 @@ class PesananController extends BackendController
     {
         $datas = $this->getInitData();
 
-        $datas->has('pembayaran', '=', 0)->where('created_at', '>=', Carbon::now()->subHours($this->model->getPesananLimitHours()));
+        $datas->isBaru();
 
         if ($dependencies = $this->model->dependencies()) {
             $datas = $datas->with($dependencies);
@@ -143,7 +143,7 @@ class PesananController extends BackendController
     {
         $datas = $this->getInitData();
 
-        $datas->has('pembayaran', '=', 0)->where('created_at', '<', Carbon::now()->subHours($this->model->getPesananLimitHours()));
+        $datas->isBatal();
 
         if ($dependencies = $this->model->dependencies()) {
             $datas = $datas->with($dependencies);

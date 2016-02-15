@@ -7,7 +7,7 @@
 			<div class="breadcrumbs">
 				<ol class="breadcrumb">
 				  <li><a href="/">Home</a></li>
-				  <li class="active" >Konfirmasi Pembayaran</li>
+				  <li class="active" >Lacak Pesanan Anda</li>
 				</ol>
 			</div>
 			<div class="row">
@@ -54,7 +54,7 @@
 					<div class="col-sm-5">
 			        	<div class="login-form"><!--login form-->
 			                <h2>Masukkan Detail Pembayaran Anda</h2>
-			                {!! Form::open(['url' => 'konfirmasi_pembayaran/'.$pesanan->kode_pesanan, 'files' => true]) !!}
+			                {!! Form::open(['url' => 'lacak/'.$pesanan->kode_pesanan, 'files' => true]) !!}
 								{!! Form::text('jumlah', null, ['class' => 'form-control', 'placeholder' => 'Jumlah Pembayaran']) !!}
 								{!! Form::select('metode_pembayaran', [null => 'Pilih Metode Pembayaran'] + $metode_pembayarans, null, ['class' => 'form-control']) !!}
 								<br>
@@ -71,7 +71,7 @@
                 <div class="col-sm-6 col-sm-offset-3">
                     <div class="login-form"><!--login form-->
                         <h2>Masukkan Nomor Pesanan Anda</h2>
-                        {!! Form::open(['url' => 'konfirmasi_pembayaran']) !!}
+                        {!! Form::open(['url' => 'lacak']) !!}
                             <input type="text" name="no_pesanan" placeholder="No Pesanan Anda" />
                             <button type="submit" class="btn btn-default">Cari</button>
                         {!! Form::close() !!}

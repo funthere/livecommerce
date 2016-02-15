@@ -34,6 +34,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
         margin-top: 10px;
         margin-bottom: 10px;
     }
+
+    .user-label {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        background-color: rgba(85, 85, 85, 0.25);
+        border-radius: 50%;
+        margin-top: -5px;
+        margin-bottom: -5px;
+        padding: 5px;
+    }
   </style>
   <link rel="stylesheet" href="{{ asset('backend/dist/css/skins/skin-yellow.min.css') }}">
 
@@ -73,9 +84,9 @@ desired effect
     <!-- Logo -->
     <a href="index2.html" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini">{!! $namaAppMini or '<b>L</b>CM' !!}</span>
+      <span class="logo-mini">{{ $global_params['nama_toko'] or 'LC'}}</span>
       <!-- logo for regular state and mobile devices -->
-      <span class="logo-lg">{!! $namaAppFull or '<b>Live</b>Commerce' !!}</span>
+      <span class="logo-lg">{!! $global_params['nama_toko'] or '<b>Live</b>Commerce' !!}</span>
     </a>
 
     <!-- Header Navbar -->
@@ -85,55 +96,60 @@ desired effect
         <span class="sr-only">Toggle navigation</span>
       </a>
       <!-- Navbar Right Menu -->
-      <div class="navbar-custom-menu">
-        <ul class="nav navbar-nav">
-          <!-- User Account Menu -->
-          <li class="dropdown user user-menu">
-            <!-- Menu Toggle Button -->
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <!-- The user image in the navbar-->
-              <img src="{{ asset('backend/dist/img/user2-160x160.jpg') }}" class="user-image" alt="User Image">
-              <!-- hidden-xs hides the username on small devices so only the image appears. -->
-              <span class="hidden-xs">Alexander Pierce</span>
-            </a>
-            <ul class="dropdown-menu">
-              <!-- The user image in the menu -->
-              <li class="user-header">
-                <img src="{{ asset('backend/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+      <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+          <ul class="nav navbar-nav">
+            <!-- User Account Menu -->
+            <li class="dropdown user user-menu">
+              <!-- Menu Toggle Button -->
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <!-- The user image in the navbar-->
+                <div class="user-label">
+                  <span>{{ auth()->user()->getInitial() }}</span>
+                </div>
+                <!-- <img src="/backend/dist/img/user2-160x160.jpg" class="user-image" alt="User Image"> -->
 
-                <p>
-                  Alexander Pierce - Web Developer
-                  <small>Member since Nov. 2012</small>
-                </p>
-              </li>
-              <!-- Menu Body -->
-              <li class="user-body">
-                <div class="row">
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Followers</a>
+                <!-- hidden-xs hides the username on small devices so only the image appears. -->
+              </a>
+              <ul class="dropdown-menu">
+                <!-- The user image in the menu -->
+                <li class="user-header">
+                  <img src="/backend/dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+
+                  <p>
+                    {{ auth()->user()->nama }}
+                  </p>
+                </li>
+                <!-- Menu Body -->
+                <!-- <li class="user-body">
+                  <div class="row">
+                    <div class="col-xs-4 text-center">
+                      <a href="#">Followers</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                      <a href="#">Sales</a>
+                    </div>
+                    <div class="col-xs-4 text-center">
+                      <a href="#">Friends</a>
+                    </div>
                   </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Sales</a>
+                </li>
+                 -->
+                <!-- Menu Footer-->
+                <li class="user-footer">
+                  <div class="pull-left">
+                    <a href="#" class="btn btn-default btn-flat">Profile</a>
+                    </div>
+                  <div class="pull-right">
+                    <a href="/logout" class="btn btn-default btn-flat">Logout</a>
                   </div>
-                  <div class="col-xs-4 text-center">
-                    <a href="#">Friends</a>
-                  </div>
-                </div>
-                <!-- /.row -->
-              </li>
-              <!-- Menu Footer-->
-              <li class="user-footer">
-                <div class="pull-left">
-                  <a href="#" class="btn btn-default btn-flat">Profile</a>
-                </div>
-                <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
-                </div>
-              </li>
-            </ul>
-          </li>
-        </ul>
-      </div>
+                </li>
+              </ul>
+            </li>
+            <li><a href="/auth/logout"><i class="fa fa-lock"></i> <span class="hidden-sm">Logout</span></a></li>
+          </ul>
+        </div>
+        <!-- /.navbar-collapse -->
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->

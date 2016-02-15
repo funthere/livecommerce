@@ -40,10 +40,17 @@ Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 
 	Route::post('cart/info', 'CartController@updateInfo');
 
+	Route::post('konfirmasi_pembayaran', 'PageController@checkPaymentConfirmation');
+
 	Route::get('konfirmasi_pembayaran/{kode_pesanan?}', 'PageController@paymentConfirmation');
 
+	Route::post('konfirmasi_pembayaran/{kode_pesanan}', 'PageController@postPaymentConfirmation');
 
+	Route::post('lacak', 'PageController@checkTracking');
+
+	Route::get('lacak/{kode_pesanan?}', 'PageController@tracking');
 });
+
 Route::get('home', function () {
 	if (request()->session()->has('checkout')) {
 		request()->session()->forget('checkout');
@@ -158,7 +165,7 @@ Route::get('tes', function(App\Http\Controllers\BaseController $base) {
 	return $base->global_params['nama_toko'];
 });
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Backend'], function() {
+Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'middleware' => 'auth'], function() {
     
 	Route::get('/', 'PageController@home');
 	Route::get('brand/data.json', 'BrandController@datajson');
