@@ -100,9 +100,9 @@ Route::group(['prefix' => 'ongkir'], function() {
 	});
 
 	Route::get('cek', function() {
-		$key = '4243a697cd6621c821724dcc78c25a4b';
-		$origin = '51'; // id kota berdasarkan tabel di database
-		$courier = request()->get('courier', 'all');
+		$key = '41c4c7f98ebf86849fb90c304093f145';
+		$origin = '348'; // id kota berdasarkan tabel di database
+		$courier = request()->get('courier', 'jne');
 		$destination = request()->get('kota');
 		$weight = request()->get('weight');
 
@@ -127,6 +127,8 @@ Route::group(['prefix' => 'ongkir'], function() {
 
 		$kurirs = $result->rajaongkir->results;
 
+		// return $kurirs;
+
 		$data = [];
 
 		foreach ($kurirs as $kurir) 
@@ -148,7 +150,7 @@ Route::group(['prefix' => 'ongkir'], function() {
 
 				$service['cost_rupiah'] = 'Rp '.number_format($layanan->cost[0]->value, 0, ',', '.');
 
-				if ($courier == $kurir->code && $serviceCode == $layanan->service) return $service;
+				// if ($courier == $kurir->code && $serviceCode == $layanan->service) return $service;
 
 				$data[] = $service;
 			}

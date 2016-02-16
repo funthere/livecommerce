@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use Illuminate\Http\Request;
 
+use Form;
 use View;
 use Carbon\Carbon   ;
 use App\Pembayaran as Model;
@@ -41,9 +42,45 @@ class PembayaranController extends BackendController
         View::share('metode_pembayarans', $metode_pembayarans);
     }
 
+    public function toggleVerifikasi(Model $model)
+    {
+        $model->update([
+            'verified_at' => $model->getAttribute('verified_at') == null ? Carbon::now() : null,
+        ]);
+
+        return redirect()->action($this->baseClass.'@index');
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $model = $this->model->findOrFail($id);
+
+        if ($request->has('toggle')) {
+            return $this->toggleVerifikasi($model);
+        }
+
+        $this->validate($request, $model->rules());
+
+        $updated = $model->update($request->all());
+
+        if ($updated) {
+            return redirect('admin/'.$this->base);
+        }
+        
+        return back()->withInputs($request->all());
+    }
+
+
     protected function processDatatables($datatables)
     {
-        return parent::processDatatables(
+        return 
             $datatables
                 ->editColumn('pesanan_id', function($data) {
                     return $data->pesanan ? $data->pesanan->kode_pesanan.' - '.$data->pesanan->customer->nama : '-';
@@ -61,7 +98,14 @@ class PembayaranController extends BackendController
                 ->editColumn('verified_at',  function($data) {
                     return $data->verified_at ? 'Terverifikasi' : 'Belum Terverifikasi';
                 })
-            );
+                ->addColumn('menu', function ($data) {
+                return
+                Form::open(['style' => 'display: inline!important', 'method' => 'put', 'action' => [$this->baseClass.'@update', $data->id]]).'<input type="hidden" name="toggle" value="toggle"><button type="submit" class="btn btn-small btn-link">'.($data->verified_at ? 'Batal Verifikasi' : 'Verifikasi').'</button></form>'.
+                '<a href="'.action($this->baseClass.'@edit', ['id' => $data->id]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
+                Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@show', $data->id]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';
+            })
+            ->make(true);
+           
     }
 
     public function store(Request $request)
