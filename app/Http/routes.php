@@ -167,7 +167,7 @@ Route::get('tes', function(App\Http\Controllers\BaseController $base) {
 	return $base->global_params['nama_toko'];
 });
 
-Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'middleware' => 'auth'], function() {
+Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'middleware' => 'admin'], function() {
     
 	Route::get('/', 'PageController@home');
 	Route::post('brand/data.json', 'BrandController@datajson');
