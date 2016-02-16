@@ -20,7 +20,7 @@
 						<h4 class="text-center">
 							Detail Pesanan - <strong>{{ $pesanan->kode_pesanan }}</strong>
 							<br>
-							<em><small>Belum Dibayar</small></em>
+							<em><small>{{ ($tes = ! starts_with($pesanan->pembayaran->verified_at, '0000') && $pesanan->pembayaran->verified_at != null && $pesanan->status == 'dibayar') ? 'Lunas' : 'Menunggu Verifikasi'}}</small></em>
 						</h4>
 						<div class="cart-info">
 							<div class="user_info">
@@ -53,6 +53,9 @@
 					</div>
 					<div class="col-sm-5">
 			        	<div class="login-form"><!--login form-->
+							@if($tes)
+							<h2>Pesanan ini sudah Lunas</h2>
+							@else
 			                <h2>Masukkan Detail Pembayaran Anda</h2>
 			                {!! Form::open(['url' => 'konfirmasi_pembayaran/'.$pesanan->kode_pesanan, 'files' => true]) !!}
 								{!! Form::text('jumlah', null, ['class' => 'form-control', 'placeholder' => 'Jumlah Pembayaran']) !!}
@@ -62,6 +65,7 @@
 								{!! Form::file('bukti', null, ['class' => 'form-control']) !!}
 			                    <button type="submit" class="btn btn-default">Kirim</button>
 			                {!! Form::close() !!}
+			                @endif
 			            </div><!--/login form-->
 					</div>
 				</div>

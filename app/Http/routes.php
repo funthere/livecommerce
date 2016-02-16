@@ -184,6 +184,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'middleware' => 'ad
 	
 	Route::post('pesanan/data.json', 'PesananController@datajson');
 	Route::get('pesanan', 'PesananController@index');
+	Route::get('pesanan/proses/{id}', 'PesananController@getProsesPesanan');
+	Route::post('pesanan/proses/{id}', 'PesananController@postProsesPesanan');
 	Route::controller('pesanan', 'PesananController');
 
 	Route::post('setting/data.json', 'ParamController@datajson');

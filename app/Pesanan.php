@@ -240,4 +240,25 @@ class Pesanan extends BaseModel
     {
         return $query ->has('pembayaran', '=', 0)->where('created_at', '<', Carbon::now()->subHours($this->getPesananLimitHours()));
     }
+
+    public function getPublicStatusAttribute()
+    {
+        $status = $this->status;
+
+        if ($status == 'baru') {
+            return 'Belum Dibayar';
+        }
+
+        if ($this->status == 'dibayar') {
+            if (! starts_with($this->pembayaran->verified_at, '0000') && $this->pembayaran->verified_at != null) {
+                return 'Packing';
+            } else {
+                return 'Verifikasi Pembayaran';
+            }
+        }
+
+        if ($status == 'berhasil') {
+            return 'Dalam Pengiriman';
+        }
+    }
 }   

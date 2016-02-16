@@ -153,7 +153,7 @@ class BackendController extends BaseController
             return redirect('admin/'.$this->base);
         }
         
-        return back()->withInputs($request->all());
+        return redirect('admin/'.$this->base);
     }
 
     /**

@@ -19,8 +19,6 @@
 					<div class="col-sm-5 col-sm-offset-1">
 						<h4 class="text-center">
 							Detail Pesanan - <strong>{{ $pesanan->kode_pesanan }}</strong>
-							<br>
-							<em><small>Belum Dibayar</small></em>
 						</h4>
 						<div class="cart-info">
 							<div class="user_info">
@@ -52,16 +50,12 @@
 						</div>
 					</div>
 					<div class="col-sm-5">
-			        	<div class="login-form"><!--login form-->
-			                <h2>Masukkan Detail Pembayaran Anda</h2>
-			                {!! Form::open(['url' => 'lacak/'.$pesanan->kode_pesanan, 'files' => true]) !!}
-								{!! Form::text('jumlah', null, ['class' => 'form-control', 'placeholder' => 'Jumlah Pembayaran']) !!}
-								{!! Form::select('metode_pembayaran', [null => 'Pilih Metode Pembayaran'] + $metode_pembayarans, null, ['class' => 'form-control']) !!}
-								<br>
-								{!! Form::label('bukti', null, ['class' => 'control-label']) !!}
-								{!! Form::file('bukti', null, ['class' => 'form-control']) !!}
-			                    <button type="submit" class="btn btn-default">Kirim</button>
-			                {!! Form::close() !!}
+			        	<div class="login-form text-center"><!--login form-->
+			                <h2>Status Pesanan Anda adalah :</h2>
+			                <a href="#" class="btn btn-lg btn-primary">{{ $status = $pesanan->public_status }}</a>
+			            	<br>
+			            	<br>
+			            	<a href="http://cekresi.com/?noresi={{ $pesanan->no_resi_pengiriman }}" target="_blank" class="text-maroon"><i class="fa fa-search"></i> Cek Status Pengiriman <br> No. Resi {{strtoupper($pesanan->no_resi_pengiriman)}}</a>
 			            </div><!--/login form-->
 					</div>
 				</div>

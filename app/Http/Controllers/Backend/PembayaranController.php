@@ -96,11 +96,11 @@ class PembayaranController extends BackendController
                     return ($data->bukti) ? '<img src="'.asset(Model::FOTO_PATH.$data->bukti).'" title="'.$data->produk.'" style="width: 100px;">' : '';
                 })
                 ->editColumn('verified_at',  function($data) {
-                    return $data->verified_at ? 'Terverifikasi' : 'Belum Terverifikasi';
+                    return $data->verified_at ? '<span class="label label-success" title="Pembayaran Terverifikasi">Terverifikasi</span> <br> '.$data->verified_at->diffForHumans() : '<span class="label label-warning" title="Belum Terverifikasi">Belum Terverifikasi</span>';
                 })
                 ->addColumn('menu', function ($data) {
                 return
-                Form::open(['style' => 'display: inline!important', 'method' => 'put', 'action' => [$this->baseClass.'@update', $data->id]]).'<input type="hidden" name="toggle" value="toggle"><button type="submit" class="btn btn-small btn-link">'.($data->verified_at ? 'Batal Verifikasi' : 'Verifikasi').'</button></form>'.
+                Form::open(['style' => 'display: inline!important', 'method' => 'put', 'action' => [$this->baseClass.'@update', $data->id]]).'<input type="hidden" name="toggle" value="toggle"><button type="submit" class="btn btn-xs">'.($data->verified_at ? '<i class="fa fa-times"></i> Batal Verifikasi' : '<i class="fa fa-check"></i> Verifikasi').'</button></form>'.
                 '<a href="'.action($this->baseClass.'@edit', ['id' => $data->id]).'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
                 Form::open(['style' => 'display: inline!important', 'method' => 'delete', 'action' => [$this->baseClass.'@show', $data->id]]).'  <button type="submit" onClick="return confirm(\'Yakin mau menghapus?\');" class="btn btn-small btn-link"><i class="fa fa-xs fa-trash-o"></i> Delete</button></form>';
             })

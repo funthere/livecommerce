@@ -154,7 +154,7 @@
                                     @endif
                                     </ul>
                                 </li> 
-								<li><a href="contact-us.html">Hubungi Kami</a></li>
+								<!-- <li><a href="contact-us.html">Hubungi Kami</a></li> -->
 							</ul>
 						</div>
 					</div>

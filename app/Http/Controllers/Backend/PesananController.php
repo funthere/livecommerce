@@ -66,7 +66,7 @@ class PesananController extends BackendController
                 return $text;
             })
             ->editColumn('tanggal_pengiriman', function($data) {
-                return ! starts_with($data->tanggal_pengiriman, '0000') ? $data->tanggal_pengiriman : '-';  
+                return ! starts_with($data->tanggal_pengiriman, '0000') ? $data->tanggal_pengiriman.'<br>'.$data->metode_pengiriman : '-';  
             })
             ->addColumn('status', function ($data) {
                 $status = $data->status;
@@ -79,7 +79,13 @@ class PesananController extends BackendController
                 if ($status == 'baru') return '<span class="label bg-navy" title="Baru">Baru</span>';
             })
             ->addColumn('menu', function ($data) {
-                return 'menu';
+                if ($data->status == 'berhasil') {
+                    return '<a href="http://cekresi.com/?noresi='.$data->no_resi_pengiriman.'" target="_blank" class="text-maroon"><i class="fa fa-search"></i> <br> Cek Status Pengiriman</a>';
+                }
+
+                if ($data->status == 'dibayar' && ! starts_with($data->pembayaran->verified_at, '0000') && $data->pembayaran->verified_at != null ) {
+                    return '<a href="'.url('admin/pesanan/proses/'.$data->id).'" class="btn btn-xs btn-success"> <i class="fa fa-truck"></i> Kirim</a>';
+                } 
             })
             
             ->make(true);
@@ -183,6 +189,17 @@ class PesananController extends BackendController
         View::share('deskripsi', 'Daftar Pesanan yang Batal');
         View::share('breadcrumb3', 'Batal');
         return view("backend.{$this->base}.batal");
+    }
+
+    public function getProsesPesanan($id)
+    {
+        return parent::edit($id);        
+    }
+
+    public function postProsesPesanan(Request $request, $id)
+    {
+        $request->merge(['tanggal_pengiriman' => Carbon::now()]);
+        return parent::update($request, $id);        
     }
 
 
