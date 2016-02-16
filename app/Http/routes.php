@@ -170,29 +170,29 @@ Route::get('tes', function(App\Http\Controllers\BaseController $base) {
 Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'middleware' => 'auth'], function() {
     
 	Route::get('/', 'PageController@home');
-	Route::get('brand/data.json', 'BrandController@datajson');
+	Route::post('brand/data.json', 'BrandController@datajson');
 	Route::resource('brand', 'BrandController');
 
-	Route::get('customer/data.json', 'CustomerController@datajson');
+	Route::post('customer/data.json', 'CustomerController@datajson');
 	Route::resource('customer', 'CustomerController');
 
-	Route::get('kategori/data.json', 'KategoriController@datajson');
+	Route::post('kategori/data.json', 'KategoriController@datajson');
 	Route::resource('kategori', 'KategoriController');
 	
-	Route::get('produk/data.json', 'ProdukController@datajson');
+	Route::post('produk/data.json', 'ProdukController@datajson');
 	Route::resource('produk', 'ProdukController');
 	
-	Route::get('pesanan/data.json', 'PesananController@datajson');
+	Route::post('pesanan/data.json', 'PesananController@datajson');
 	Route::get('pesanan', 'PesananController@index');
 	Route::controller('pesanan', 'PesananController');
 
-	Route::get('setting/data.json', 'ParamController@datajson');
+	Route::post('setting/data.json', 'ParamController@datajson');
 	Route::resource('setting', 'ParamController');
 
-	Route::get('pembayaran/data.json', 'PembayaranController@datajson');
+	Route::post('pembayaran/data.json', 'PembayaranController@datajson');
 	Route::resource('pembayaran', 'PembayaranController');
 
-	Route::get('metode_pembayaran/data.json', 'MetodePembayaranController@datajson');
+	Route::post('metode_pembayaran/data.json', 'MetodePembayaranController@datajson');
 	Route::resource('metode_pembayaran', 'MetodePembayaranController');
 
 });

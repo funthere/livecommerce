@@ -28,7 +28,7 @@
         $('.datatables').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ action('Backend\PesananController@'.$jsonRequest) }}',
+            ajax: {url: '{{ action('Backend\PesananController@'.$jsonRequest) }}', type: 'POST'},
             columns: [
           		{ name: 'id', data: 'id' }, //id
               { name: 'kode_pesanan', data: 'kode_pesanan' }, // kode_pesanan

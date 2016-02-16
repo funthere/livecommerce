@@ -85,7 +85,7 @@ class PesananController extends BackendController
             ->make(true);
     }
 
-    public function getDataJson()
+    public function postDataJson()
     {
         $datas = $this->getInitData();
 
@@ -97,7 +97,7 @@ class PesananController extends BackendController
         return $this->processDatatables($datatables);
     }
 
-    public function getBaruJson()
+    public function postBaruJson()
     {
         $datas = $this->getInitData();
 
@@ -111,7 +111,7 @@ class PesananController extends BackendController
         return $this->processDatatables($datatables);
     }
 
-    public function getDibayarJson()
+    public function postDibayarJson()
     {
         $datas = $this->getInitData();
 
@@ -125,7 +125,7 @@ class PesananController extends BackendController
         return $this->processDatatables($datatables);
     }
 
-    public function getBerhasilJson()
+    public function postBerhasilJson()
     {
         $datas = $this->getInitData();
 
@@ -139,7 +139,7 @@ class PesananController extends BackendController
         return $this->processDatatables($datatables);
     }
 
-    public function getBatalJson()
+    public function postBatalJson()
     {
         $datas = $this->getInitData();
 

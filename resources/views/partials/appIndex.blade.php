@@ -26,7 +26,7 @@
         $('.datatables').DataTable({
             processing: true,
             serverSide: true,
-            ajax: '{{ url('admin/'.$base.'/data.json') }}',
+            ajax: {url: '{{ url('admin/'.$base.'/data.json') }}', type: 'POST'},
             columns: [
               { name: 'id', data: 'id' },
             @foreach($fields as $field => $title)

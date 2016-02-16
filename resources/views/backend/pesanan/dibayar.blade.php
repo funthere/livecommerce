@@ -1,1 +1,1 @@
-@include('backend.pesanan.appIndex', ['jsonRequest' => 'getDibayarJson'])
+@include('backend.pesanan.appIndex', ['jsonRequest' => 'postDibayarJson'])

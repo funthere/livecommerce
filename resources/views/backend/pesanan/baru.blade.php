@@ -1,1 +1,1 @@
-@include('backend.pesanan.appIndex', ['jsonRequest' => 'getBaruJson'])
+@include('backend.pesanan.appIndex', ['jsonRequest' => 'postBaruJson'])
