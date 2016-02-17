@@ -20,7 +20,7 @@
 						<h4 class="text-center">
 							Detail Pesanan - <strong>{{ $pesanan->kode_pesanan }}</strong>
 							<br>
-							<em><small>{{ ($tes = ! starts_with($pesanan->pembayaran->verified_at, '0000') && $pesanan->pembayaran->verified_at != null && $pesanan->status == 'dibayar') ? 'Lunas' : 'Menunggu Verifikasi'}}</small></em>
+							<em><small>{{ ($tes = $pesanan->pembayaran && ! starts_with($pesanan->pembayaran->verified_at, '0000') && $pesanan->pembayaran->verified_at != null && $pesanan->status == 'dibayar') ? 'Lunas' : 'Menunggu Verifikasi'}}</small></em>
 						</h4>
 						<div class="cart-info">
 							<div class="user_info">
