@@ -232,6 +232,12 @@ desired effect
             <li class="@if(request()->is('admin/setting/create'))active @endif"><a href="{{ asset('admin/setting/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
           </ul>
         </li>
+        <li class="@if(request()->is('admin/pesan*'))active @endif treeview">
+          <a href="{{ asset('admin/pesan') }}"><i class="fa fa-envelope-o"></i> <span>Pesan</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <ul class="treeview-menu">
+            <li class="@if(request()->is('admin/pesan'))active @endif"><a href="{{ asset('admin/pesan') }}"><i class="fa fa-list"></i>List</a></li>
+          </ul>
+        </li>
         <li><a href="#"><i class="fa fa-link"></i> <span>Another Link</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->

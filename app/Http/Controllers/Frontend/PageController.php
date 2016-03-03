@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Produk;
 use App\Kategori;
 use App\Brand;
+use App\Pesan;
 use App\Pesanan;
 use App\Pembayaran;
 use App\MetodePembayaran;
@@ -140,4 +141,35 @@ class PageController extends FrontendController
 
         return redirect('lacak/'.$kodePesanan);
     }
+
+    public function getContact()
+    {
+        return view('frontend.contact');
+    }
+
+    public function postContact(Request $request)
+    {
+        $pesan = new Pesan();
+        
+        $request->replace([
+            'nama' => $request->get('name'),
+            'email' => $request->get('email'),
+            'topik' => $request->get('subject'),
+            'pesan' => $request->get('message'),
+        ]);
+
+        $this->validate($request, $pesan->rules);
+
+        $pesan->fill($request->all());
+
+        $pesan->save();
+
+        // beri alert
+        alert()->success('Berhasil mengirimkan pesan', 'Pesan Terkirim')->autoClose(3600);
+
+        // kembalikan ke halaman sebelumnya
+        return back();
+
+    }
+
 }

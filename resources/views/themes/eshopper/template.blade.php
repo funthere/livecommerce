@@ -108,7 +108,7 @@
 								<!-- <li><a href="#"><i class="fa fa-star"></i> Wishlist</a></li> -->
 								<li><a href="/lacak"><i class="fa fa-map-marker"></i> Lacak</a></li>
 								<li><a href="/konfirmasi_pembayaran"><i class="fa fa-credit-card"></i> Konfirmasi Bayar</a></li>
-								<li><a href="/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li>
+								<!-- <li><a href="/checkout"><i class="fa fa-crosshairs"></i> Checkout</a></li> -->
 								<li><a href="/cart"><i class="fa fa-shopping-cart"></i> Cart
 									@if($cart && !request()->is('checkout/*'))
 										({{ count($cart->produks) }} item | {{ $cart->total_rupiah }})
@@ -154,7 +154,7 @@
                                     @endif
                                     </ul>
                                 </li> 
-								<!-- <li><a href="contact-us.html">Hubungi Kami</a></li> -->
+								<li><a href="/contact">Hubungi Kami</a></li>
 							</ul>
 						</div>
 					</div>

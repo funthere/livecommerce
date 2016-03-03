@@ -144,7 +144,7 @@
 								</div>
 							</div>
 							<div class="user_info no-margin col-xs-12">
-								<button type="submit" class="btn-lg btn-default update pull-right">Simpan</button>
+								<!-- <button type="submit" class="btn-lg btn-default update pull-right">Simpan</button> -->
 							</div>
 								
 						{!! Form::close() !!}
@@ -387,6 +387,10 @@
 
 			if (e.originalEvent) return true;
 			return false;
+		});
+
+		$('#form-pesanan').find('input, textarea').each(function(){
+		 	$(this).change(function() {$('#form-pesanan').submit();});
 		});
 		
 	</script>

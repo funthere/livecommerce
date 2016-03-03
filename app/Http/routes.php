@@ -49,6 +49,10 @@ Route::group(['prefix' => '/', 'namespace' => 'Frontend'], function() {
 	Route::post('lacak', 'PageController@checkTracking');
 
 	Route::get('lacak/{kode_pesanan?}', 'PageController@tracking');
+
+	Route::get('contact', 'PageController@getContact');
+
+	Route::post('contact', 'PageController@postContact');
 });
 
 Route::get('home', function () {
@@ -196,5 +200,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'middleware' => 'ad
 
 	Route::post('metode_pembayaran/data.json', 'MetodePembayaranController@datajson');
 	Route::resource('metode_pembayaran', 'MetodePembayaranController');
+
+	Route::post('pesan/data.json', 'PesanController@datajson');
+	Route::resource('pesan', 'PesanController');
 
 });
