@@ -201,11 +201,14 @@ desired effect
             <li class="@if(request()->is('admin/kategori/create'))active @endif"><a href="{{ asset('admin/kategori/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
           </ul>
         </li>
-        <li class="@if(request()->is('admin/produk*'))active @endif treeview">
+        <li class="@if(request()->is('admin/produk*') || request()->is('admin/foto_produk*'))active @endif treeview">
           <a href="{{ asset('admin/produk') }}"><i class="fa fa-dropbox"></i> <span>Produk</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
             <li class="@if(request()->is('admin/produk'))active @endif"><a href="{{ asset('admin/produk') }}"><i class="fa fa-list"></i>List</a></li>
             <li class="@if(request()->is('admin/produk/create'))active @endif"><a href="{{ asset('admin/produk/create') }}"><i class="fa fa-plus"></i>Tambah</a></li>
+            @if(request()->is('admin/produk/*/edit') || request()->is('admin/foto_produk*'))
+            <li class="@if(request()->is('admin/foto_produk/create'))active @endif"><a href="{{ asset('admin/foto_produk/create?produk_id='.$produk->id) }}"><i class="fa fa-plus"></i>Tambah Foto <i class="fa fa-image pull-right"></i></a></li>
+            @endif
           </ul>
         </li>
         <li class="@if(request()->is('admin/pesanan*'))active @endif treeview">

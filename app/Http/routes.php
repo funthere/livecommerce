@@ -204,4 +204,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Backend', 'middleware' => 'ad
 	Route::post('pesan/data.json', 'PesanController@datajson');
 	Route::resource('pesan', 'PesanController');
 
+	Route::post('foto_produk/data.json', 'FotoProdukController@datajson');
+	Route::resource('foto_produk', 'FotoProdukController');
+
 });
