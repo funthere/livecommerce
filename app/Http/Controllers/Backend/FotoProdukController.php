@@ -48,6 +48,9 @@ class FotoProdukController extends BackendController
     protected function processDatatables($datatables)
     {
         return  $datatables
+            ->editColumn('foto', function ($data) {
+                return '<img class="img-responsive" src="'.url('asset/produk/'.$data->foto).'" alt="'.url('asset/produk/'.$data->foto).'">';
+            })
             ->addColumn('menu', function ($data) {
                 return
                 '<a href="'.action($this->baseClass.'@edit', ['id' => $data->id]).'?produk_id='.$this->produk->id.'" class="btn btn-small btn-link"><i class="fa fa-xs fa-pencil"></i> Edit</a> '.
