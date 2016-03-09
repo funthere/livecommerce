@@ -43,6 +43,11 @@ class Produk extends BaseModel
         {
             $model->process();
         });
+
+        static::deleting(function ($model)
+        {
+            $model->deleteAllImages();
+        });
     }
 
     protected function process()
@@ -54,7 +59,7 @@ class Produk extends BaseModel
 
         if (request()->hasFile('foto') && request()->file('foto')->isValid())
         {
-            if ($this->foto && $this->id && is_file($exist_file = public_path(static::FOTO_PATH).$this->find($this->id)->foto)) unlink($exist_file);
+            $this->deleteImages();
 
             $destinationPath = public_path(static::FOTO_PATH);
             $fileName = str_slug($this->produk.' '.date('YmdHis')) . '.' . request()->file('foto')->getClientOriginalExtension();
@@ -66,6 +71,20 @@ class Produk extends BaseModel
         else 
         {
             if ($this->foto) $this->foto = $this->foto;
+        }
+    }
+
+    protected function deleteImages()
+    {
+        if ($this->foto && $this->id && is_file($exist_file = public_path(static::FOTO_PATH).$this->getOriginal('foto'))) unlink($exist_file);
+    }
+
+    protected function deleteAllImages()
+    {
+        $this->deleteImages();
+
+        foreach ($this->fotos as $foto) {
+            $foto->delete();
         }
     }
 
@@ -101,8 +120,14 @@ class Produk extends BaseModel
         if (!request()->has('slug')) request()->merge(['slug' => str_slug(request()->get('produk'))]);
 
     	return [
-    		'slug' => 'required|unique:produks,slug'.(($this->id != null) ? ','.$this->id : ''),
+            'slug' => 'required|unique:produks,slug'.(($this->id != null) ? ','.$this->id : ''),
+            'foto' => 'image|max:5120'
     	];
+    }
+
+    public function fotos()
+    {
+        return $this->hasMany(FotoProduk::class);
     }
 
     public function kategori()

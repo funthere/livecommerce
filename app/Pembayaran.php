@@ -33,6 +33,11 @@ class Pembayaran extends BaseModel
         {
             $model->process();
         });
+
+        static::deleted(function ($model)
+        {
+            $model->deleteImages();
+        });
     }
 
     protected function process()
@@ -44,8 +49,6 @@ class Pembayaran extends BaseModel
 
         if (request()->hasFile('bukti') && request()->file('bukti')->isValid())
         {
-            if ($this->bukti && $this->id && is_file($exist_file = public_path(static::FOTO_PATH).$this->find($this->id)->bukti)) unlink($exist_file);
-
             $destinationPath = public_path(static::FOTO_PATH);
             $fileName = str_slug($this->produk.' '.date('YmdHis')) . '.' . request()->file('bukti')->getClientOriginalExtension();
             $result = request()->file('bukti')->move($destinationPath, $fileName);
@@ -57,6 +60,11 @@ class Pembayaran extends BaseModel
         {
             if ($this->bukti) $this->bukti = $this->bukti;
         }
+    }
+
+    protected function deleteImages()
+    {
+        if ($this->bukti && $this->id && is_file($exist_file = public_path(static::FOTO_PATH).$this->getOriginal('bukti'))) unlink($exist_file);
     }
 
     public function getJumlahRupiahAttribute()

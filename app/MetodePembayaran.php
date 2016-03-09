@@ -27,15 +27,18 @@ class MetodePembayaran extends BaseModel
         static::saving(function ($model) {
             $model->process();
         });
+
+        static::deleted(function ($model)
+        {
+            $model->deleteImages();
+        });        
     }
 
     protected function process()
     {
         if (request()->hasFile('logo') && request()->file('logo')->isValid()) {
             
-            if ($this->logo && $this->id && is_file($existFile = public_path(static::LOGO_PATH).$this->find($this->id)->logo)) {
-                unlink($existFile);
-            }
+            $this->deleteImages();
 
             $destinationPath = public_path(static::LOGO_PATH);
             
@@ -51,6 +54,13 @@ class MetodePembayaran extends BaseModel
             if ($this->logo) {
                 $this->logo = $this->logo;
             }
+        }
+    }
+
+    protected function deleteImages()
+    {
+        if ($this->logo && $this->id && is_file($existFile = public_path(static::LOGO_PATH).$this->getOriginal('logo'))) {
+            unlink($existFile);
         }
     }
 }
