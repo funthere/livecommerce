@@ -254,7 +254,7 @@ desired effect
     <section class="content-header">
       <h1>
         {{ $judul or 'Page Header' }}
-        <small>{{ $deskripsi or 'Optional description' }}</small>
+        <small>{!! $deskripsi or 'Optional description' !!}</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="{{ $breadcrumb1Url or '#' }}"><i class="fa {{ $breadcrumb1Icon or 'fa-dashboard' }}"></i> {{ $breadcrumb1 or 'Home Admin' }}</a></li>

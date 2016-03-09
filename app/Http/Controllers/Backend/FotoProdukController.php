@@ -27,8 +27,9 @@ class FotoProdukController extends BackendController
         View::share('produk', $this->produk);
 		View::share('breadcrumb2Icon', 'fa-images' );
         View::share('judul', 'Foto '.$this->produk->produk);
-        View::share('deskripsi', 'Daftar Foto Produk');
+        View::share('deskripsi', '<div class="hidden-xs hidden-sm"><br><br></div><a class="btn btn-success" href="/admin/foto_produk/create?produk_id='.$this->produk->id.'"><i class="fa fa-plus"></i> Tambah Foto</a> <a class="btn btn-default" href="/admin/produk/'.$this->produk->id.'/edit"><i class="fa fa-undo"></i> Kembali ke Produk</a>');
         View::share('breadcrumb2', $this->produk->produk);
+        View::share('breadcrumb2Url', url('admin/produk/'.$this->produk->id));
         View::share('breadcrumb3', 'Foto');
     }
 
@@ -58,8 +59,9 @@ class FotoProdukController extends BackendController
     public function create()
     {
         $create = parent::create();
-        View::share('judul', 'Tambah Metode Pembayaran');
-        View::share('deskripsi', 'Untuk menambahkan data Metode Pembayaran');
+        View::share('judul', 'Tambah Foto');
+        View::share('deskripsi', 'Untuk menambah foto produk');
+        View::share('breadcrumb3', 'Tambah Foto');
 
         return $create;
     }
@@ -69,6 +71,16 @@ class FotoProdukController extends BackendController
         parent::store($request);
 
         return redirect('admin/foto_produk?produk_id='.$this->produk->id);
+    }
+
+    public function edit($id)
+    {
+        $edit = parent::edit($id);
+        View::share('judul', 'Edit Foto');
+        View::share('deskripsi', 'Edit foto produk');
+        View::share('breadcrumb3', 'Edit Foto');
+
+        return $edit;
     }
 
     public function update(Request $request, $id)
@@ -83,14 +95,5 @@ class FotoProdukController extends BackendController
         parent::destroy($id);
 
         return redirect('admin/foto_produk?produk_id='.$this->produk->id);
-    }
-
-    public function edit($id)
-    {
-        $edit = parent::edit($id);
-        View::share('judul', 'Edit Metode Pembayaran');
-        View::share('deskripsi', 'Edit data Metode Pembayaran');
-
-        return $edit;
     }
 }
