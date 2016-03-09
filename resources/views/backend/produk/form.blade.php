@@ -51,7 +51,7 @@
 		{!! Form::label('deskripsi', null, ['class' => 'control-label']) !!}
 	</div>
 	<div class="col-md-9">
-		{!! Form::textarea('deskripsi', $produk->deskripsi, ['class' => 'form-control', 'rows' => '3']) !!}
+		{!! Form::textarea('deskripsi', $produk->deskripsi, ['class' => 'form-control', 'rows' => '9', 'style' => 'height: 200px']) !!}
 	</div>
 </div>
 
